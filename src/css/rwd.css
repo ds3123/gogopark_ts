@@ -1,0 +1,44 @@
+@charset "UTF-8";
+/*
+
+ 應用 一 => *** 某個 "元素"，在不同尺寸下，各自樣式 ***
+
+  1. 先針對 media queries 的 width 設為變數
+  2. 把變數帶入 mixin 中，此mixin只就單純把media queries寫到我的mixin中，並且使用我上面設立的變數來調動media queries的width
+  3. 實際引用 ，Ex :
+
+ .div_1{
+          // 桌面
+         @include pc-width{  padding:20px; }
+
+         // 平板
+         @include pad-width{ padding:10px; }
+
+         // 手機
+         @include phone-width{ padding:5px; }
+
+      }
+
+
+*/
+/*
+
+ ( 承接上面定義的 @mixin : phone-width、pad-width、pc-width ... ; 在 @mixin 中，@include 上述 @mixin    )
+
+
+ 應用 二 => *** 某元素，對於某個 "樣式"，在不同尺寸下，各自樣式內容 ***
+
+  1. 設定某樣式( Ex. padding ) @mixin
+  2. 實際引用 ， Ex.
+
+  .div_1{
+
+     @include responsive-padding( 5px,10px,20px );   //＠include responsive-padding( 手機、平板、桌面 ) 帶入 3 個padding的值
+
+  }
+
+
+*/
+/* Margin */
+
+/*# sourceMappingURL=rwd.css.map */

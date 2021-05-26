@@ -1,0 +1,83 @@
+/*
+
+ 應用 一 => *** 某個 "元素"，在不同尺寸下，各自樣式 ***
+
+  1. 先針對 media queries 的 width 設為變數
+  2. 把變數帶入 mixin 中，此mixin只就單純把media queries寫到我的mixin中，並且使用我上面設立的變數來調動media queries的width
+  3. 實際引用 ，Ex :
+
+ .div_1{
+          // 桌面
+         @include pc-width{  padding:20px; }
+
+         // 平板
+         @include pad-width{ padding:10px; }
+
+         // 手機
+         @include phone-width{ padding:5px; }
+
+      }
+
+
+*/
+
+
+$phone-media:425px;     // 手機
+$tablet-media_1:426px;  // 平板   ( 最小 )
+$tablet-media_2:768px;  // 平板   ( 最大 )
+$pc-media_1:769px;      // 桌面   ( 最小 )
+$pc-media_2:1024px;     // 桌面   ( 最大 )
+$pc-big-media_1:1025px; // 大桌面 ( 最小 )
+//$pc-big-media_2:1407px; // 大桌面 ( 最大 )
+//$pc-hd-media:1408px;    // 桌面   ( HD )
+
+
+// 手機
+@mixin phone-width(){  @media all and (max-width: $phone-media  ) {  @content;  } }
+
+// 平板
+@mixin pad-width(){  @media all and ( min-width: $tablet-media_1 ) and (max-width: $tablet-media_2 ) { @content; }}
+
+// 桌面
+@mixin pc-width(){  @media all and ( min-width: $pc-media_1 ) and (max-width: $pc-media_2 ) { @content; }}
+
+// 大桌面
+//@mixin pc-big-width(){  @media all and ( min-width: $pc-big-media_1 ) and (max-width: $pc-big-media_2 ) { @content; }}
+@mixin pc-big-width(){  @media all and ( min-width: $pc-big-media_1 ){ @content; }}
+
+// 大桌面
+//@mixin pc-hd-width(){  @media all and ( min-width: $pc-hd-media ) { @content; }}
+
+
+/*
+
+ ( 承接上面定義的 @mixin : phone-width、pad-width、pc-width ... ; 在 @mixin 中，@include 上述 @mixin    )
+
+
+ 應用 二 => *** 某元素，對於某個 "樣式"，在不同尺寸下，各自樣式內容 ***
+
+  1. 設定某樣式( Ex. padding ) @mixin
+  2. 實際引用 ， Ex.
+
+  .div_1{
+
+     @include responsive-padding( 5px,10px,20px );   //＠include responsive-padding( 手機、平板、桌面 ) 帶入 3 個padding的值
+
+  }
+
+
+*/
+
+/* Margin */
+@mixin responsive-padding( $phone,$tablet,$pc ){
+
+  // 桌面
+  @include pc-width{  padding: $pc;  }
+
+  //平板
+  @include pad-width{  padding: $tablet; }
+
+  //手機
+  @include phone-width {  padding: $phone;  }
+
+}

@@ -1,0 +1,347 @@
+@import "rwd"; // RWD 樣式 ( @include : phone-width、pad-width、pc-width、pc-big-width )
+
+
+body{
+
+
+  font-family:"微軟正黑體";
+
+  .pointer{ cursor:pointer; }
+
+
+  /* HOVER */
+  .hover:hover{ background : rgba(0,0,0,.1); cursor: pointer ; }
+
+  /* 顯示 / 隱藏 */
+  .d_Block{    display:block !important; }
+  .d_in_Block{ display:inline-block !important; }
+  .d_None{     display:none !important; }
+
+
+  /* 位置 */
+  .relative{ position:relative !important; }
+  .absolute{ position:absolute !important; }
+
+  /* Margin */
+  .m_Right_5{ display:inline-block !important; margin-right:5px !important; }
+  .m_Right_10{ display:inline-block !important; margin-right:10px !important; }
+  .m_Right_15{ display:inline-block !important; margin-right:15px !important; }
+  .m_Right_20{ display:inline-block !important; margin-right:20px !important; }
+
+  .m_Bottom_5{ display:inline-block !important; margin-bottom:5px !important; }
+  .m_Bottom_10{ display:inline-block !important; margin-bottom:10px !important; }
+  .m_Bottom_15{ display:inline-block !important; margin-bottom:15px !important; }
+  .m_Bottom_20{ display:inline-block !important; margin-bottom:20px !important; }
+  .m_Bottom_25{ display:inline-block !important; margin-bottom:25px !important; }
+  .m_Bottom_30{ display:inline-block !important; margin-bottom:30px !important; }
+
+  .m_Top_5{ display:inline-block !important; margin-top:5px !important; }
+  .m_Top_10{ display:inline-block !important; margin-top:10px !important; }
+  .m_Top_15{ display:inline-block !important; margin-top:15px !important; }
+  .m_Top_20{ display:inline-block !important; margin-top:20px !important; }
+  .m_Top_25{ display:inline-block !important; margin-top:25px !important; }
+  .m_Top_30{ display:inline-block !important; margin-top:30px !important; }
+
+
+  /* Padding */
+  .p_5{ padding:5px !important; }
+  .p_10{ padding:10px !important; }
+  .p_Bottom_10{ padding-bottom:20px !important; }
+
+
+  /* --- 字體大小 --- */
+  .f_9{  font-size:9pt !important; }
+  .f_10{ font-size:10pt !important; }
+  .f_11{ font-size:11pt !important; }
+  .f_12{ font-size:12pt !important; }
+  .f_13{ font-size:13pt !important; }
+  .f_14{ font-size:14pt !important; }
+  .f_15{ font-size:15pt !important; }
+  .f_16{ font-size:16pt !important; }
+  .f_17{ font-size:17pt !important; }
+  .f_18{ font-size:18pt !important; }
+
+
+
+  /* --- 顏 色 --- */
+
+  // <Link/>
+  .linkColor{ color:black; }
+
+
+  .fRed{
+
+    color:red !important;
+    font-weight:bold !important;
+
+  }
+
+  .fBalck{
+
+    color:black !important;
+    font-weight:bold !important;
+
+  }
+
+  .fLimeGreen{
+
+    color: #55cd6a !important;
+    font-weight:bold !important;
+
+  }
+
+  .fGreen{
+
+    color:green !important;
+    font-weight:bold !important;
+
+  }
+
+  .fDred{
+
+    color:rgb(160,0,0) !important;
+    font-weight:bold !important;
+
+  }
+
+  .fOrange{
+
+    color:darkorange !important;
+    font-weight:bold !important;
+
+  }
+
+  .fBlue{
+
+    color:darkblue !important;
+    font-weight:bold !important;
+
+  }
+
+  /* --- 元 素 --- */
+
+  input{
+
+    font-weight:bold;
+    font-family:"微軟正黑體";
+    color:darkblue !important;
+
+  }
+
+  .inputText{
+
+    font-weight:bold;
+    font-family:"微軟正黑體";
+    color:darkblue !important;
+    padding:8px;
+    border-radius:3px;
+    border:1px solid rgba(0,0,0,.2);
+    width:100px;
+
+  }
+
+  .select::after{
+
+    position: absolute !important;
+    top:17px !important;
+    right:15px !important;
+
+  }
+
+  textarea{
+
+    padding:10px;
+    font-family:"微軟正黑體" ;
+
+  }
+
+  button{
+
+    font-weight:bold;
+    font-family:"微軟正黑體";;
+
+  }
+
+
+  .table thead tr th{
+
+    font-weight:bold !important;
+    font-size:1.1em !important;
+    text-align:center !important;
+
+  }
+
+  .table tbody tr td{
+
+    text-align:center;
+
+  }
+
+
+  .column{
+
+    position: relative;
+
+  }
+
+  .label{
+
+    font-size:1.3em !important;
+
+    i{
+
+      position:relative;
+      top:-1px;
+      font-size:1.4em;
+    }
+
+    span{
+
+      color:darkorange;
+
+    }
+
+  }
+
+  .required::before{
+
+    z-index:2;
+    content:"*";
+    position:absolute;
+    top:5px;
+    left:1px;
+    font-size:1.1em;
+    color: #ff5755;
+
+  }
+
+  // ---------------------
+  .t_Left{
+
+
+
+    display        : flex !important;
+    justifyContent : left !important;
+
+  }
+
+
+  // 卡片
+  .card{
+
+    margin-bottom:15px;
+
+    .media-content{
+
+      .card-frame{
+
+        height:300px;
+        overflow:auto;
+
+      }
+
+    }
+
+  }
+
+  // 固定位置 ( 右側 )
+  .fixed_P_Right{
+
+    position:fixed;
+    top:13%;
+    right:1%;
+    z-index:90;
+
+  }
+
+  .date-picker{
+
+    position: relative;
+    top:-3px;
+    padding:5px;
+    font-size:12pt;
+
+  }
+
+  .date{ width:120px !important; }
+
+  // 新增住宿 > 寵物資料
+  .petData_check{
+
+    color    : #ffed46;
+    position : absolute ;
+    top      : -20px ;
+    right    : -15px;
+
+  }
+
+  // 評分區塊 ----------------------------
+
+  .starBox{
+
+    display    : inline-block ;
+    position   : absolute ;
+    top        : -4px ;
+    left       : -20px ;
+    width      : 20px;
+    text-align : center;
+
+    i{ font-size: 10pt }
+
+    b{
+      display     : inline-block;
+      height      : 15px;
+      line-height : 13px;
+      width       : 40px;
+      position    : absolute ;
+      top         : 20px;
+      left        : -10px;
+      font-size   : .6em;
+      color       : gray;
+    }
+
+  }
+
+  // 項目隱藏說明框 -----------------------
+
+  .item_Box{
+
+    position   : absolute;
+    width      : 180px;
+    top        : 0px;
+    right      : -190px;
+    padding    : 10px;
+    background : white;
+    z-index    : 100  ;
+    box-shadow : 0px 0px 4px 1px rgba(0,0,0,.1) ;
+    border-radius: 3px;
+
+    div{
+      display       : block;
+      margin-bottom : 10px;
+      line-height   : 25pt;
+      text-align    : left  ;
+    }
+
+
+  }
+
+
+  // --------------------------------------
+
+  // 頂層導覽
+  @import "css/component/NavBar";
+
+  // 主要內容
+  @import "css/component/MainContent";
+
+
+  // 側邊共用 Panel
+  @import "css/component/SidePanel";
+
+  // # 外掛 : -------------------------------------
+
+
+
+}
+
