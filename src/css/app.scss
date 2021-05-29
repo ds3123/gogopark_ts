@@ -1,0 +1,31 @@
+/*  存放 : 公用、全局 CSS  */
+@charset "utf-8";
+
+// 匯入 Bulma 模組
+@import "../../node_modules/bulma/bulma.sass";
+
+// 匯入 Google 字體
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// 匯入 Font-Awesome
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css');
+
+
+
+/* 以下 FOR Bulma 客製化設定 ????  */
+
+//	設定 : 顏色變數
+$purple : #c9168d;
+$pink : #fa7c91;
+$dark : #333;
+$beige-lighter : rgb(245, 245, 245);
+
+
+//	更新  : Global 變數
+$family-sans-serif: 'Nunito', sans-serif;
+$primary: $purple;
+$link: $dark;
+$danger: $pink;
+
+// 更新 : 元件變數
+$body-background-color: $beige-lighter;
