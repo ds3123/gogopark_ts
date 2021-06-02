@@ -2,8 +2,8 @@
 import React from "react";
 
 /*
-*
-*  # 目前型別較為寬鬆( 皆設為 any )，再確認 2021.05.30
+*  @ 分頁套件
+*    # 目前型別較為寬鬆( 皆設為 any )，再確認 2021.05.30
 *
 */
 
@@ -53,15 +53,13 @@ class Pagination extends React.Component< MyProps , MyState >{
 
     setPage( page : number) {
 
-
         const items = this.props.items ;
-        let   pager = this.state.pager as  TPager ;
-
+        let   pager = this.state.pager as  TPager ; // 斷言為 TPager
 
         if( page < 1 || page > pager.totalPages ){  return ;  }
 
         // get new pager object for specified page
-        pager = this.getPager(items.length, page, 5 , 5 );
+        pager = this.getPager(items.length, page, 10 , 10 );
 
         // get new page of items from items array
         const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);

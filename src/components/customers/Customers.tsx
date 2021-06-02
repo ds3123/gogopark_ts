@@ -1,31 +1,18 @@
+import React from "react" ;
 
-import React , { useState , useEffect } from "react" ;
-
+// 分頁套件、呼叫邏輯
+import usePagination from "hooks/usePagination";
 import Pagination from "utils/Pagination";
 
+// 資料列
+import Customers_Rows from "components/customers/Customers_Rows";
 
+
+/* @ 客戶頁面  */
 const Customers = () => {
 
-    // # 分頁套件 ( Pagination ) 相關
-    let [ filteredItems , set_filteredItems ] = useState<any[]>( [] ) ; // 點選頁碼後 _ 所篩選項目
-    let [ pageOfItems , set_pageOfItems ]     = useState( [] ) ; // 當前頁面 _ 顯示項目
-
-    // 點選 : 分頁頁碼
-    const click_Pagination = ( pageOfItems : [] ) => {  set_pageOfItems( pageOfItems ) ; } ;
-
-
-    //取得 : 客人 _ 寵物資料
-    useEffect(() => {
-
-      //  read_Customers_Pets().then( data => {
-
-            set_filteredItems( [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},] ) ;
-
-      //  })
-
-    },[] ) ;
-
-
+    // 取得 _ 分頁資料
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/customers/show_customers_pets/' );
 
     return  <React.Fragment>
 
@@ -44,29 +31,21 @@ const Customers = () => {
                     </thead>
 
                     <tbody>
-
-                    {
-                        pageOfItems.map(( item , index ) => {
-
-                            return <tr key={index}><td>3</td><td>4</td></tr> ;
-
-                        })
-                    }
-
-
-
+                        {
+                            pageOfItems.map( ( item : any , index ) => {
+                                return <Customers_Rows key={index} data={ item } /> ;
+                            })
+                        }
                     </tbody>
 
                 </table>
 
-                { /* 分頁按鈕 */ }  <br/><br/>
-
-                <Pagination items={ filteredItems } onChangePage={ click_Pagination } />
-
-                <br/><br/><br/><br/>
+                { /* 分頁按鈕 */ }
+                <div style={{ marginTop:"70px", marginBottom:"150px" }}>
+                    <Pagination items={ filteredItems } onChangePage={ click_Pagination } />
+                </div>
 
              </React.Fragment>
-
 
 };
 

@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="369eb0cf-cbcd-444b-b49e-4445570306d7" name="Default Changelist" comment="Intialize project : Install Third-Party Package">
-      <change afterPath="$PROJECT_DIR$/src/components/beautician/Beautician.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/customers/Customers.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/index/Index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/lodge/Lodge.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/management/Management.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/pets/Pets.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/services/Services.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Container.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/css/app.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/templates/nav/Logo.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/templates/nav/Nav.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/templates/nav/Nav_Options.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/Pagination.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/time/date.tsx" afterDir="false" />
+    <list default="true" id="369eb0cf-cbcd-444b-b49e-4445570306d7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/customers/Create_Customer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/customers/Customers_Rows.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/index/Service_Rows.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/index/Statistics_Rows.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/index/Status_Cards.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/management/finance/Cash_Report.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/management/finance/Daily_Report.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/management/finance/Online_Pay.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/pets/Create_Pet.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Create_Data.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useAjax_Read.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useMulti_NavOptions.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/usePagination.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useShopStatus_Sum.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/actions/action_Form_test.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/actions/action_Global_Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/reducers/reducer_Form_test.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/reducers/reducer_Global_Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/form/Input.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/panel/Side_Panel.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/Interface_Type.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/axios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/string/edit_string.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/validator/form_validator.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/beautician/Beautician.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/Beautician.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/customers/Customers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/customers/Customers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/Index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/Index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/management/Management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/management/Management.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Container.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Container.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/component/SidePanel.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/css/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/style.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/reducers/root_Reducer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/root_Reducer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/templates/nav/Nav_Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/nav/Nav_Options.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/Pagination.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Pagination.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +87,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\hooks" />
       <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\containers" />
       <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\store" />
       <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\css" />
@@ -138,7 +156,7 @@
       <workItem from="1621986440003" duration="1018000" />
       <workItem from="1621987477376" duration="554000" />
       <workItem from="1621988058216" duration="60181000" />
-      <workItem from="1622258452617" duration="22779000" />
+      <workItem from="1622258452617" duration="152640000" />
     </task>
     <task id="LOCAL-00001" summary="Intialize project : Install Third-Party Package">
       <created>1622024165004</created>
@@ -147,7 +165,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622024165004</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Setup Basic Structure">
+      <created>1622309355489</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1622309355489</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -169,16 +194,26 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Intialize project : Install Third-Party Package" />
-    <option name="LAST_COMMIT_MESSAGE" value="Intialize project : Install Third-Party Package" />
+    <MESSAGE value="Setup Basic Structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="Setup Basic Structure" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="945" y="-1294" key="#Notifications" timestamp="1622464219188">
+      <screen x="2" y="-1440" width="2752" height="1152" />
+    </state>
+    <state x="945" y="-1294" key="#Notifications/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622464219188" />
+    <state x="1093" y="-1084" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1622470104240">
+      <screen x="2" y="-1440" width="2752" height="1152" />
+    </state>
+    <state x="1093" y="-1084" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622470104240" />
     <state x="523" y="171" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1622091538969">
       <screen x="0" y="0" width="1707" height="960" />
     </state>
     <state x="523" y="171" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1622091538969" />
-    <state x="393" y="5" key="CommitChangelistDialog2" timestamp="1622052879525">
-      <screen x="0" y="0" width="1707" height="960" />
+    <state x="636" y="-1434" key="CommitChangelistDialog2" timestamp="1622309354463">
+      <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
+    <state x="636" y="-1434" key="CommitChangelistDialog2/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622309354463" />
     <state x="393" y="5" key="CommitChangelistDialog2/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1622052879525" />
     <state x="415" y="212" key="EditFileWatcherDialog" timestamp="1621995367962">
       <screen x="0" y="0" width="1707" height="960" />
@@ -208,5 +243,18 @@
       <screen x="0" y="0" width="1707" height="960" />
     </state>
     <state x="-350" y="258" width="1719" height="788" maximized="true" key="dock-window-1/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1621987703577" />
+    <state x="550" y="-1403" width="1813" height="975" key="find.popup" timestamp="1622475337164">
+      <screen x="2" y="-1440" width="2752" height="1152" />
+    </state>
+    <state x="550" y="-1403" width="1813" height="975" key="find.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622475337164" />
+    <state x="976" y="-456" key="run.anything.popup" timestamp="1622474200892">
+      <screen x="2" y="-1440" width="2752" height="1152" />
+    </state>
+    <state x="976" y="-456" key="run.anything.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622474200892" />
+    <state x="607" y="98" width="840" height="862" key="search.everywhere.popup" timestamp="1622633103641">
+      <screen x="0" y="0" width="1707" height="960" />
+    </state>
+    <state x="607" y="98" width="840" height="862" key="search.everywhere.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@0.0.1707.960" timestamp="1622633103641" />
+    <state x="981" y="-1322" width="840" height="1034" key="search.everywhere.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622590952540" />
   </component>
 </project>
