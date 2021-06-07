@@ -18,8 +18,7 @@ import 'css/style.scss' ;
 const store = createStore( root_Reducer , applyMiddleware( thunk ) );
 
 ReactDOM.render(  <Provider store = { store } >
-                   {/* 因 Redux-Form，嚴格模式下會出現警告 --> 暫時移除 <React.StrictMode> 2021.06.03 */}
-                   <App />
+                    <React.StrictMode> <App /> </React.StrictMode >
                   </Provider> ,
                   document.getElementById('root')
                ) ;

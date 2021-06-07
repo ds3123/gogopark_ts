@@ -36,12 +36,12 @@ const Status_Cards = ( props : IStatus ) => {
 
     return  <div className="card" style={{ height:"550px"}}>
 
-              <div className="card-content">
+              <div className="card-content" style={{ padding : "10px" }}>
 
                   { /* 標題統計 */ }
-                  <div className="media">
+                  <div className="media" style={{ paddingTop : "20px" }}>
 
-                      <div className="media-content">
+                      <div className="media-content" >
 
                           <div className="level" >
 
@@ -70,7 +70,7 @@ const Status_Cards = ( props : IStatus ) => {
                   </div>
 
                   { /* 項目內容 */ }
-                  <div className="media">
+                  <div className="media" >
 
                       <div className="media-content">
 

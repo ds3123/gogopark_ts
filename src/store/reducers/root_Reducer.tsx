@@ -2,9 +2,7 @@
 import React from "react";
 import { combineReducers } from "redux" ;
 import reducer_Global_Layout  from "store/reducers/reducer_Global_Layout"
-import reducer_Form_test from "store/reducers/reducer_Form_test"
-
-import { reducer as formReducer } from 'redux-form'
+import reducer_Form from "store/reducers/reducer_Form";
 
 
 const root_Reducer = combineReducers({
@@ -13,8 +11,7 @@ const root_Reducer = combineReducers({
                         "Layout"  : reducer_Global_Layout ,
 
                         // Redux-Form
-                         "Form" : reducer_Form_test ,
-                         "form"   : formReducer
+                         "Form"   : reducer_Form ,
 
                      }) ;
 

@@ -3,17 +3,14 @@ import React from "react" ;
 import {Dispatch} from "redux";
 
 
-export const set_Form_test = ( payload : any ) => {
+// 新增 _ 客戶
+export const create_Customer = ( payload : any ) => {
 
     return ( dispatch : Dispatch ) => {
 
-
-
-        console.log( `FFFFFFFFFFF : ${ payload['customer-id'] }` );
-
              dispatch({
 
-                type      : "FORM_TEST" ,
+                type      : "CREATE_CUSTOMER" ,
                 payload   : payload
 
              }) ;

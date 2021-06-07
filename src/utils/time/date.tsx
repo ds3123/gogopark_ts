@@ -139,7 +139,6 @@ export const get_Type_Dates = (  interval : string[] , holiday : string[]  ) =>{
 
 };
 
-
 // 取得 : 某日期，所屬型態( 平日、假日、國定假日 )
 export const get_Date_Type = ( date:string , holiday:string[]  ) =>{
 
@@ -154,9 +153,6 @@ export const get_Date_Type = ( date:string , holiday:string[]  ) =>{
     // if(  week === 5 || week === 6 || week === 0               ){  return '假日' ; }
 
 };
-
-
-
 
 // 將 ( 國定假日、假日、平日 ) 日期，轉為字串
 export const get_Dates_STR = ( holiday_Arr : string[] , F_S_Arr : string[] , M_T_Arr : string[] ) => {

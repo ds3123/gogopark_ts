@@ -14,5 +14,16 @@ export type Service_Type = '基礎' | '洗澡' | '美容' | '住宿' ;
 export type Service_Type_Api = 'basics' | 'bathes' | 'beauties' ;
 
 
+// 右側 _ 編輯表單 ( 新增、更新 )
+export interface Edit_Form_Type  {
+
+    register : any ;
+    errors   : any ,
+    isDirty  : boolean ,
+    isValid  : boolean
+
+}
+
+
 
 

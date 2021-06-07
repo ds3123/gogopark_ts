@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { get_Today } from 'utils/time/date' ;
 
-import Create_Data from "containers/Create_Data";
+import Edit_Data from "containers/Edit_Data";
 
 
 
@@ -44,17 +44,14 @@ const Nav_Options = () => {
     };
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => {
+    const add_Data = () => dispatch( set_Side_Panel(true , <Edit_Data/> , { create_Data : "客戶" , preLoadData : null } ) );
 
-        dispatch( set_Side_Panel( true , <Create_Data/> , {} )  );
 
-    };
+    useEffect(() => {
 
-    useEffect(()=>{
+        // add_Data() ;
 
-        add_Data()
-
-    },[]) ;
+    } ,[] ) ;
 
 
     const number = {

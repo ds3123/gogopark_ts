@@ -2,44 +2,52 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="369eb0cf-cbcd-444b-b49e-4445570306d7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/customers/Create_Customer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/customers/Customers_Rows.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/index/Service_Rows.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/index/Statistics_Rows.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/index/Status_Cards.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/management/finance/Cash_Report.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/management/finance/Daily_Report.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/management/finance/Online_Pay.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/pets/Create_Pet.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Create_Data.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useAjax_Read.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useMulti_NavOptions.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/usePagination.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/hooks/useShopStatus_Sum.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/actions/action_Form_test.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/actions/action_Global_Layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/reducers/reducer_Form_test.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/reducers/reducer_Global_Layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/templates/form/Input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/templates/panel/Side_Panel.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/Interface_Type.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/axios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/string/edit_string.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/validator/form_validator.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/Left_Cards.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/Main_Card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/Cus_Confirm_Bar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/bath_time_records/Bath_Time_Button.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/bath_time_records/Bath_Time_Records.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Customer_Confirm_Options.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Inform_Customer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Inform_Customer_Options.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/pet_info/Pet_Info.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/beautician/main_components/pet_info/Pet_Info_Title.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/index/Service_Report.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/Edit_Service.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Edit_Basic_Form.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Edit_Bath_Form.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Edit_Beauty_Form.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Edit_Customer_Note.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Edit_Extra_Beauty.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Edit_Fee_Summary.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Edit_Service_Info.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/services/edit_components/Q_Code_Select.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/containers/Edit_Data.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/usePreLoadData.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useServiceType.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/templates/tab/Edit_Form_Tabs.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/time/Date_picker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/time/Time_Picker.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/time/time.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/beautician/Beautician.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/Beautician.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/customers/Customers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/customers/Customers.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/Index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/Index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/management/Management.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/management/Management.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/Container.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Container.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/component/SidePanel.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/style.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/customers/Create_Customer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/customers/Edit_Customer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/Service_Rows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/Service_Rows.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/Status_Cards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/Status_Cards.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/pets/Create_Pet.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/pets/Edit_Pet.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Create_Data.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions/action_Form_test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/action_Form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/reducers/reducer_Form_test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/reducer_Form.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/reducers/root_Reducer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/root_Reducer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/templates/form/Input.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/form/Input.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/templates/nav/Nav_Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/nav/Nav_Options.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/Pagination.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Pagination.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/templates/panel/Side_Panel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/panel/Side_Panel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/Interface_Type.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Interface_Type.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/time/date.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/time/date.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/validator/form_validator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/validator/form_validator.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,15 +91,16 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/react-scripts" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="editing.templates" />
     <property name="ts.external.directory.path" value="C:\AppServ\www\React_Projects\gogopark_ts\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\components\beautician\main_components\bath_time_records" />
+      <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\components\beautician\main_components\pet_info" />
       <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\hooks" />
       <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\containers" />
       <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\store" />
-      <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src\css" />
-      <recent name="C:\AppServ\www\React_Projects\gogopark_ts\src" />
     </key>
   </component>
   <component name="RunManager" selected="Jest.renders learn react link">
@@ -156,7 +165,9 @@
       <workItem from="1621986440003" duration="1018000" />
       <workItem from="1621987477376" duration="554000" />
       <workItem from="1621988058216" duration="60181000" />
-      <workItem from="1622258452617" duration="152640000" />
+      <workItem from="1622258452617" duration="158557000" />
+      <workItem from="1622681851705" duration="69249000" />
+      <workItem from="1622857452760" duration="108590000" />
     </task>
     <task id="LOCAL-00001" summary="Intialize project : Install Third-Party Package">
       <created>1622024165004</created>
@@ -172,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622309355489</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="improve Index-Page、Create-Data Panel">
+      <created>1622674965509</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1622674965509</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,25 +213,27 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Intialize project : Install Third-Party Package" />
     <MESSAGE value="Setup Basic Structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Setup Basic Structure" />
+    <MESSAGE value="improve Index-Page、Create-Data Panel" />
+    <option name="LAST_COMMIT_MESSAGE" value="improve Index-Page、Create-Data Panel" />
   </component>
   <component name="WindowStateProjectService">
     <state x="945" y="-1294" key="#Notifications" timestamp="1622464219188">
       <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
     <state x="945" y="-1294" key="#Notifications/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622464219188" />
-    <state x="1093" y="-1084" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1622470104240">
+    <state x="1093" y="-1084" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1622956653658">
       <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
-    <state x="1093" y="-1084" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622470104240" />
-    <state x="523" y="171" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1622091538969">
-      <screen x="0" y="0" width="1707" height="960" />
+    <state x="1093" y="-1084" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622956653658" />
+    <state x="845" y="-1235" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1622679931343">
+      <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
+    <state x="845" y="-1235" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622679931343" />
     <state x="523" y="171" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1622091538969" />
-    <state x="636" y="-1434" key="CommitChangelistDialog2" timestamp="1622309354463">
+    <state x="636" y="-1434" key="CommitChangelistDialog2" timestamp="1622674964005">
       <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
-    <state x="636" y="-1434" key="CommitChangelistDialog2/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622309354463" />
+    <state x="636" y="-1434" key="CommitChangelistDialog2/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622674964005" />
     <state x="393" y="5" key="CommitChangelistDialog2/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1622052879525" />
     <state x="415" y="212" key="EditFileWatcherDialog" timestamp="1621995367962">
       <screen x="0" y="0" width="1707" height="960" />
@@ -239,22 +259,28 @@
       <screen x="0" y="0" width="1707" height="960" />
     </state>
     <state width="1654" height="243" key="GridCell.Tab.0.right/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1621995455318" />
+    <state x="497" y="-1335" width="1633" height="882" key="SettingsEditor" timestamp="1622858064053">
+      <screen x="2" y="-1440" width="2752" height="1152" />
+    </state>
+    <state x="-1573" y="-991" key="SettingsEditor/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@-1918.-1089.1920.1080" timestamp="1622752061632" />
+    <state x="497" y="-1335" width="1633" height="882" key="SettingsEditor/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622858064053" />
     <state x="-350" y="258" width="1719" height="788" maximized="true" key="dock-window-1" timestamp="1621987703577">
       <screen x="0" y="0" width="1707" height="960" />
     </state>
     <state x="-350" y="258" width="1719" height="788" maximized="true" key="dock-window-1/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1621987703577" />
-    <state x="550" y="-1403" width="1813" height="975" key="find.popup" timestamp="1622475337164">
+    <state x="550" y="-1403" width="1813" height="975" key="find.popup" timestamp="1622908251305">
       <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
-    <state x="550" y="-1403" width="1813" height="975" key="find.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622475337164" />
-    <state x="976" y="-456" key="run.anything.popup" timestamp="1622474200892">
+    <state x="550" y="-1403" width="1813" height="975" key="find.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622908251305" />
+    <state x="976" y="-456" key="run.anything.popup" timestamp="1623094342080">
       <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
-    <state x="976" y="-456" key="run.anything.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622474200892" />
-    <state x="607" y="98" width="840" height="862" key="search.everywhere.popup" timestamp="1622633103641">
-      <screen x="0" y="0" width="1707" height="960" />
+    <state x="976" y="-456" key="run.anything.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1623094342080" />
+    <state x="981" y="-1322" width="840" height="1034" key="search.everywhere.popup" timestamp="1622811829357">
+      <screen x="2" y="-1440" width="2752" height="1152" />
     </state>
+    <state x="-1235" y="-979" width="945" height="970" key="search.everywhere.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@-1918.-1089.1920.1080" timestamp="1622748888624" />
     <state x="607" y="98" width="840" height="862" key="search.everywhere.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@0.0.1707.960" timestamp="1622633103641" />
-    <state x="981" y="-1322" width="840" height="1034" key="search.everywhere.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622590952540" />
+    <state x="981" y="-1322" width="840" height="1034" key="search.everywhere.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622811829357" />
   </component>
 </project>
