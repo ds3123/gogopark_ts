@@ -10,7 +10,7 @@ interface TS extends Edit_Form_Type {
 }
 
 /* 費用結算 */
-const Edit_Fee_Summary : FC<TS> = ( { register , errors , isDirty , isValid , current } ) => {
+const Create_Fee_Summary : FC<TS> = ({ register , errors , isDirty , isValid , current } ) => {
 
 
     return <div className="columns is-multiline  is-mobile">
@@ -89,4 +89,4 @@ const Edit_Fee_Summary : FC<TS> = ( { register , errors , isDirty , isValid , cu
 
 };
 
-export default Edit_Fee_Summary ;
+export default Create_Fee_Summary ;

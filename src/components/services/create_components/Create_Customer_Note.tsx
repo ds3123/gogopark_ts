@@ -5,10 +5,12 @@ import {Input} from "../../../templates/form/Input";
 
 
 { /*  自備物品、主人交代、櫃台備註  */ }
-const Edit_Customer_Note : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid } ) => {
+const Create_Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
 
-   return <div className="columns is-multiline  is-mobile">
+   return <>
+
+            <div className="columns is-multiline  is-mobile">
 
                { /* 自備物品 */ }
                <div className="column is-2-desktop"> <b className="tag is-large"> <i className="fas fa-gavel"></i> &nbsp; 自備物品 </b> </div>
@@ -47,11 +49,13 @@ const Edit_Customer_Note : FC<Edit_Form_Type> = ( { register , errors , isDirty 
                    <input type="text" className="input" { ...register( "admin_Note" ) } />
                </div>
 
-
           </div>
 
+            <br/><hr/><br/>
+
+          </>
 } ;
 
 
-export default Edit_Customer_Note ;
+export default Create_Customer_Note ;
 

@@ -1,5 +1,4 @@
 
-
 import React , { createContext } from "react" ;
 import { useSelector , useDispatch } from "react-redux";
 
@@ -58,8 +57,10 @@ const Panel_Wrapper = styled.div<WrapperProps>`
 
 interface PanelContext {
 
+    // 欲透過 Context 傳遞的 props 型別
     customer_Id : string ; // 客戶身分證序號
     pet_Serial  : string ; // 寵物編號
+
     basic_id    : string ; // 基礎單資料表 id
     bath_id     : string ; // 洗澡單資料表 id
     beauty_id   : string ; // 美容單資料表 id
@@ -69,6 +70,8 @@ interface PanelContext {
 
 }
 
+
+// 建立 Context
 export const SidePanelContext = createContext<PanelContext>( {} as PanelContext ) ;
 
 
@@ -79,7 +82,6 @@ const Side_Panel = () => {
     const component = useSelector( ( state:any ) => state.Layout.Side_Panel_Component ) ; // 所包含元件
     const props     = useSelector( ( state:any ) => state.Layout.Side_Panel_Props ) ;     // 元件屬性
     const dispatch  = useDispatch() ;
-
 
 
     // 關閉 : 遮罩、滑動容器元件
@@ -96,7 +98,11 @@ const Side_Panel = () => {
 
              { /* 彈出面版 */ }
              <Panel_Wrapper active = { active } >
-                 <SidePanelContext.Provider value = { props } > { component } </SidePanelContext.Provider>
+
+                 <SidePanelContext.Provider value = { props } >
+                     { component }
+                 </SidePanelContext.Provider>
+
              </Panel_Wrapper>
 
            </>

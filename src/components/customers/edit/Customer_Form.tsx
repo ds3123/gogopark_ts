@@ -1,28 +1,28 @@
 
-import React , {FC}  from "react" ;
-import { Input } from "templates/form/Input"
+import React, {FC} from "react"
+import {Input} from "templates/form/Input";
+
 import { Edit_Form_Type } from "utils/Interface_Type"
 
 
-/* @ 編輯 _ 新增 / 修改 : 客戶 */
-const Edit_Customer : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid } ) => {
 
-      return <>
+{ /*  客戶表單欄位  */ }
+const Customer_Form : FC<Edit_Form_Type> = ( { register , errors } ) => {
+
+    return <>
 
                 { /* 客戶訊息 */ }
-                <label className="label" style={{ fontSize : "1.3em" }} >
-                    <i className="fas fa-user"></i> &nbsp; 客戶資訊 &nbsp;
-                </label>
+                <label className="label" style={{ fontSize : "1.3em" }} >  <i className="fas fa-user"></i> &nbsp; 客戶資訊 &nbsp; </label>
 
                 <div className="columns is-multiline  is-mobile">
 
-                  <Input type="text" name="customer_Id"        label="身分證字號" register={register} error={ errors.customer_Id }        icon="fas fa-id-card-alt" asterisk={true} columns="3"/>
-                  <Input type="text" name="customer_Name"      label="姓 名"      register={register} error={ errors.customer_Name }      icon="fas fa-user" asterisk={true} columns="3" />
-                  <Input type="text" name="customer_Cellphone" label="手機號碼"   register={register} error={ errors.customer_Cellphone } icon="fas fa-mobile-alt" asterisk={true} columns="3" />
-                  <Input type="text" name="customer_Telephone" label="家用電話"   register={register} error={ errors.customer_Telephone } icon="fas fa-phone" asterisk={false} columns="3" />
-                  <Input type="text" name="customer_Line"      label="Line ID"   register={register} error={ errors.customer_Line }      icon="fab fa-line" asterisk={false} columns="3" />
-                  <Input type="text" name="customer_Email"     label="E-mail"    register={register} error={ errors.customer_Email }     icon="fas fa-envelope-open-text" asterisk={false} columns="3" />
-                  <Input type="text" name="customer_Address"   label="通訊地址"   register={register} error={ errors.customer_Address }   icon="fas fa-home" asterisk={false} columns="6" />
+                    <Input type="text" name="customer_Id"        label="身分證字號" register={register} error={ errors.customer_Id }        icon="fas fa-id-card-alt" asterisk={true} columns="3"/>
+                    <Input type="text" name="customer_Name"      label="姓 名"      register={register} error={ errors.customer_Name }      icon="fas fa-user" asterisk={true} columns="3" />
+                    <Input type="text" name="customer_Cellphone" label="手機號碼"   register={register} error={ errors.customer_Cellphone } icon="fas fa-mobile-alt" asterisk={true} columns="3" />
+                    <Input type="text" name="customer_Telephone" label="家用電話"   register={register} error={ errors.customer_Telephone } icon="fas fa-phone" asterisk={false} columns="3" />
+                    <Input type="text" name="customer_Line"      label="Line ID"   register={register} error={ errors.customer_Line }      icon="fab fa-line" asterisk={false} columns="3" />
+                    <Input type="text" name="customer_Email"     label="E-mail"    register={register} error={ errors.customer_Email }     icon="fas fa-envelope-open-text" asterisk={false} columns="3" />
+                    <Input type="text" name="customer_Address"   label="通訊地址"   register={register} error={ errors.customer_Address }   icon="fas fa-home" asterisk={false} columns="6" />
 
                 </div> <br/>
 
@@ -76,9 +76,9 @@ const Edit_Customer : FC<Edit_Form_Type> = ( { register , errors , isDirty , isV
 
                 </div>
 
-             </>
+
+           </>
 
 } ;
 
-
-export default Edit_Customer
+export default Customer_Form

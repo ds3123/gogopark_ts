@@ -4,7 +4,7 @@ import { Edit_Form_Type } from "utils/Interface_Type"
 
 
 /* 洗澡單選項 */
-const Edit_Bath_Form : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid } ) => {
+const Create_Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
 
     return <>
@@ -64,7 +64,7 @@ const Edit_Bath_Form : FC<Edit_Form_Type> = ( { register , errors , isDirty , is
 
                 </div>
 
-                <hr/>
+                <br/><hr/><br/>
 
                 <div className="columns is-multiline is-mobile">
 
@@ -92,9 +92,9 @@ const Edit_Bath_Form : FC<Edit_Form_Type> = ( { register , errors , isDirty , is
 
                 </div>
 
-                <hr/>
+                <br/><hr/><br/>
 
            </>
 } ;
 
-export default Edit_Bath_Form ;
+export default Create_Bath_Form ;

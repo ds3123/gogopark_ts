@@ -4,7 +4,7 @@ import { Edit_Form_Type } from "utils/Interface_Type"
 
 
 /* 加價美容 ( 僅洗澡 ) */
-const Edit_Extra_Beauty : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid } )=>{
+const Create_Extra_Beauty : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } )=>{
 
 
   return <>
@@ -64,4 +64,4 @@ const Edit_Extra_Beauty : FC<Edit_Form_Type> = ( { register , errors , isDirty ,
 
 };
 
-export default Edit_Extra_Beauty
+export default Create_Extra_Beauty

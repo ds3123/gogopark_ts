@@ -4,8 +4,6 @@ import { Shop_Status  } from 'utils/Interface_Type'
 import Service_Rows from "components/index/Service_Rows";
 
 
-
-
 interface IStatus {
 
     shop_Status : Shop_Status ;
@@ -45,19 +43,17 @@ const Status_Cards = ( props : IStatus ) => {
 
                           <div className="level" >
 
-                              <span className="level-item ">
+                              <span className="level-item " >
 
                                 <span className="tag is-large" style={ boxShadow } >
 
-                                    { title_Icon } &nbsp;&nbsp;<b> { shop_Status }
+                                    { title_Icon } &nbsp;&nbsp; <b> { shop_Status } </b> </span>
 
-                                </b> </span>
-
-                                <div className="relative"  >
+                                <div className="relative" >
 
                                    <b className="tag is-medium is-light is-rounded"> 基 礎 &nbsp; <b className="tag is-rounded is-warning"> { basic_Num }  </b>  </b> &nbsp;
                                    <b className="tag is-medium is-light is-rounded"> 洗 澡 &nbsp; <b className="tag is-rounded is-success"> { bath_Num }   </b>  </b> &nbsp;
-                                   <b className="tag is-medium is-light is-rounded"> 美 容 &nbsp; <b className="tag is-rounded is-danger"> { beauty_Num  } </b>  </b>
+                                   <b className="tag is-medium is-light is-rounded"> 美 容 &nbsp; <b className="tag is-rounded is-danger">  { beauty_Num } </b>  </b>
 
                                 </div>
 
@@ -103,7 +99,7 @@ const Status_Cards = ( props : IStatus ) => {
                                                   { /* 服務項目 */ }
                                                   <Service_Rows service_id  = { service_id }
                                                                 shop_Status = { shop_Status }
-                                                                 data         = { x }/>
+                                                                 data       = { x }/>
 
                                              </React.Fragment>
 

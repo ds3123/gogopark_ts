@@ -1,6 +1,6 @@
 
 import React , { useState } from "react" ;
-import useServiceType from "hooks/useServiceType"
+import useServiceType from "hooks/data/useServiceType"
 import { Service_Type } from "utils/Interface_Type"
 
 

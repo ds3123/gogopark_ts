@@ -14,7 +14,7 @@ const axios = baseURL => {
 
         //baseURL : baseURL || 'http://localhost:3001',
         //baseURL : baseURL || 'http://localhost/API/gogopark/api',
-        baseURL : baseURL || 'http://localhost/Laravel_Prpjects/gogopark/public/index.php/api' ,
+        baseURL : baseURL || 'http://localhost/Laravel_Projects/gogopark/public/index.php/api' ,
         timeout : 3000  // ( 原先為 1000ms --> 設長點，避免出現錯誤 : Error: timeout of 1000ms exceeded )
 
     });

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import { get_Today } from 'utils/time/date' ;
 
-import Edit_Data from "containers/Edit_Data";
+import Create_Data_Container from "containers/Create_Data_Container";
 
 
 
@@ -44,7 +44,7 @@ const Nav_Options = () => {
     };
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Edit_Data/> , { create_Data : "客戶" , preLoadData : null } ) );
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : "客戶" , preLoadData : null } ) );
 
 
     useEffect(() => {
@@ -68,7 +68,7 @@ const Nav_Options = () => {
 
    return  <div id="navbarExampleTransparentExample">
 
-               <div className="navbar-start relative" style={ { top:"30%" , left : "7%" } } >
+               <div className="navbar-start relative" style={ { top:"34%" , left : "11%" } } >
 
                    {  /* 業務功能頁面 */
                        OptionArr.map( ( option , index ) => {

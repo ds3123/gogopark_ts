@@ -3,8 +3,9 @@ import React , { FC , useEffect } from "react" ;
 import { string_Short } from "utils/string/edit_string"
 import { useDispatch } from "react-redux";
 import { set_Side_Panel } from "../../store/actions/action_Global_Layout";
-import Edit_Data from "../../containers/Edit_Data";
 import Service_Report from "components/index/Service_Report";
+import Update_Customer from "components/customers/edit/Update_Customer";
+import Update_Pet from "components/pets/edit/Update_Pet";
 
 
 interface IService {
@@ -16,8 +17,6 @@ interface IService {
 const Service_Rows : FC<IService> = ( { service_id , shop_Status , data }) => {
 
     const dispatch = useDispatch() ;
-
-    // console.log( data ) ;
 
     // 基礎、洗澡、美容 [ basic、bath、beauty ]
     const service_Type = data['service_type'] ;
@@ -39,18 +38,17 @@ const Service_Rows : FC<IService> = ( { service_id , shop_Status , data }) => {
 
 
     // 點選 _ Qcode
-    const click_Qcode    = () => dispatch( set_Side_Panel(true , <Service_Report /> ,{ customer_Id : cus_ID , preLoadData : data  } ) ) ;
+    const click_Qcode     = () => dispatch( set_Side_Panel(true , <Service_Report /> ,{ customer_Id : cus_ID , preLoadData : data  } ) ) ;
 
     // 點選 _ 客戶
-    const click_Customer = () => dispatch( set_Side_Panel(true , <Edit_Data /> ,{ customer_Id : cus_ID , preLoadData : data } ) ) ;
+    const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : data.customer } ) ) ;
 
     // 點選 _ 寵物
-    const click_Pet      = () => dispatch( set_Side_Panel(true , <Edit_Data /> ,{ pet_Serial : pet_Serial , preLoadData : data } ) ) ;
+    const click_Pet       = () => dispatch( set_Side_Panel(true , <Update_Pet /> , { preLoadData : data.pet } ) ) ;
 
+    useEffect(() => {
 
-    useEffect( () => {
-
-        click_Qcode() ;
+      // click_Qcode() ;
 
     } ,[] ) ;
 
@@ -63,7 +61,7 @@ const Service_Rows : FC<IService> = ( { service_id , shop_Status , data }) => {
 
     return <p className="title is-6">
 
-               <span className={ tagStyle } onClick={ click_Qcode } > { q_Code } </span>  &nbsp;
+               <span className={ tagStyle } onClick={ click_Qcode } > Q{ q_Code } </span>  &nbsp;
 
                <span className="relative tag is-medium pointer"  onClick={ click_Customer } >
                    { cus_Name }

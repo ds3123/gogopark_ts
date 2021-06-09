@@ -3,7 +3,7 @@ import { Edit_Form_Type } from "utils/Interface_Type"
 
 
 /* 基礎單選項 */
-const Edit_Basic_Form : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid }  ) => {
+const Create_Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid }  ) => {
 
 
    return <>
@@ -57,11 +57,11 @@ const Edit_Basic_Form : FC<Edit_Form_Type> = ( { register , errors , isDirty , i
 
              </div>
 
-             <hr/>
+             <br/><hr/><br/>
 
           </>
 
 
 } ;
 
-export default Edit_Basic_Form ;
+export default Create_Basic_Form ;

@@ -1,16 +1,15 @@
+import React, {FC} from "react"
 
-import React, {FC} from "react" ;
-import { Input } from "templates/form/Input"
 import { Edit_Form_Type } from "utils/Interface_Type"
+import {Input} from "../../../templates/form/Input";
 
 
-/* @ 編輯 _ 新增 / 修改 : 寵物 */
-const Edit_Pet : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid } ) => {
+
+{ /* 寵物表單欄位  */ }
+const Pet_Form : FC<Edit_Form_Type> = ( { register , errors } ) => {
 
 
    return <>
-
-               <hr/>
 
                { /* 寵物基本資料 */ }
                <label className="label" style={{ fontSize : "1.3em" }}>
@@ -26,7 +25,7 @@ const Edit_Pet : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid 
                        <p> 品 種 &nbsp; <b style={{color:"red"}}> { errors.pet_Species?.message } </b> </p>
                        <div className="select">
                            <select { ...register( "pet_Species" ) }  >
-                             <option value="請選擇">請選擇</option>
+                               <option value="請選擇">請選擇</option>
                            </select>
                        </div>
                    </div>
@@ -35,9 +34,9 @@ const Edit_Pet : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid 
                        <p> 性 別 &nbsp; <b style={{color:"red"}}> { errors.pet_Sex?.message } </b> </p>
                        <div className="select">
                            <select { ...register( "pet_Sex" ) }  >
-                             <option value="請選擇">請選擇</option>
-                             <option value="公">公</option>
-                             <option value="母">母</option>
+                               <option value="請選擇">請選擇</option>
+                               <option value="公">公</option>
+                               <option value="母">母</option>
                            </select>
                        </div>
                    </div>
@@ -49,7 +48,6 @@ const Edit_Pet : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid 
                </div>
 
                <br/>
-
 
                { /* Radio 單選 */ }
                <div className="columns is-multiline  is-mobile" >
@@ -117,7 +115,7 @@ const Edit_Pet : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid 
 
                <b style={{ color : "rgb(0,0,150)" }}> * 以下選項可複選 --- </b>
 
-               { /* Checkbox 單選 */ }
+               { /* Checkbox 單選、備註 */ }
                <div className="columns is-multiline is-mobile" >
 
                    <div className="column is-6-desktop required">
@@ -161,14 +159,14 @@ const Edit_Pet : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid 
 
                    <div className="column is-12-desktop">
 
-                        <textarea className = "textarea" { ...register( "pet_Note" ) } placeholder="備註事項" />
+                       <textarea className = "textarea" { ...register( "pet_Note" ) } placeholder="備註事項" />
 
                    </div>
 
                </div>
-          </>
 
+          </>
 
 } ;
 
-export default Edit_Pet ;
+export default Pet_Form

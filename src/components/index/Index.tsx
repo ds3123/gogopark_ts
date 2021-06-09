@@ -2,8 +2,8 @@
 import React  from "react" ;
 import Statistics_Rows from "components/index/Statistics_Rows"
 import Status_Cards from "components/index/Status_Cards";
-import { useRead_Service_Cus_Pet } from 'hooks/useAjax_Read'
-import useShopStatus_Sum from "../../hooks/useShopStatus_Sum";
+import { useRead_Service_Cus_Pet } from 'hooks/ajax_crud/useAjax_Read'
+import useShopStatus_Sum from "hooks/data/useShopStatus_Sum";
 
 
 const Index = ( ) => {
@@ -27,7 +27,7 @@ const Index = ( ) => {
          } ;
 
 
-    return <React.Fragment>
+    return <>
 
                 { /*  今日值班人員  */ }
                 <div className="absolute" style = { member } >
@@ -70,7 +70,7 @@ const Index = ( ) => {
 
 
 
-           </React.Fragment>
+           </>
 
 };
 

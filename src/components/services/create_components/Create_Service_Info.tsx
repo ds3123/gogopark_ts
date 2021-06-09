@@ -13,12 +13,14 @@ import { Edit_Form_Type } from "utils/Interface_Type"
 
 
 /* 服務單( 基礎、洗澡、美容 ) _ 基本資訊 */
-const Edit_Service_Info : FC<Edit_Form_Type> = ( { register , errors , isDirty , isValid }  ) => {
+const Create_Service_Info : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid }  ) => {
 
 
     const way = {  fontSize : "11pt" , top : "-5px" , fontWeight : "bold"  } ;
 
-    return  <div className="columns is-multiline  is-mobile">
+    return <>
+
+              <div className="columns is-multiline  is-mobile">
 
                  { /* 服務性質 */ }
                  <div className="column is-4-desktop">
@@ -122,12 +124,11 @@ const Edit_Service_Info : FC<Edit_Form_Type> = ( { register , errors , isDirty ,
 
                  </div>
 
-
-
-
-
             </div>
 
+              <br/><hr/><br/>
+
+           </>
 };
 
-export default Edit_Service_Info ;
+export default Create_Service_Info ;

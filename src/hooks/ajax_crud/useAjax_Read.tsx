@@ -1,18 +1,11 @@
-
 import React, {useState, useEffect, useCallback} from "react" ;
 import axios from "utils/axios" ;
 import { Service_Type_Api } from 'utils/Interface_Type'
 
 
-/*
-*
-* @  GET : 透過 Ajax _ 取得資料  *
-*
-*/
+/* @ GET : 透過 Ajax _ 取得資料 */
 
-
-
-/*  # 取得 : 主要服務(基礎、洗澡、美容) 與 客戶、寵物資料  */
+/* # 取得 : 主要服務( 基礎、洗澡、美容 ) 與 客戶、寵物資料  */
 export const useRead_Service_Cus_Pet = ( serviceType? : Service_Type_Api ) => {
 
     const [ data , setData ] = useState( [] ) ;
