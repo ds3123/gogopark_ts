@@ -43,7 +43,7 @@ const Management = () => {
                                </b>
                     })
                  }
-             </div> <br/>
+             </div> <br/><br/>
 
                  { /* 第 3 層選項 */
                      Third_Nav.map( ( item , index ) => {
@@ -55,7 +55,7 @@ const Management = () => {
                     })
                  }
 
-             <br/><br/>
+             <br/><br/><hr/><br/>
 
              { /* 管理專區 _ 各分類頁面元件 */ }
              { currentThird && show_PageComponent( currentThird ) }

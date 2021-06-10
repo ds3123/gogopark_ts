@@ -5,7 +5,7 @@ import {Input} from "../../../templates/form/Input";
 
 
 { /*  自備物品、主人交代、櫃台備註  */ }
-const Create_Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
+const Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
 
    return <>
@@ -57,5 +57,5 @@ const Create_Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty
 } ;
 
 
-export default Create_Customer_Note ;
+export default Customer_Note ;
 

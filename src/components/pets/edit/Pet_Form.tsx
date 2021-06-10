@@ -1,19 +1,56 @@
-import React, {FC} from "react"
+import React, {FC, useEffect, useState} from "react"
 
 import { Edit_Form_Type } from "utils/Interface_Type"
-import {Input} from "../../../templates/form/Input";
-
+import {Input} from "templates/form/Input";
+import { useRead_All_Species } from "hooks/ajax_crud/useAjax_Read";
 
 
 { /* 寵物表單欄位  */ }
-const Pet_Form : FC<Edit_Form_Type> = ( { register , errors } ) => {
+const Pet_Form : FC<Edit_Form_Type> = ( { register , errors , current } ) => {
+
+   const [ currentSpeciesId , set_currentSpeciesId  ] = useState( "" ) ;
+   const [ currentPrice , set_currentPrice  ] = useState({
+                                                                     bath_first    : "" , // 初次 _ 洗澡
+                                                                     bath_single   : "" , // 單次 _ 洗澡
+                                                                     beauty_single : "" , // 單次 _ 美容
+                                                                    }) ;
+
+   const petSpecies = useRead_All_Species() ;  // 所有寵物品種資料
+
+
+   // 品種 變動處理
+   const get_Species_Id = ( id : string ) => set_currentSpeciesId( id ) ;
+
+   useEffect(( ) => {
+
+      petSpecies.forEach( x => {
+
+          if( x['species_id'] === parseInt( currentSpeciesId ) ) {
+
+              set_currentPrice({ ...currentPrice ,
+                                          bath_first    : x['bath_first'] ,    // 初次洗澡
+                                          bath_single   : x['bath_single'] ,   // 洗澡_單次
+                                          beauty_single : x['beauty_single'] , // 美容_單次
+                                      }
+                               ) ;
+
+          }
+
+      }) ;
+
+   } ,[ currentSpeciesId ] ) ;
 
 
    return <>
 
                { /* 寵物基本資料 */ }
                <label className="label" style={{ fontSize : "1.3em" }}>
+
                    <i className="fas fa-dog"></i> &nbsp; 寵物資料  &nbsp;
+
+                   { current === "洗澡" && currentPrice['bath_first'] &&  <span> 初次洗澡價格 : { currentPrice['bath_first'] } 元 </span> }
+                   { current === "美容" && currentPrice['beauty_single'] &&  <span> 單次美容價格 : { currentPrice['beauty_single'] } 元 </span> }
+
                </label>
 
                <div className="columns is-multiline  is-mobile">
@@ -24,8 +61,13 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , errors } ) => {
                    <div className="column is-3-desktop required">
                        <p> 品 種 &nbsp; <b style={{color:"red"}}> { errors.pet_Species?.message } </b> </p>
                        <div className="select">
-                           <select { ...register( "pet_Species" ) }  >
+                           <select { ...register( "pet_Species" ) }  onChange = { e => get_Species_Id( e.target.value )  } >
                                <option value="請選擇">請選擇</option>
+                               {
+                                   petSpecies.map( ( x , y) => {
+                                       return <option value={ x['species_id'] }  key={ y }> { x['serial'] }  _  { x['species_name'] } </option> ;
+                                   })
+                               }
                            </select>
                        </div>
                    </div>
@@ -41,9 +83,9 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , errors } ) => {
                        </div>
                    </div>
 
-                   <Input type="text" name="pet_Color" label="毛 色" register={register} error={ errors.pet_Color } icon="fas fa-eye-dropper" asterisk={true} columns="3"/>
-                   <Input type="text" name="pet_Weight" label="體 重 (kg)" register={register} error={ errors.pet_Weight } icon="fas fa-weight" asterisk={true} columns="3"/>
-                   <Input type="text" name="pet_Age" label="年 紀 (歲)" register={register} error={ errors.pet_Age } icon="fas fa-pager" asterisk={true} columns="3"/>
+                   <Input type="text" name="pet_Color" label="毛 色" register={register} error={ errors.pet_Color } icon="fas fa-eye-dropper" asterisk={false} columns="3"/>
+                   <Input type="text" name="pet_Weight" label="體 重 (kg)" register={register} error={ errors.pet_Weight } icon="fas fa-weight" asterisk={false} columns="3"/>
+                   <Input type="text" name="pet_Age" label="年 紀 (歲)" register={register} error={ errors.pet_Age } icon="fas fa-pager" asterisk={false} columns="3"/>
 
                </div>
 

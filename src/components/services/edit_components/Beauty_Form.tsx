@@ -3,7 +3,7 @@ import { Edit_Form_Type } from "utils/Interface_Type"
 
 
 /* 美容單選項 */
-const Create_Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
+const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
 
    const padding = { paddingLeft : "70px" } as const ;
@@ -99,4 +99,4 @@ const Create_Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty ,
 
 } ;
 
-export default Create_Beauty_Form ;
+export default Beauty_Form ;

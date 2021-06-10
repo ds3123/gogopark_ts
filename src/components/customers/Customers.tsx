@@ -17,6 +17,8 @@ const Customers = () => {
     //const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/services/show_with_cus_pet/' ) ;
 
 
+    const blue = { color : "rgb(0,0,170)" } ;
+
     return  <>
 
               <table className="table is-fullwidth is-hoverable">
@@ -24,11 +26,14 @@ const Customers = () => {
                 <thead>
                     <tr>
                         <th> 客戶姓名 </th>
-                        <th> 寵物資訊 </th>
-                        <th style={{ width:"100px" }}> 消費歷史 </th>
                         <th> 手機號碼 </th>
-                        <th> 住家電話 </th>
-                        <th> 通訊地址 </th>
+                        <th> 寵物資訊 </th>
+                        <th> <b style={blue}>預付</b>方案 </th>
+                        <th> <b style={blue}>優惠</b>方案 </th>
+                        <th> <b style={blue}>贈送</b>方案 </th>
+                        <th style={{ width:"100px" }}> 消費歷史 </th>
+
+
                         <th> 封 存    </th>
                     </tr>
                 </thead>
@@ -36,7 +41,11 @@ const Customers = () => {
                 <tbody>
                     {
                        pageOfItems.map( ( item : any , index ) => {
+
+                          if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
+
                           return <Customers_Rows key={ index } data={ item } /> ;
+
                        })
                     }
                 </tbody>

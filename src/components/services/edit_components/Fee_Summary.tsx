@@ -4,13 +4,12 @@ import { get_Today } from "utils/time/date"
 
 
 
-
 interface TS extends Edit_Form_Type {
     current : string ;
 }
 
 /* 費用結算 */
-const Create_Fee_Summary : FC<TS> = ({ register , errors , isDirty , isValid , current } ) => {
+const Fee_Summary : FC<TS> = ({ register , errors , isDirty , isValid , current } ) => {
 
 
     return <div className="columns is-multiline  is-mobile">
@@ -89,4 +88,4 @@ const Create_Fee_Summary : FC<TS> = ({ register , errors , isDirty , isValid , c
 
 };
 
-export default Create_Fee_Summary ;
+export default Fee_Summary ;

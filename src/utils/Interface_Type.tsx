@@ -18,16 +18,19 @@ export type Service_Type_Api = 'basics' | 'bathes' | 'beauties' ;
 export interface Edit_Form_Type  {
 
     register? : any ;
-    errors?   : any ,
-    isDirty?  : boolean ,
-    isValid? : boolean
+    errors?   : any ;
+    isDirty?  : boolean ;
+    isValid? : boolean ;
+    current? : string ;
 
 }
 
 
+// ********* 主要表單欄位  **********
+
+
 // 客戶表單欄位( Create_Customer / Update_Customer )
 export interface ICustomer {
-
 
     customer_Id                 : string ;
     customer_Name               : string ;
@@ -42,7 +45,6 @@ export interface ICustomer {
     customer_Relative_Family    : string ;
     customer_Relative_Cellphone : string ;
     customer_Relative_Telephone : string ;
-
 
 }
 
@@ -75,6 +77,39 @@ export interface IPet {
     ownerProvide       : string [] ;
 
     pet_Note           : string ;
+
+}
+
+// 服務單表單欄位( Create_Service / Update_Service )
+export interface IService {
+
+    // # 服務單資料
+    Q_code          : string ; // Q 碼
+    service_Date    : string ; // 到店服務日期
+    service_Type    : string ; // 服務類型(基礎、洗澡、美容)
+    shop_Status     : string ; // 到店狀態 ( 到店等候中' | '到店美容中' | '洗完等候中' | '已回家( 房 )' )
+
+    // # 工作人員
+    beauty_User     : string ; // 經手美容師
+    beauty_Note     : string ; // 美容師 _ 備註
+    beauty_Star     : string ; // 美容師 _ 評分
+
+    admin_User      : string ; // 櫃台行政人員
+    admin_Note      : string ; // 櫃台行政人員 _ 備註
+
+    // # ( 預計 ) 到店時間
+    expected_Arrive : string ; // 預計 _ 到店時間 ( 預約 )
+    expected_Leave  : string ; // 預計 _ 離店時間 ( 預約 )
+
+    actual_Arrive   : string ; // 實際 _ 到店時間
+
+    // # 到店、離店方式 ( Ex. 主人送來、接走 )
+    way_Arrive      : string ;
+    way_Leave       : string ;
+
+    // # 美容師處理完 _ 開始等待時間、等待方式( Ex. 進籠子等候 )
+    wait_Time       : string ;
+    wait_Way        : string ;
 
 }
 

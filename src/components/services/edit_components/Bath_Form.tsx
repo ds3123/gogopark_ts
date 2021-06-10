@@ -4,7 +4,7 @@ import { Edit_Form_Type } from "utils/Interface_Type"
 
 
 /* 洗澡單選項 */
-const Create_Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
+const Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
 
     return <>
@@ -97,4 +97,4 @@ const Create_Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , i
            </>
 } ;
 
-export default Create_Bath_Form ;
+export default Bath_Form ;

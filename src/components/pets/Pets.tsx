@@ -15,6 +15,8 @@ const Pets = () => {
   // 取得 _ 分頁資料
   const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/pets/show_pets_customers/' ) ;
 
+
+
   return <>
 
             <table className="table is-fullwidth is-hoverable">
@@ -37,7 +39,11 @@ const Pets = () => {
               <tbody>
                 {
                   pageOfItems.map( ( item : any , index ) => {
+
+                    if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
+
                     return <Pets_Rows key={ index } data={ item } /> ;
+
                   })
                 }
               </tbody>

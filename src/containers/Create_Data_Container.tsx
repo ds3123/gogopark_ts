@@ -16,12 +16,9 @@ import Edit_Form_Tabs from "templates/tab/Edit_Form_Tabs";
 // useContext
 import { SidePanelContext } from "templates/panel/Side_Panel" ;
 
-// Hook
-import usePreLoadData from "hooks/data/usePreLoadData" ;
-
 // Interface
 import { ICustomer } from "utils/Interface_Type" ;
-
+import Service_Info from "../components/services/edit_components/Service_Info";
 
 
 
@@ -62,9 +59,12 @@ const Create_Data_Container = () => {
              { /* 表單標籤 */ }
              <Edit_Form_Tabs  get_Current_Tab = { get_Current_Tab } />
 
-             <hr/>
+             <hr/> <br/>
 
              <form onSubmit = { handleSubmit( onSubmit ) } >
+
+                { /* 服務單基本資訊 : 服務性質、到店日期、處理碼 ... */ }
+                { ( current === "基礎" || current === "洗澡" || current === "美容" )  &&  <Service_Info { ...props } /> }
 
                 { /* 表單元件 */ }
                 { ( current === "客戶" || current === "寵物" || current === "基礎" || current === "洗澡" || current === "美容"  ) &&  <Create_Customer { ...props } />  }

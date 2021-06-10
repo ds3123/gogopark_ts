@@ -7,16 +7,18 @@ import Service_Report from "components/index/Service_Report";
 import Update_Customer from "components/customers/edit/Update_Customer";
 import Update_Pet from "components/pets/edit/Update_Pet";
 
+import { Service_Type } from "utils/Interface_Type"
+
 
 interface IService {
-    service_id  : string ;
-    shop_Status : string ;
-    data        : any
+    data : any
 }
 
-const Service_Rows : FC<IService> = ( { service_id , shop_Status , data }) => {
+const Service_Rows : FC<IService> = ( { data }) => {
 
     const dispatch = useDispatch() ;
+
+    // console.log( data )
 
     // 基礎、洗澡、美容 [ basic、bath、beauty ]
     const service_Type = data['service_type'] ;
@@ -38,7 +40,7 @@ const Service_Rows : FC<IService> = ( { service_id , shop_Status , data }) => {
 
 
     // 點選 _ Qcode
-    const click_Qcode     = () => dispatch( set_Side_Panel(true , <Service_Report /> ,{ customer_Id : cus_ID , preLoadData : data  } ) ) ;
+    const click_Qcode     = () => dispatch( set_Side_Panel(true , <Service_Report /> ,{ service_Type : service_Type , preLoadData : data  } as { service_Type : Service_Type  } ) ) ;
 
     // 點選 _ 客戶
     const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : data.customer } ) ) ;

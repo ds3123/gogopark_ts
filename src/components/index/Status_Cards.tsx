@@ -47,13 +47,13 @@ const Status_Cards = ( props : IStatus ) => {
 
                                 <span className="tag is-large" style={ boxShadow } >
 
-                                    { title_Icon } &nbsp;&nbsp; <b> { shop_Status } </b> </span>
+                                   { title_Icon } &nbsp;&nbsp; <b> { shop_Status } </b> </span>
 
                                 <div className="relative" >
 
-                                   <b className="tag is-medium is-light is-rounded"> 基 礎 &nbsp; <b className="tag is-rounded is-warning"> { basic_Num }  </b>  </b> &nbsp;
-                                   <b className="tag is-medium is-light is-rounded"> 洗 澡 &nbsp; <b className="tag is-rounded is-success"> { bath_Num }   </b>  </b> &nbsp;
-                                   <b className="tag is-medium is-light is-rounded"> 美 容 &nbsp; <b className="tag is-rounded is-danger">  { beauty_Num } </b>  </b>
+                                   <b className="tag is-medium is-light is-rounded"> 基 礎 &nbsp; <b className="tag is-rounded is-warning"> { basic_Num }  </b> </b> &nbsp;
+                                   <b className="tag is-medium is-light is-rounded"> 洗 澡 &nbsp; <b className="tag is-rounded is-success"> { bath_Num }   </b> </b> &nbsp;
+                                   <b className="tag is-medium is-light is-rounded"> 美 容 &nbsp; <b className="tag is-rounded is-danger">  { beauty_Num } </b> </b>
 
                                 </div>
 
@@ -97,9 +97,7 @@ const Status_Cards = ( props : IStatus ) => {
                                                   </div>
 
                                                   { /* 服務項目 */ }
-                                                  <Service_Rows service_id  = { service_id }
-                                                                shop_Status = { shop_Status }
-                                                                 data       = { x }/>
+                                                  <Service_Rows data = { x } />
 
                                              </React.Fragment>
 

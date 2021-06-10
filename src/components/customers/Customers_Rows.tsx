@@ -16,9 +16,9 @@ const Customers_Rows = ( props : any ) => {
     const [ pets , set_Pets ]     = useState([]) ;
     const dispatch                = useDispatch() ;
 
+
     // 點選 _ 客戶
     const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : data } ) ) ;
-
 
     // 點選 _ 消費歷史
     const click_History  = () => dispatch( set_Side_Panel(true , <Service_History/> , { preLoadData : data } ) ) ;
@@ -44,17 +44,20 @@ const Customers_Rows = ( props : any ) => {
                  </b>
              </td>
 
+             <td style={ t_L }> { data['mobile_phone'] } </td>
+
              <td style={ t_L }> { petButton } </td>
+             <td></td>
+             <td></td>
+             <td></td>
 
              <td>
                  <b className="tag is-medium "> <i className="far fa-list-alt" onClick={ () => click_History() }></i> </b>
              </td>
 
-             <td style={ t_L }> { data['mobile_phone'] } </td>
 
-             <td style={ t_L }> { data['tel_phone'] } </td>
 
-             <td style={ t_L }> { data['address'] }  </td>
+
 
              <td> <b className="tag is-medium" > <i className="fas fa-download"></i> </b> </td>
 

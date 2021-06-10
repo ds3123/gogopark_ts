@@ -58,15 +58,17 @@ const Panel_Wrapper = styled.div<WrapperProps>`
 interface PanelContext {
 
     // 欲透過 Context 傳遞的 props 型別
-    customer_Id : string ; // 客戶身分證序號
-    pet_Serial  : string ; // 寵物編號
+    customer_Id  : string ; // 客戶身分證序號
+    pet_Serial   : string ; // 寵物編號
 
-    basic_id    : string ; // 基礎單資料表 id
-    bath_id     : string ; // 洗澡單資料表 id
-    beauty_id   : string ; // 美容單資料表 id
+    basic_id     : string ;
+    bath_id      : string ;
+    beauty_id    : string ;
 
-    create_Data : string ; // 右側編輯面板 ( for 資料_新增 )
-    preLoadData : any ;    // 預先填寫資料 ( for 資料_編輯 )
+    create_Data  : string ; // 右側編輯面板 ( for 資料_新增 )
+    preLoadData  : any ;    // 預先填寫資料 ( for 資料_編輯 )
+
+    service_Type : string ; // 服務類型 ( for 編輯 : 基礎、洗澡、美容 )
 
 }
 
@@ -82,7 +84,6 @@ const Side_Panel = () => {
     const component = useSelector( ( state:any ) => state.Layout.Side_Panel_Component ) ; // 所包含元件
     const props     = useSelector( ( state:any ) => state.Layout.Side_Panel_Props ) ;     // 元件屬性
     const dispatch  = useDispatch() ;
-
 
     // 關閉 : 遮罩、滑動容器元件
     const close = () => {

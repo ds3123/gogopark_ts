@@ -6,15 +6,22 @@ import Pet_Form from "components/pets/edit/Pet_Form";
 
 
 /* @ 新增 _ 寵物 */
-const Create_Pet : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
+const Create_Pet : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid, current } ) => {
 
 
+    const props = {
+        register : register ,
+        errors   : errors ,
+        isDirty  : isDirty ,
+        isValid  : isValid ,
+        current  : current
+    } ;
 
 
    return <>
 
              { /* 寵物表單欄位  */ }
-             <Pet_Form register = { register } errors = { errors }  />
+             <Pet_Form {...props}  />
 
              <br/><hr/>
 

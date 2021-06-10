@@ -11,24 +11,16 @@ const Pets_Rows = ( props : any ) => {
 
     const { data } = props ;
 
-    const [ customer , set_Customer ] = useState( { name : "" , mobile_phone  : "" } ) ;
-
     const dispatch = useDispatch() ;
 
     // * 寵物按鈕 ( 無 / 單隻 、多隻 )
     const petButton = usePet_Button( [data] ) ;
 
     // 點選 _ 客戶
-    const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : customer } ) ) ;
+    const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : data['customer'] } ) ) ;
 
     // 點選 _ 消費歷史
     const click_History  = () => dispatch( set_Side_Panel(true , <Service_History/> , { preLoadData : data } ) ) ;
-
-    useEffect(( ) => {
-
-        if( data['customer'] ) set_Customer( data['customer'] ) ;
-
-    } ,[] ) ;
 
 
     const t_L = { textAlign : "left" } as const ;
@@ -42,13 +34,13 @@ const Pets_Rows = ( props : any ) => {
                  </b>
              </td>
              <td style={ t_L }>
-                 { customer['name'] &&
+                 { data['name'] &&
                      <b className="tag is-medium pointer" onClick={ click_Customer }>
-                         { customer['name'] }
+                         { data['customer']['name'] }
                      </b>
                  }
              </td>
-             <td style={ t_L }> { customer['mobile_phone'] } </td>
+             <td style={ t_L }> { data['mobile_phone'] } </td>
              <td>  </td>
              <td>  </td>
              <td>  </td>

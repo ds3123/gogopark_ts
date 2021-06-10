@@ -1,16 +1,10 @@
 
 import React, {useContext} from "react" ;
 
-// useContext
-import { SidePanelContext } from "templates/panel/Side_Panel";
-import usePreLoadData from "../../hooks/data/usePreLoadData";
-
 
 { /* 各種服務 _ 消費歷史 */ }
 const Service_History = ( ) => {
 
-    const value          = useContext( SidePanelContext ) ;  // 取得 context 值
-    // const preLoadData = usePreLoadData( value ) ;         // 取得 預先填寫資料 ( for 編輯資料 )
 
     const user    = {
 
