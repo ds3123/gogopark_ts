@@ -3,23 +3,33 @@ import React, {FC, useEffect, useState} from "react"
 import { Edit_Form_Type } from "utils/Interface_Type"
 import {Input} from "templates/form/Input";
 import { useRead_All_Species } from "hooks/ajax_crud/useAjax_Read";
+import {get_Today} from "utils/time/date";
+import {get_RandomInt} from "utils/number/number";
+import {useSelector} from "react-redux";
 
 
 { /* 寵物表單欄位  */ }
-const Pet_Form : FC<Edit_Form_Type> = ( { register , errors , current } ) => {
+const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current } ) => {
+
+   // 客戶單，目前所填入客戶 _ 身分證字號
+   const currnet_Customer_Pets = useSelector( ( state:any ) => state.Customer.Current_Customer_Pets ) ;
+
+
 
    const [ currentSpeciesId , set_currentSpeciesId  ] = useState( "" ) ;
-   const [ currentPrice , set_currentPrice  ] = useState({
+   const [ currentPrice , set_currentPrice  ]         = useState({
                                                                      bath_first    : "" , // 初次 _ 洗澡
                                                                      bath_single   : "" , // 單次 _ 洗澡
                                                                      beauty_single : "" , // 單次 _ 美容
                                                                     }) ;
 
-   const petSpecies = useRead_All_Species() ;  // 所有寵物品種資料
+   // 取得 _ 所有寵物品種資料
+   const petSpecies = useRead_All_Species() ;
 
 
    // 品種 變動處理
    const get_Species_Id = ( id : string ) => set_currentSpeciesId( id ) ;
+
 
    useEffect(( ) => {
 
@@ -38,7 +48,14 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , errors , current } ) => {
 
       }) ;
 
+
+       // 寵物設定 _ 隨機編號
+       const randomId = `P_${ get_Today() }_${ get_RandomInt(1000) }` ;
+       setValue( "pet_Serial" , randomId , { shouldValidate: true  } ) ;
+
    } ,[ currentSpeciesId ] ) ;
+
+
 
 
    return <>
@@ -51,11 +68,30 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , errors , current } ) => {
                    { current === "洗澡" && currentPrice['bath_first'] &&  <span> 初次洗澡價格 : { currentPrice['bath_first'] } 元 </span> }
                    { current === "美容" && currentPrice['beauty_single'] &&  <span> 單次美容價格 : { currentPrice['beauty_single'] } 元 </span> }
 
+
+                   { /* 客戶所有寵物  */ }
+                   {
+                     currnet_Customer_Pets.length > 0 &&
+
+                       currnet_Customer_Pets.map( ( x : any , y : any ) => {
+                           return <span key = { y }>
+                                     &nbsp; <b className="tag is-medium pointer" > { x['name'] } ( { x['species'] } ) </b> &nbsp; &nbsp;
+                                 </span>
+                       })
+                   }
+
                </label>
 
                <div className="columns is-multiline  is-mobile">
 
-                   <Input type="text" name="pet_Serial" label="編 號" register={register} error={errors.pet_Serial} icon="fas fa-list-ol" asterisk={true} columns="3" />
+                   <div className="column is-3-desktop">
+                       <p className="relative"> 編 號 </p>
+                       <div className="control has-icons-left" >
+                           <span className="icon is-small is-left"> <i className="fas fa-list-ol"></i> </span>
+                           <input className="input" type="text" { ...register( "pet_Serial" ) }  disabled = { true }  />
+                       </div>
+                   </div>
+
                    <Input type="text" name="pet_Name"   label="名 字" register={register} error={errors.pet_Name}   icon="fas fa-paw"     asterisk={true} columns="3" />
 
                    <div className="column is-3-desktop required">

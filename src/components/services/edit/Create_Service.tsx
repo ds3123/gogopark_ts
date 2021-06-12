@@ -8,7 +8,9 @@ import Beauty_Form from "components/services/edit_components/Beauty_Form";
 import Extra_Beauty from "components/services/edit_components/Extra_Beauty";
 
 import { Edit_Form_Type } from "utils/Interface_Type"
-import Fee_Summary from "../edit_components/Fee_Summary";
+import Pickup_Fee from "components/services/edit_components/Pickup_Fee";
+import Fee_Summary from "components/services/edit_components/Fee_Summary";
+
 
 
 interface TS extends Edit_Form_Type {
@@ -17,11 +19,12 @@ interface TS extends Edit_Form_Type {
 
 
 /* @ 新增 : 基礎單、洗澡單、美容單 */
-const Create_Service : FC<TS> = ({ register , errors , isDirty , isValid , current } ) => {
+const Create_Service : FC<TS> = ({ register , setValue ,errors , isDirty , isValid , current } ) => {
 
 
     const props = {
         register : register ,
+        setValue : setValue ,
         errors   : errors ,
         isDirty  : isDirty ,
         isValid  : isValid ,
@@ -46,6 +49,9 @@ const Create_Service : FC<TS> = ({ register , errors , isDirty , isValid , curre
 
              { /* 美容單項目 */ }
              { current === "美容" && <Beauty_Form { ...props } /> }
+
+             { /* 接送費 */ }
+             { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "住宿" ) && <Pickup_Fee { ...props } /> }
 
              { /* 費用結算 */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" ) && <Fee_Summary { ...props } /> }

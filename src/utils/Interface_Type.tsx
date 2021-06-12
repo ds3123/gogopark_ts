@@ -18,6 +18,7 @@ export type Service_Type_Api = 'basics' | 'bathes' | 'beauties' ;
 export interface Edit_Form_Type  {
 
     register? : any ;
+    setValue? : any ;
     errors?   : any ;
     isDirty?  : boolean ;
     isValid? : boolean ;

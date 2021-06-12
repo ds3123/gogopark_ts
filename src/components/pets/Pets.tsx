@@ -13,8 +13,8 @@ import Pets_Rows from "components/pets/Pets_Rows" ;
 const Pets = () => {
 
   // 取得 _ 分頁資料
-  const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/pets/show_pets_customers/' ) ;
-
+   const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/pets/show_pets_customers/' ) ;
+   //const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/customers/show_customers_relatives_pets/' ) ;
 
 
   return <>

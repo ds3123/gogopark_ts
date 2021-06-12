@@ -1,9 +1,10 @@
 
-import React , { useState , useEffect } from "react";
+import React , { useState , useEffect , FC } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment  from "moment";
-
+import {useDispatch} from "react-redux";
+import { set_Info_Column } from "store/actions/action_Info"
 
 /*
 *
@@ -14,8 +15,17 @@ import moment  from "moment";
 *
 */
 
-const Date_picker = ( {  no_Past = false  }  ) => {
+type Dprops = {
 
+  no_Past           : boolean ;
+  set_Service_Date? : any ;
+
+}
+
+
+const Date_picker : FC<Dprops> = ( {  no_Past = false  }  ) => {
+
+    const dispatch = useDispatch() ;
 
     const today = moment( new Date ).format('YYYY-MM-DD' ) ;  // 今日
 
@@ -33,13 +43,13 @@ const Date_picker = ( {  no_Past = false  }  ) => {
     } ;
 
 
-
-    // 預設先取得 "初始" 服務日期，並監控 服務日期 "後續變化"
+    // 預設先取得 "初始" 服務日期，並監控服務日期 "後續變化"
     useEffect(() => {
 
         if( date ){
 
-            const _date = moment( date ).format('YYYY-MM-DD' ) ;  // 所選擇日期
+          const _date = moment( date ).format('YYYY-MM-DD' ) ;    // 所選擇日期
+          dispatch( set_Info_Column( "service_Date" , _date ) ) ; // 設定 store
 
         }
 

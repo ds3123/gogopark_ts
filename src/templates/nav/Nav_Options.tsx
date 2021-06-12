@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { get_Today } from 'utils/time/date' ;
 
 import Create_Data_Container from "containers/Create_Data_Container";
-
+import Nav_Qcode_List from "components/services/Nav_Qcode_List";
 
 
 // Redux
@@ -38,18 +38,16 @@ const Nav_Options = () => {
     let location   = useLocation() ;  // 取得 : 路徑資訊
 
     // 顯示 _ Q code 面板
-    const show_Qcode = () => {
-
-
-    };
+    const show_Qcode = () => dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : "基礎" , preLoadData : null } ) );
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : "寵物" , preLoadData : null } ) );
 
 
     useEffect(() => {
 
-         add_Data() ;
+       add_Data()
+       // show_Qcode() ;
 
     } ,[] ) ;
 

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'containers/App';
 import reportWebVitals from './reportWebVitals';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 // # Redux
@@ -17,7 +19,21 @@ import 'css/style.scss' ;
 
 const store = createStore( root_Reducer , applyMiddleware( thunk ) );
 
-ReactDOM.render(  <Provider store = { store } >
+ReactDOM.render(
+                  <Provider store = { store } >
+
+                      <ToastContainer
+                          position="bottom-left"
+                          autoClose={5000}
+                          hideProgressBar={false}
+                          newestOnTop={false}
+                          closeOnClick
+                          rtl={false}
+                          pauseOnFocusLoss
+                          draggable
+                          pauseOnHover
+                      />
+
                     <React.StrictMode> <App /> </React.StrictMode >
                   </Provider> ,
                   document.getElementById('root')

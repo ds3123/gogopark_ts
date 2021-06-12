@@ -16,7 +16,7 @@ const Pets_Rows = ( props : any ) => {
     // * 寵物按鈕 ( 無 / 單隻 、多隻 )
     const petButton = usePet_Button( [data] ) ;
 
-    // 點選 _ 客戶
+    // 點選 _ 客戶 ( 先暫時取消，因涉及關係人，須改查詢 )
     const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : data['customer'] } ) ) ;
 
     // 點選 _ 消費歷史
@@ -34,13 +34,13 @@ const Pets_Rows = ( props : any ) => {
                  </b>
              </td>
              <td style={ t_L }>
-                 { data['name'] &&
-                     <b className="tag is-medium pointer" onClick={ click_Customer }>
-                         { data['customer']['name'] }
-                     </b>
+                 { data['name'] &&  data['customer']['name']
+                     // <b className="tag is-medium pointer" onClick={ click_Customer }>
+                     //     { data['customer']['name'] }
+                     // </b>
                  }
              </td>
-             <td style={ t_L }> { data['mobile_phone'] } </td>
+             <td style={ t_L }> { data['customer']['mobile_phone'] } </td>
              <td>  </td>
              <td>  </td>
              <td>  </td>

@@ -16,6 +16,8 @@ const Customers_Rows = ( props : any ) => {
     const [ pets , set_Pets ]     = useState([]) ;
     const dispatch                = useDispatch() ;
 
+    // console.log( data )
+
 
     // 點選 _ 客戶
     const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : data } ) ) ;

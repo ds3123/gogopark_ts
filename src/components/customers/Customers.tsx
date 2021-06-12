@@ -8,13 +8,11 @@ import Pagination from "utils/Pagination";
 import Customers_Rows from "components/customers/Customers_Rows";
 
 
-
 /* @ 客戶頁面  */
 const Customers = () => {
 
     // 取得 _ 分頁資料
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/customers/show_customers_pets/' ) ;
-    //const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/services/show_with_cus_pet/' ) ;
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/customers/show_customers_relatives_pets/' ) ;
 
 
     const blue = { color : "rgb(0,0,170)" } ;
@@ -32,8 +30,6 @@ const Customers = () => {
                         <th> <b style={blue}>優惠</b>方案 </th>
                         <th> <b style={blue}>贈送</b>方案 </th>
                         <th style={{ width:"100px" }}> 消費歷史 </th>
-
-
                         <th> 封 存    </th>
                     </tr>
                 </thead>
@@ -43,7 +39,6 @@ const Customers = () => {
                        pageOfItems.map( ( item : any , index ) => {
 
                           if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
-
                           return <Customers_Rows key={ index } data={ item } /> ;
 
                        })

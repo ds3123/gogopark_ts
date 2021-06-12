@@ -10,9 +10,10 @@ type TI = {
     error    : any ;
     asterisk : boolean ;
     columns  : string ;
+    onChange? : any
 };
 
-export const Input : FC<TI> = ({ register,type,name,label,icon,error, asterisk, columns, ...inputProps }) => {
+export const Input : FC<TI> = ({ register,type,name,label,icon,error, asterisk, columns, onChange = ()=>{} , ...inputProps }) => {
 
     return   <div className= { `column is-${columns}-desktop ${ ( asterisk ? "required" : "" ) }` }  >
 
@@ -22,7 +23,7 @@ export const Input : FC<TI> = ({ register,type,name,label,icon,error, asterisk, 
 
                   <span className="icon is-small is-left"> <i className={ icon }></i> </span>
 
-                  <input className="input" type={ type } { ...register( name ) }  {...inputProps }  />
+                  <input className="input" type={ type } { ...register( name ) }  {...inputProps } onChange = { e => onChange( e ) } />
 
                </div>
 
