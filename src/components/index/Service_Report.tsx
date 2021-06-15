@@ -29,7 +29,10 @@ const schema = yup.object().shape({
 { /* 各項服務 _ 目前狀態 ( 於首頁狀態框中，點選 Qcode )  */ }
 const Service_Report = () => {
 
-    const value            = useContext( SidePanelContext ) ;    // 取得 context 值
+    const value               = useContext( SidePanelContext ) ;    // 取得 context 值
+
+    // 開始等待時間
+    const [ time , set_Time ] = useState('00 : 00') ;
 
     const service_Type     = value.service_Type as any ;        // 服務類型 ( 基礎、洗澡、美容 )
     const data             = value.preLoadData as any;          // 服務單資料
@@ -89,6 +92,7 @@ const Service_Report = () => {
     // 提交 _ 更新資料
     const onSubmit : SubmitHandler<IService> = columnsData => {
 
+
         const service = data as any ;
 
         let service_Id = '' ;
@@ -96,6 +100,7 @@ const Service_Report = () => {
         if( service_Type === '基礎' ){ service_Id = service['basic_id'] ;  api = '/basics' };
         if( service_Type === '洗澡' ){ service_Id = service['bath_id'] ;   api = '/bathes' };
         if( service_Type === '美容' ){ service_Id = service['beauty_id'] ; api = '/beauties' };
+
 
 
         // 更改欄位
@@ -126,7 +131,7 @@ const Service_Report = () => {
 
     } ,[] ) ;
 
-  return  <form onSubmit={ handleSubmit( onSubmit ) }  >
+  return  <form onSubmit = { handleSubmit( onSubmit ) }  >
 
               { /* 標題列 */ }
               <div className="columns is-multiline is-mobile" >
@@ -177,6 +182,68 @@ const Service_Report = () => {
 
               { /* 費用結算 */ }
               { ( service_Type === "基礎" || service_Type === "洗澡" || service_Type === "美容" ) && <Fee_Summary { ...props } /> }
+
+              <hr/> <br/>
+
+              <b className="tag is-large is-danger"> 美容師處理結果 </b> <br/><br/>
+
+              { /* 美容師後續處理 */ }
+              <div className="columns is-multiline is-mobile" >
+
+                  <div className="column is-12-desktop" >
+
+
+                      <i className="fas fa-list-ul"></i> &nbsp;<b className="tag is-medium is-white"> 處理項目 : </b> &nbsp; &nbsp;
+
+                  </div>
+
+
+                  <div className="column is-12-desktop" >
+
+                      <i className="fas fa-door-open"></i>&nbsp;<b className="tag is-medium is-white"> 洗澡 / 美容後處理方式 : </b> &nbsp; &nbsp;
+
+                      <div className="select is-normal realtive" >
+                          <select >
+                              <option value = "進籠子_等候" > 進籠子 _ 等候 </option>
+                              <option value = "運動場_等候" > 運動場 _ 等候 </option>
+                              <option value = "美容桌_等候">  美容桌 _ 等候 </option>
+                          </select>
+                      </div>  &nbsp; &nbsp; &nbsp; &nbsp;
+
+                      <b className= { time === '00 : 00' ? "tag is-large hover" : "tag is-large is-success" }  > { time } </b>
+
+                  </div>
+
+                  <div className="column is-12-desktop" >
+
+                      <i className="far fa-star"></i>&nbsp;<b className="tag is-medium is-white"> 美容師評分 : </b> &nbsp; &nbsp;
+
+                      <input type="radio" value = "拒接"  /> <b style={{color:"rgb(200,0,0)"}}>拒接</b> &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
+                      <input type="radio" value = "1"     /> 1    &nbsp; &nbsp; &nbsp; &nbsp;
+                      <input type="radio" value = "2"     /> 2    &nbsp; &nbsp; &nbsp; &nbsp;
+                      <input type="radio" value = "3"     /> 3    &nbsp; &nbsp; &nbsp; &nbsp;
+                      <input type="radio" value = "4"     /> 4    &nbsp; &nbsp; &nbsp; &nbsp;
+                      <input type="radio" value = "5"     /> 5
+
+                  </div>
+
+                  <div className="column is-12-desktop" >
+
+                      <i className="fas fa-pencil-alt"></i>&nbsp;<b className="tag is-medium is-white"> 美容師備註 : </b> &nbsp; &nbsp;
+
+                      <div className="select is-normal realtive" >
+                          <select>
+                              <option value="請選擇"> 請選擇 </option>
+                              <option value="會咬人"> 會咬人 </option>
+                              <option value="廢毛太多"> 廢毛太多 </option>
+                              <option value="過動、不好處理"> 過動、不好處理 </option>
+                          </select>
+                      </div>  &nbsp; &nbsp; &nbsp; &nbsp;
+
+                  </div>
+
+              </div>
+
 
               <br/><br/><br/><br/>
 

@@ -20,15 +20,13 @@ const Services_Rows = ( props : any ) => {
 
 
     // 服務單欄位 _ 顏色、Icon
-    const { color , icon }  = useServiceType( data[ 'service_type' ] );
+    const { color , icon }  = useServiceType( data[ 'service_type' ] , false , 'medium' );
 
     // * 寵物按鈕
     const petButton = usePet_Button( [ pet ] ) ;
 
-
     // 點選 _ 服務單
     const click_Service = () => dispatch( set_Side_Panel(true , <Update_Service /> , { service_Type : data['service_type'] ,  preLoadData : data } as { service_Type : string } ) ) ;
-
 
     // 點選 _ 消費歷史
     const click_History = () => dispatch( set_Side_Panel(true , <Service_History /> , { preLoadData : data } ) ) ;

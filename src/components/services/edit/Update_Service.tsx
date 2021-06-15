@@ -33,11 +33,10 @@ const Update_Service = ( ) => {
     const Q_code            = data.q_code  ;
 
 
-    const { color , icon }  = useServiceType( service_Type );
-
+    const { color , icon }  = useServiceType( service_Type  );
 
     // React Hook Form
-    const { register , handleSubmit , formState: { errors , isDirty , isValid } } =
+    const { register  , setValue , control , handleSubmit , formState: { errors , isDirty , isValid } } =
                 useForm<IService>({
 
                     mode          : "all" ,
@@ -50,6 +49,8 @@ const Update_Service = ( ) => {
 
     const props = {
                     register : register ,
+                    setValue : setValue ,
+                    control  : control ,
                     errors   : errors ,
                     isDirty  : isDirty ,
                     isValid  : isValid ,

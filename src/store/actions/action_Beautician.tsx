@@ -19,3 +19,19 @@ export const set_Current_Pet = ( pet : any ) => {
     } ;
 
 } ;
+
+
+
+// # 設定 _ 所點選寵物
+export const set_Is_Admin_Confirmed = ( bool : boolean ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type               : "SET_IS_ADMIN_CONFIRMED" ,
+            is_Admin_Confirmed : bool
+        }) ;
+
+    } ;
+
+} ;

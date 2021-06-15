@@ -19,7 +19,7 @@ export const useUpdate_Data = ( ) => {
     const dispatch = useDispatch() ;
 
     // 更新資料邏輯
-    const update_Data = ( api : string  , data_id : string , data : any , redirect? : string , msg? : string ) => {
+    const update_Data = ( api : string  , data_id : string , data : any , redirect? : string , msg? : string | null , fullMsg? : string ) => {
 
         // 轉換資料欄位
         let submitData = data ;
@@ -27,13 +27,23 @@ export const useUpdate_Data = ( ) => {
         // 客戶
         if( api === '/customers' )  submitData = columns_Covert_Customer( data ) ;
 
-
         // 更新資料
         axios.put(`${api}/${data_id}` , submitData ).then(res => {
 
-            if( msg ){
+            if( msg && !fullMsg ){
                 // 更新成功通知
                 toast(`🦄 已更新 : ${ msg }`, {
+                    position: "top-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: true,
+                });
+            }
+
+            if( !msg && fullMsg ){
+                // 更新成功通知 ( 完整自訂訊息 )
+                toast(`🦄 ${ fullMsg }`, {
                     position: "top-left",
                     autoClose: 5000,
                     hideProgressBar: false,

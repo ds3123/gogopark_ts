@@ -29,7 +29,7 @@ const Status_Cards = ( props : IStatus ) => {
 
 
     const boxShadow = { boxShadow : "1px 1px 4px 1px rgba(0,0,0,.2)" , position : "absolute" , top : "-35px" } as const ;
-    const way_Leave = { textAlign : "right" , marginBottom : "0px" , fontSize : "11pt" } as const ;
+    const way_Leave = { paddingLeft:"65px" , marginBottom : "5px" , fontSize : "11pt" } as const ;
 
 
     return  <div className="card" style={{ height:"550px"}}>
@@ -88,11 +88,21 @@ const Status_Cards = ( props : IStatus ) => {
                                                   <div style={ way_Leave }  >
                                                       {  x['shop_status'] === '洗完等候中' &&
                                                           <div>
-                                                              <b> { x['wait_way'] } </b> &nbsp; / &nbsp;
-                                                              <span style = {  x['way_leave'] === '接送員接送' ? { color : "rgb(180,120,60)" } : {color:"rgba(0,0,0,.5)"}  }  >
+                                                              <b> 進籠子等候 </b> &nbsp; / &nbsp;
+                                                              <b style = { { color : "rgb(180,120,60)" } }  >
                                                                           <b> { x['way_leave'] } </b> &nbsp; { x['expected_leave'] }
-                                                                       </span>
+                                                                       </b>
                                                           </div>
+                                                      }
+                                                  </div>
+
+                                                  <div style={ way_Leave }  >
+                                                      {  x['shop_status'] === '已回家( 房 )' &&
+                                                      <div>
+                                                          <b style = { { color : "rgb(180,120,60)" } }  >
+                                                              <b> { x['way_leave'] } </b> &nbsp; { x['expected_leave'] }
+                                                          </b>
+                                                      </div>
                                                       }
                                                   </div>
 

@@ -6,11 +6,8 @@ import {set_Current_Pet } from 'store/actions/action_Beautician'
 import {useDispatch} from "react-redux";
 
 interface ILeft {
-
    pet_Arr : any[] ;
-
 }
-
 
 
 { /*  左側 : 等待中、處理中 面板   */ }
@@ -20,7 +17,6 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
     // 更新函式
     const update_Data  = useUpdate_Data() ;
-
 
     // 到店等候中
     const pets_Wait   = pet_Arr.filter( x => {  return x['shop_status'] === '到店等候中'   } ) ;
@@ -37,9 +33,9 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
         let service_Id = '' ;
         let api        = '' ;
-        if( pet['service_type'] === '基礎' ){ service_Id = pet['basic_id'] ;  api = '/basics' };
-        if( pet['service_type'] === '洗澡' ){ service_Id = pet['bath_id'] ;   api = '/bathes' };
-        if( pet['service_type'] === '美容' ){ service_Id = pet['beauty_id'] ; api = '/beauties' };
+        if( pet['service_type'] === '基礎' ){ service_Id = pet['basic_id'] ;  api = '/basics' } ;
+        if( pet['service_type'] === '洗澡' ){ service_Id = pet['bath_id'] ;   api = '/bathes' } ;
+        if( pet['service_type'] === '美容' ){ service_Id = pet['beauty_id'] ; api = '/beauties' } ;
 
         // 更改欄位
         if( pet['shop_status'] === '到店等候中' ) update_Data( api , service_Id , { shop_status : '到店美容中' } , '/beautician' ) ;
@@ -53,10 +49,10 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
        // dispatch( set_Current_Pet( pet ) ) ;
 
-    } , [])
+    } ,[] ) ;
 
 
-    const status = {
+    const status    = {
         marginBottom   : "0px" ,
         display        : "flex" ,
         justifyContent : "center" ,
@@ -65,7 +61,7 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
     const left_Card = { height : "40vh" , overflow : "auto" , left : "13px" } ;
 
-    const rS = { width:"100%", marginBottom : "10px" , position:"relative" ,  justifyContent : "left" } as any ;
+    const rS        = { width:"100%", marginBottom : "10px" , position:"relative" ,  justifyContent : "left" } as any ;
 
    return <>
                { /* 到店等候中  */ }
@@ -80,7 +76,6 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
                <div className="card p_10 has-text-centered" style={ left_Card } >
 
-
                   {
                       pets_Wait.map( ( x , y ) => {
 
@@ -94,7 +89,6 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
                       })
                   }
-
 
                </div>
 

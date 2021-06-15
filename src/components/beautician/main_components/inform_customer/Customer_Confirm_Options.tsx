@@ -3,20 +3,22 @@ import React from "react" ;
 import { useForm , SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema_Customer } from "utils/validator/form_validator";
+import { set_Is_Admin_Confirmed } from 'store/actions/action_Beautician'
+import {useDispatch} from "react-redux";
+import {set_Side_Panel} from "store/actions/action_Global_Layout";
+
+
 
 
 type Inputs = {
-
     plus_item : string ;
-
-
 } ;
-
-
 
 
 { /* 主人確認面板  */ }
 const Customer_Confirm_Options = () => {
+
+    const dispatch = useDispatch() ;
 
     // React Hook Form
     const { register , handleSubmit , formState: { errors , isDirty , isValid } } =
@@ -26,6 +28,17 @@ const Customer_Confirm_Options = () => {
     const onSubmit : SubmitHandler<Inputs> = data => {
 
         console.log( data );
+
+    } ;
+
+    // 點選 : 交付櫃台詢問主人
+    const click_Confirm = ( ) => {
+
+        // 開啟 : 詢問中狀態列
+        dispatch( set_Is_Admin_Confirmed( true ) ) ;
+
+        // 關閉 : 右側面板
+        dispatch( set_Side_Panel(false , null ,{} ) ) ;
 
     } ;
 
@@ -64,7 +77,7 @@ const Customer_Confirm_Options = () => {
 
                  <div className="column is-12-desktop" >
 
-                     <div className=  "tag is-large hover" style={{ width:"100%" }}   >
+                     <div className=  "tag is-large hover" style={{ width:"100%" }}  onClick = { () => click_Confirm() } >
                          <b> <i className="fas fa-user-check" ></i> &nbsp; 交 付 櫃 台 詢 問 主 人 </b>
                      </div>
 

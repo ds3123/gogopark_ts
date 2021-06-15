@@ -9,21 +9,21 @@ import {useSelector} from "react-redux";
 const Pet_Info_Title = () => {
 
     // 目前所點選寵物
-    const pet = useSelector( ( state : any ) => state.Beautician.Current_Pet )['pet'] ;
+    const Current_Pet = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
+    const pet         = Current_Pet['pet'] ;
 
-    const [ service_Type , set_Service_Type ] = useState<Service_Type>("基礎") ;
-    const [ qCode , set_qCode ]               = useState( "Q01" ) ;
-    const { color , icon }                    = useServiceType( service_Type );
+
+    const { color , icon }                    = useServiceType( Current_Pet['service_type'] );
 
 
     return  <b className = { color } >
 
-                <i className={ icon }></i> &nbsp; { qCode  } &nbsp; { pet['name'] } ( { pet['species'] } ) &nbsp;
+                <i className={ icon }></i> &nbsp; { Current_Pet['q_code']  } { pet['name'] } ( { pet['species'] } ) &nbsp;
 
-                <b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['sex'] } </b> &nbsp; &nbsp;
+                <b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['sex'] } </b> &nbsp;
 
                 { pet['color'] &&
-                  <><b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['color'] } </b> &nbsp; &nbsp;</>
+                  <><b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['color'] } </b> &nbsp;</>
                 }
 
                 { pet['age'] &&
