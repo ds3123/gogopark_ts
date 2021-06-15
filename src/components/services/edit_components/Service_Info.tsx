@@ -1,25 +1,43 @@
 import React, {FC, useEffect, useState} from "react" ;
-import Time_picker from "utils/time/Time_Picker";
-import Date_picker from "utils/time/Date_picker";
+
 import { Edit_Form_Type } from "utils/Interface_Type"
-import {useSelector} from "react-redux";
-import moment from "moment";
+import {useDispatch, useSelector} from "react-redux";
 import Qcode_Select_Options from "components/services/edit_components/Qcode_Select_Options";
 
+import DatePicker from "react-datepicker";
+
+
+import Date_Picker from "templates/form/Date_Picker"
+
+import Time_Picker from "templates/form/Time_Picker"
+import "react-datepicker/dist/react-datepicker.css";
+import 'antd/dist/antd.css';
+import moment from "moment";
+
+// Redux
+import {set_Info_Column} from "store/actions/action_Info";
+
+import { useForm , Controller } from "react-hook-form";
+
+
+// 各表單驗證條件
 
 /*
 *
-*  @ 資料狀態 ( shop_status ) 共有 6 種 ~
-*     # 預約 _ 類型 ( 2 種 ) : 預約當日、預約非當日
-*     # 到店 _ 類型 ( 4 種 ) : 到店等候中、到店美容中、洗完等候中、已回家( 房 )
+*  @ 資料狀態 ( shop_status ) 共有 7 種 ( 服務_類型的 "已到店 "，與到店_類型的 "到店等候中"，相同 ) ~
+*
+*     # 服務 _ 類型 ( service_Status ， 3 種 ) : 已到店、預約_今天、預約_未來
+*     # 到店 _ 類型 ( shop_Status ,     4 種 ) : 到店等候中、到店美容中、洗完等候中、已回家( 房 )
 *
 */
 
 /* 服務單( 基礎、洗澡、美容 ) _ 基本資訊 */
-const Service_Info : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid}) => {
+const Service_Info : FC<Edit_Form_Type> = ({ register , setValue , errors , control , isDirty , isValid}) => {
 
-   const today        = moment( new Date ).format('YYYY-MM-DD' ) ;                    // 今日
-   const service_Date = useSelector( ( state : any ) => state.Info.service_Date ) ;  // 到店日期( 預設 : 今日 )
+
+   const dispatch     = useDispatch() ;
+   const today        = moment( new Date ).format('YYYY-MM-DD' ) ;                            // 今日
+   const service_Date = useSelector( ( state : any ) => state.Info.service_Date ) ;          // 到店日期( 預設 : 今日 )
 
 
    const [ serviceStatus , set_serviceStatus ] = useState({
@@ -45,11 +63,29 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVal
             set_serviceStatus({ ...serviceStatus , is_Arrived_Today : true , is_Appointed_Today : false , is_Appointed_Future : false  }) ;
         }
 
+
+        // 是否選擇 : 過去日期 ( 缺 _ 強制設回今天 2021.06.13 )
+        if( today > service_Date ){
+            //setValue( 'service_Date' , new Date ) ; // 設回今天
+            alert('不能選擇 : 過去日期') ;
+        }
+
     } ,[ service_Date ] ) ;
+
+    // 設定 _ 服務性質( service_Status : 已到店、預約_今天、預約_未來 )
+    useEffect( ( ) => {
+
+      if( serviceStatus['is_Arrived_Today'] )    dispatch( set_Info_Column( 'service_Status' , '已到店') ) ;
+      if( serviceStatus['is_Appointed_Today'] )  dispatch( set_Info_Column( 'service_Status' , '預約_今天') ) ;
+      if( serviceStatus['is_Appointed_Future'] ) dispatch( set_Info_Column( 'service_Status' , '預約_未來') ) ;
+
+
+    } , [serviceStatus] ) ;
 
 
     const way   = {  fontSize : "11pt" , top : "-5px" , fontWeight : "bold"  } ;
     const green = { color : "rgb(30,180,30)" } ;
+
 
     return <>
               <br/>
@@ -80,21 +116,21 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVal
                              </>
                          }
 
+
+
                      </div>
                  </div>
 
-                 { /* 到店日期 */ }
-                 <div className="column is-4-desktop">
-                    <div className="tag is-large is-white">
-                        <b> 到店日期 : </b> &nbsp; <Date_picker no_Past = { true }  />
-                    </div>
-                 </div>
+                  { /* 到店日期 */ }
+                  <div className="column is-4-desktop">
+                      <div className="tag is-large is-white">
+                          <b> 到店日期 : </b> &nbsp; <Date_Picker control={ control } name = "service_Date"  default_Date={ new Date }  />
+                      </div>
+                  </div>
 
                  { /* Q 處理碼 */ }
                  <div className="column is-4-desktop">
-
                     <Qcode_Select_Options register = { register } />
-
                  </div>
 
                  { /* 預計到店時間 */}
@@ -103,37 +139,32 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVal
                      <div className="column is-4-desktop relative">
                         <div className="tag is-large is-white">
                            <b> <span style={{color: "rgb(230,100,0)"}}>預計</span>到店 : </b> &nbsp;
-                           <Time_picker time_Type = {"appointed_Time"}  default_time = '00:00' />
+                           <Time_Picker name="expected_Arrive" control={ control } default_Time="00:00" />
                         </div>
                      </div>
 
                  }
 
-
                  { /* 實際到店時間 */ }
                  <div className="column is-4-desktop relative">
-
                     <div className="tag is-large is-white">
                         <b> 實際到店 : </b> &nbsp;
-                        <Time_picker time_Type = {"arrived_Time"}  default_time = '00:00' />
+                        <Time_Picker name="actual_Arrive" control={control} default_Time={ moment().format('HH:mm') } />
                     </div>
-
                  </div>
 
                  { /* 到店方式 */ }
                  <div className="column is-4-desktop">
-
                      <div className="tag is-large is-white">
                          <b > 到店方式 : </b> &nbsp;
                          <div className="select is-small relative" >
-                             <select {...register( "edit_Arrive_Way" )} style={way}>
+                             <select {...register( "way_Arrive" )} style={way} >
                                  <option value="主人送來" >   主人送來   </option>
                                  <option value="接送員接來" > 接送員接來 </option>
                                  <option value="住宿轉來" >   住宿轉來   </option>
                              </select>
                          </div>
                      </div>
-
                  </div>
 
                  { /* 離店方式 */ }
@@ -143,7 +174,7 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVal
 
                         <b > 離店方式 : </b> &nbsp;
                         <div className="select is-small relative" >
-                            <select {...register( "edit_left_Way" )} style={way}>
+                            <select {...register( "way_Leave" )} style={way} >
                                <option value="主人接走">   主人接走    </option>
                                <option value="接送員接送"> 接送員接送  </option>
                                <option value="轉回住宿">   轉回住宿    </option>
@@ -159,7 +190,7 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVal
 
                     <div className="tag is-large is-white">
                       <b> 期望離店 : </b> &nbsp;
-                      <Time_picker time_Type = { "exp_Leave_Time" }  default_time = '00:00' />
+                      <Time_Picker name="expected_Leave" control={ control } default_Time="00:00" />
                     </div>
 
                  </div>

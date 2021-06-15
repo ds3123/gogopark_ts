@@ -1,14 +1,17 @@
 
 import React , { useState }  from "react" ;
 import Pet_Info_Title from "components/beautician/main_components/pet_info/Pet_Info_Title"
+import {useSelector} from "react-redux";
 
 
 
 { /* 寵物基本資訊 */}
 const Pet_Info = ()=>{
 
-  const [ serviceType , set_ServiceType ] = useState("基礎")
+  // 目前所點選寵物
+  const data = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
 
+  console.log( data )
 
   return <div className="columns is-multiline  is-mobile" >
 
@@ -23,29 +26,29 @@ const Pet_Info = ()=>{
               <div className = "column is-6-desktop relative" >
 
                   <b className="tag is-medium is-white"> <i className="far fa-clock"></i> &nbsp;  到店時間 : </b>
-                  <b> { "10:00:00" } </b>  &nbsp; &nbsp; &nbsp; &nbsp;
+                  <b> { data['actual_arrive'] } </b>  &nbsp; &nbsp;
 
                   <b className="tag is-medium is-white"> <i className="far fa-clock"></i> &nbsp;  期望離店時間 : </b>
-                  <b className="tag is-danger" > { "13:40:00" } </b>
+                  <b className="tag is-danger is-medium is-light" > { data['expected_leave'] } </b>
 
               </div>
 
               { /* 自備物品 */ }
               <div className = "column is-6-desktop relative"  >
                   <b className="tag is-medium is-white"> <i className="fas fa-gavel"></i>  &nbsp; 自備物品 : </b>
-                  <b className="fDred"> 玩具、牽繩 </b>
+                  <b className="fDred"> { data['customer_object'] } </b>
               </div>
 
               { /* 主人交代  */ }
               <div className = "column is-6-desktop relative"  >
                   <b className="tag is-medium is-white"> <i className="fas fa-user-tag"></i> &nbsp; 主人交代 : </b>
-                  <b className="fDred"> 老狗、給水 </b>
+                  <b className="fDred"> { data['customer_note'] } </b>
               </div>
 
               { /*  櫃台備註  */ }
               <div className = "column is-12-desktop relative"  >
                   <b className="tag is-medium is-white"> <i className="fas fa-pencil-alt"></i> &nbsp; 櫃台備註 : </b>
-                  <b className="fDred"> 會兇 </b>
+                  <b className="fDred"> { data['admin_note'] } </b>
               </div>
 
               { /*  --------------------------------------------------------------------------------------------------  */ }
@@ -59,7 +62,7 @@ const Pet_Info = ()=>{
       </div>
 
       { /* 大美容項目 */ }
-      {  serviceType === '美容'  &&
+      {  data['service_type'] === '美容'  &&
 
       <div className = "column is-12-desktop relative" >
 
@@ -71,7 +74,7 @@ const Pet_Info = ()=>{
 
 
       { /* 加價美容( 僅洗澡 ) */ }
-      { ( serviceType === '洗澡' ) &&
+      { ( data['service_type'] === '洗澡' ) &&
 
       <div className="column is-6-desktop relative">
 
@@ -82,7 +85,7 @@ const Pet_Info = ()=>{
       }
 
       { /* 加價項目 */ }
-      { ( ( serviceType === '洗澡' ||　serviceType === '美容' )  ) &&
+      { ( ( data['service_type'] === '洗澡' ||　data['service_type'] === '美容' )  ) &&
 
           <div className = "column is-12-desktop relative" >
 

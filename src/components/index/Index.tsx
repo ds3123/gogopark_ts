@@ -9,7 +9,7 @@ import useShopStatus_Sum from "hooks/data/useShopStatus_Sum";
 const Index = ( ) => {
 
     // 取得資料 : 服務、客戶、寵物
-    const pet_Arr = useRead_Service_Cus_Pet();
+    const pet_Arr = useRead_Service_Cus_Pet(); // 之後加上篩選條件 : "今日"的到店服務 2021.06.15
 
     // 到店個階段，基礎、洗澡、美容數量
     const numObj_1 = useShopStatus_Sum( "到店等候中"   , pet_Arr ) ;

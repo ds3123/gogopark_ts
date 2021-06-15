@@ -19,6 +19,7 @@ const Qcode_Select_Options : FC<Edit_Form_Type> = ( { register } )  => {
 
     // 建立 _ 預設 : Q 碼編號 ( 1 ~ 60 )
     let default_Q_arr = [] as any[] ;
+
     for( let i = 1 as any ; i <= 60 ; i++ ){
         if( i<10 ){ i = '0'+i ; }  // 小於 10 , 加 "0"
         default_Q_arr.push( i.toString() ) ;
@@ -35,16 +36,15 @@ const Qcode_Select_Options : FC<Edit_Form_Type> = ( { register } )  => {
 
     } ,[ Qcodes_Used_By_Date ] ) ;
 
+    const way = {  fontSize : "11pt" , top : "-3px" , fontWeight : "bold" , color : "rgb(150,0,0)"  } ;
 
-
-    const way   = {  fontSize : "11pt" , top : "-3px" , fontWeight : "bold" , color : "rgb(150,0,0)"  } ;
 
     return  <div className="tag is-large is-white">
 
                 <b> 到店處理碼 ( Q ) : </b> &nbsp;
                 <div className="select is-small" >
 
-                   <select  {...register( "edit_Q_Code" )} style={way} >
+                   <select  {...register( "shop_Q_Code" )} style = { way } >
                         {
                            available_Qcode.map( (x,y) => {
                               return <option key={y} value={x} > {x} </option>

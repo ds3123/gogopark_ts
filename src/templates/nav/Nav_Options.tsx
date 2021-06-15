@@ -41,12 +41,12 @@ const Nav_Options = () => {
     const show_Qcode = () => dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : "寵物" , preLoadData : null } ) );
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : "基礎" , preLoadData : null } ) );
 
 
     useEffect(() => {
 
-       add_Data()
+       // add_Data()
        // show_Qcode() ;
 
     } ,[] ) ;

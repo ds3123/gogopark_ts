@@ -11,12 +11,14 @@ import { set_BasicSumPrice } from "store/actions/action_Basic"
 const Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid }  ) => {
 
    const dispatch    = useDispatch() ;
-   const basicPrices = useRead_All_Prices( ) ; // 基礎所有價格資料
+   const basicPrices = useRead_All_Prices( ) ; // 讀取 _ 基礎所有價格資料
 
-   // 所填寫基礎價格
+   //console.log( basicPrices )
+
+   // 所填寫 _ 基礎價格
    const [ price , set_Price ] = useState<number>( 0 ) ;
 
-   // 所點選基礎選項
+   // 所點選 _ 基礎選項
    const [ basicArr , set_basicArr ]       = useState<string[]>( [] ) ; // checkbox
    const [ basicSelect , set_basicSelect ] = useState<string>( "" ) ;   // select
 
@@ -46,6 +48,23 @@ const Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
        }
 
        set_basicSelect( title );
+
+    } ;
+
+    // 查詢 _ 基礎項目價格
+    const query_Price = ( item : string ) => {
+
+
+       const arr = basicPrices.map( x => {
+
+           // console.log( x['price'] )
+
+
+           return x['item'] === item
+
+       }) ;
+
+      // console.log( arr.length )
 
     } ;
 
@@ -84,6 +103,7 @@ const Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
 
                 <i className="far fa-list-alt"></i> &nbsp; 基 礎
 
+                { /* 顯示 : 基礎價格 */ }
                 { price !== 0 &&
                   <>
                     &nbsp;&nbsp;
@@ -96,36 +116,37 @@ const Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
              <div className="columns is-multiline is-mobile">
 
                <div className="column is-2-desktop">
-                 <input type="checkbox" value = "剪指甲" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> 剪指甲
+                 <input type="checkbox" value = "剪指甲" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} />
+                 <b>剪指甲</b> ( { query_Price( "剪指甲" ) } )
                </div>
 
                <div className="column is-2-desktop">
-                 <input type="checkbox" value = "擠肛門腺" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> 擠肛門腺
+                 <input type="checkbox" value = "擠肛門腺" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> <b>擠肛門腺</b>
                </div>
 
                <div className="column is-2-desktop">
-                 <input type="checkbox" value = "眼周修開" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> 眼周修開
+                 <input type="checkbox" value = "眼周修開" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> <b>眼周修開</b>
                </div>
 
                <div className="column is-2-desktop">
-                 <input type="checkbox" value = "拔耳毛、清耳朵" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> 拔耳毛、清耳朵
+                 <input type="checkbox" value = "拔耳毛、清耳朵" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> <b>拔耳毛、清耳朵</b>
                </div>
 
                <div className="column is-2-desktop">
-                 <input type="checkbox" value = "貴賓腳" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> 貴賓腳
+                 <input type="checkbox" value = "貴賓腳" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> <b>貴賓腳</b>
                </div>
 
                <div className="column is-2-desktop">
-                 <input type="checkbox" value = "剃腳底毛" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> 剃腳底毛
+                 <input type="checkbox" value = "剃腳底毛" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> <b>剃腳底毛</b>
                </div>
 
                <div className="column is-4-desktop">
-                 <input type="checkbox" value = "剃肚子毛" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> 剃肚子毛 ( 中、大型犬不剃肚毛 )
+                 <input type="checkbox" value = "剃肚子毛" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> <b>剃肚子毛</b> ( 中大型犬一般不剃肚毛 )
                </div>
 
                <div className="column is-8-desktop">
 
-                     修腳緣 &nbsp;
+                     <b>修腳緣</b> &nbsp;
                      <div className="select">
                        <select { ...register( "basic_Option_Foot" ) }  onChange={ e => get_Select( e.target.value )} >
                          <option value="請選擇">請選擇</option>

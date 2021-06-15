@@ -6,23 +6,27 @@ import {useHistory} from "react-router-dom";
 import {toast} from "react-toastify";
 import {set_Side_Panel} from "store/actions/action_Global_Layout";
 
-import { columns_Covert } from "hooks/ajax_crud/useAjax_Create"
+import { columns_Covert_Customer } from "hooks/ajax_crud/useAjax_Create"
 
 
 
 /* @ PUT : 透過 Ajax _ 更新資料 */
 
-// # 更新資料
+// # 客戶
 export const useUpdate_Data = ( ) => {
 
     const history  = useHistory() ;
     const dispatch = useDispatch() ;
 
     // 更新資料邏輯
-    const update_Data = ( api : string  , data_id : string , data : any , redirect : string , msg? : string ) => {
+    const update_Data = ( api : string  , data_id : string , data : any , redirect? : string , msg? : string ) => {
 
         // 轉換資料欄位
-        const submitData = columns_Covert( api , data ) ;
+        let submitData = data ;
+
+        // 客戶
+        if( api === '/customers' )  submitData = columns_Covert_Customer( data ) ;
+
 
         // 更新資料
         axios.put(`${api}/${data_id}` , submitData ).then(res => {
@@ -43,8 +47,8 @@ export const useUpdate_Data = ( ) => {
 
             // 前往相對應頁面
             // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )
-            history.push("/wrongpath");  // 錯誤路徑
-            history.push( redirect );  // 正確路徑
+            if( redirect ) history.push("/wrongpath");  // 錯誤路徑
+            if( redirect ) history.push( redirect );  // 正確路徑
 
         });
 

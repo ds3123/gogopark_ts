@@ -28,8 +28,8 @@ const Inform_Customer = () => {
 
 
     return <div style={{ textAlign : "right" }}>
-              <b className = "tag is-medium is-link is-light pointer" onClick = { show_InfoCustomer } >    <i className="fas fa-phone"></i> &nbsp; 告知主人      </b> &nbsp; &nbsp; &nbsp;
-              <b className = "tag is-medium is-link is-light pointer" onClick = { show_CustomerConfirm } > <i className="fas fa-user-check"></i> &nbsp; 主人確認 </b>
+        <b className = "tag is-medium is-link is-light pointer" onClick = { show_CustomerConfirm } > <i className="fas fa-phone"></i> &nbsp; 主人確認 </b>  &nbsp; &nbsp; &nbsp;
+        <b className = "tag is-medium is-danger pointer" onClick = { show_InfoCustomer } >    <i className="fas fa-user-check"></i> &nbsp; 處理結果      </b>
            </div>
 
 };

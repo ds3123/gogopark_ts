@@ -2,6 +2,8 @@
 import React , { useState , useEffect , FC } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+
 import moment  from "moment";
 import {useDispatch} from "react-redux";
 import { set_Info_Column } from "store/actions/action_Info"
@@ -21,6 +23,9 @@ type Dprops = {
   set_Service_Date? : any ;
 
 }
+
+
+// 此檔案後續刪除，以使用 React-Hook-Form 製作 ( templates/form/ )  2021.06.13
 
 
 const Date_picker : FC<Dprops> = ( {  no_Past = false  }  ) => {
@@ -56,7 +61,7 @@ const Date_picker : FC<Dprops> = ( {  no_Past = false  }  ) => {
     } ,[ date ] ) ;
 
 
-    const _style =  { width  :"150px" , zIndex : "33333" } as any ;
+    const _style =  { width  :"150px" , zIndex : "33" } as any ;
 
     return  <div className="control has-icons-left" style={ _style } >
 

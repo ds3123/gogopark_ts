@@ -20,7 +20,7 @@ import Bath_Form from "components/services/edit_components/Bath_Form";
 import Beauty_Form from "components/services/edit_components/Beauty_Form";
 import Extra_Beauty from "components/services/edit_components/Extra_Beauty";
 import Fee_Summary from "components/services/edit_components/Fee_Summary";
-import useServiceType from "../../../hooks/data/useServiceType";
+import useServiceType from "../../../hooks/layout/useServiceType";
 
 
 { /* 編輯服務 */ }

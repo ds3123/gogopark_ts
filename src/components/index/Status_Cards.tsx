@@ -82,7 +82,7 @@ const Status_Cards = ( props : IStatus ) => {
                                       if( x['service_type'] === '洗澡' ) service_id = x['bath_id'] ;
                                       if( x['service_type'] === '美容' ) service_id = x['beauty_id'] ;
 
-                                      return <React.Fragment key={y}>
+                                      return <div key={y}>
 
                                                   { /* 等候方式 & 離店方式 ( for 洗完等候中 ) */ }
                                                   <div style={ way_Leave }  >
@@ -99,7 +99,8 @@ const Status_Cards = ( props : IStatus ) => {
                                                   { /* 服務項目 */ }
                                                   <Service_Rows data = { x } />
 
-                                             </React.Fragment>
+
+                                             </div>
 
                                   })
                               }

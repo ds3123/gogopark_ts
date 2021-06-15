@@ -29,7 +29,7 @@ const Mask = styled.div<MaskProps>`
       left: 0;
       right: 0;
       background: rgba(0, 0, 0, 0.4);
-      z-index: 98 ;
+      z-index: 1000 ;
       cursor:pointer
 
 `;
@@ -50,7 +50,7 @@ const Panel_Wrapper = styled.div<WrapperProps>`
       transform: translateX( ${ props => props.active ? '0em' : '70em'} ) ;
       transition: all 0.3s ease-in-out;
       padding: 3rem 2rem;
-      z-index:100;
+      z-index:1001;
 
 `;
 

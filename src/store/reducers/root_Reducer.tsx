@@ -6,6 +6,7 @@ import reducer_Basic from "store/reducers/reducer_Basic";
 import reducer_Extra_Service_Fee from "store/reducers/reducer_Extra_Service_Fee";
 import reducer_Info from "store/reducers/reducer_Info"
 import reducer_Customer from "store/reducers/reducer_Customer";
+import reducer_Beautician from "store/reducers/reducer_Beautician";
 
 
 const root_Reducer = combineReducers({
@@ -20,8 +21,10 @@ const root_Reducer = combineReducers({
 
                          "Extra_Fee" : reducer_Extra_Service_Fee , // 服務額外費用( Ex. 接送費 )
 
+                         // @ 美容師專區
+                         "Beautician" : reducer_Beautician ,
 
-                        // @ 客戶
+                         // @ 客戶
                          "Customer"  : reducer_Customer ,
 
                      }) ;

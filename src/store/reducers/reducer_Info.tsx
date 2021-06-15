@@ -7,12 +7,14 @@ import moment from "moment" ;
 
 interface IInfo {
 
-   service_Date : string ;
+   service_Status : string ;
+   service_Date   : string ;
 
 }
 
 const initSate =  {
 
+    service_Status : "已到店" ,                                           // ( 服務性質 : 已到店、預約_今天、預約_未來  )
     service_Date   : moment( new Date() ).format('YYYY-MM-DD' ) , // 到店(服務)日期 _ 預設 : 今日
 
 } ;

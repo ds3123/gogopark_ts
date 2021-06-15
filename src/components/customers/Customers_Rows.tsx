@@ -16,7 +16,7 @@ const Customers_Rows = ( props : any ) => {
     const [ pets , set_Pets ]     = useState([]) ;
     const dispatch                = useDispatch() ;
 
-    // console.log( data )
+    console.log( data )
 
 
     // 點選 _ 客戶

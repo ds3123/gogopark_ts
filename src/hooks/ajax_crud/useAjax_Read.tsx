@@ -15,13 +15,10 @@ export const useRead_Service_Cus_Pet = ( serviceType? : Service_Type_Api ) => {
 
     const [ data , set_Data ] = useState( [] ) ;
 
-    // 判斷 _ 要取得 _ 單一類型資料 OR 所有資料
-    const api = serviceType ? `/${ serviceType }/show_with_cus_pet/` : '/services/show_with_cus_pet/' ;
-
     // 取得資料
     useEffect(()=>{
 
-       axios.get( api ).then( res => { set_Data( res.data ) ; } );
+       axios.get( '/services/show_with_cus_relative_pet/' ).then( res => { set_Data( res.data ) ; } );
 
     },[]) ;
 
@@ -98,9 +95,11 @@ export const useRead_Customer_Pets = ( cus_Id : string ) => {
 
    useEffect(( ) => {
 
-       if( cus_Id ) axios.get( `/customers/show_pets/${ cus_Id }` ).then( res => {
+       if( cus_Id ) axios.get( `/customers/show_pets/${ cus_Id }` ).then(res => {
 
-           if( res.data.length > 0 ) set_cusPets( res.data ) ; }
+               if( res.data.length > 0 ) set_cusPets( res.data ) ;
+
+          }
 
        );
 

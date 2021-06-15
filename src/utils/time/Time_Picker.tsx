@@ -3,7 +3,6 @@
 import React , {  useState , useEffect , FC } from "react";
 
 import { DatePicker , TimePicker } from 'antd';
-
 import 'antd/dist/antd.css';
 import moment from "moment";
 
@@ -22,8 +21,9 @@ type TTime = {
 
 }
 
-const Time_picker : FC<TTime> = ( { time_Type , default_time } ) => {
 
+// 此檔案後續刪除，以使用 React-Hook-Form 製作 ( templates/form/ )  2021.06.13
+const Time_picker : FC<TTime> = ( { time_Type , default_time } ) => {
 
     let [ time , setTime ] = useState( default_time ) ;
 
@@ -32,8 +32,6 @@ const Time_picker : FC<TTime> = ( { time_Type , default_time } ) => {
 
         const current_Time = moment( time['_d'] ).format( "HH:mm" ) ;
         setTime( current_Time ) ;
-
-
 
     } ;
 

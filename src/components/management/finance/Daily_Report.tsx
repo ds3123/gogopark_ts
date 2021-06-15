@@ -17,8 +17,9 @@ const Daily_Report = () => {
 
                <div className="column is-4-desktop">
 
-                   <div className="tag is-large is-white">
+                   <div className="tag is-large is-white" >
                        <b> 報表日期 : </b> &nbsp; <Date_picker no_Past = { true }  />
+
 
                    </div>
 

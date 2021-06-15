@@ -23,7 +23,7 @@ const Update_Pet = ( ) => {
     const pet   = value.preLoadData ;
 
     // React Hook Form
-    const { register , handleSubmit , formState: { errors , isDirty , isValid } } =
+    const { register , setValue , handleSubmit , formState: { errors , isDirty , isValid } } =
         useForm<IPet>({
             mode          : "all" ,
             resolver      : yupResolver( schema_Customer ) ,
@@ -59,6 +59,14 @@ const Update_Pet = ( ) => {
                              }
         }) ;
 
+    const props = {
+
+        register : register ,
+        setValue : setValue ,
+        errors   : errors ,
+
+    } ;
+
     // 提交表單
     const onSubmit : SubmitHandler<IPet> = data => {
 
@@ -69,7 +77,7 @@ const Update_Pet = ( ) => {
     return <form onSubmit = { handleSubmit( onSubmit ) }>
 
               { /* 寵物表單欄位  */ }
-              <Pet_Form register = { register } errors = { errors }  />
+              <Pet_Form  {...props}  />
 
 
               { /* 提交按鈕 */ }

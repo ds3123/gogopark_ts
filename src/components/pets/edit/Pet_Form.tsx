@@ -31,6 +31,39 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
    const get_Species_Id = ( id : string ) => set_currentSpeciesId( id ) ;
 
 
+    // 點選 _ 帶入舊寵物資料
+    const set_Pet_Data = ( pet : any ) => {
+
+      // 基本資料
+      setValue( "pet_Serial"   , pet['serial']  , { shouldValidate: true } ) ;
+      setValue( "pet_Name"     , pet['name']    , { shouldValidate: true } ) ;
+      setValue( "pet_Species"  , pet['species'] , { shouldValidate: true } ) ;
+      setValue( "pet_Sex"      , pet['sex']     , { shouldValidate: true } ) ;
+      setValue( "pet_Color"    , pet['color']   , { shouldValidate: true } ) ;
+      setValue( "pet_Weight"   , pet['weight']  , { shouldValidate: true } ) ;
+      setValue( "pet_Age"      , pet['age']     , { shouldValidate: true } ) ;
+
+      // 調查資料 ( 單選 )
+      setValue( "injection" , pet['injection'] , { shouldValidate: true } ) ;
+      setValue( "flea"      , pet['flea']      , { shouldValidate: true } ) ;
+      setValue( "ligate"    , pet['ligate']    , { shouldValidate: true } ) ;
+      setValue( "chip"      , pet['chip']      , { shouldValidate: true } ) ;
+      setValue( "infection" , pet['infection'] , { shouldValidate: true } ) ;
+      setValue( "together"  , pet['together']  , { shouldValidate: true } ) ;
+      setValue( "drug"      , pet['drug']      , { shouldValidate: true } ) ;
+      setValue( "bite"      , pet['bite']      , { shouldValidate: true } ) ;
+
+      // 調查資料 ( 複選 : 轉為陣列 )
+      setValue( "health"       , pet['health'] ? pet['health'].split(',') : []             , { shouldValidate: true } ) ;
+      setValue( "feed"         , pet['feed'] ? pet['feed'].split(',') : []                 , { shouldValidate: true } ) ;
+      setValue( "toilet"       , pet['toilet'] ? pet['toilet'].split(',') : []             , { shouldValidate: true } ) ;
+      setValue( "ownerProvide" , pet['ownerProvide'] ? pet['ownerProvide'].split(',') : [] , { shouldValidate: true } ) ;
+
+      // 備註
+      setValue( "pet_Note" , pet['note'] , { shouldValidate: true } ) ;
+
+    } ;
+
    useEffect(( ) => {
 
       petSpecies.forEach( x => {
@@ -49,9 +82,12 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
       }) ;
 
 
-       // 寵物設定 _ 隨機編號
-       const randomId = `P_${ get_Today() }_${ get_RandomInt(1000) }` ;
-       setValue( "pet_Serial" , randomId , { shouldValidate: true  } ) ;
+       // 寵物設定 _ 隨機編號 ( 新增時，才設定 )
+       if( current ){
+           const randomId = `P_${ get_Today() }_${ get_RandomInt(1000) }` ;
+           setValue( "pet_Serial" , randomId  ) ;
+       }
+
 
    } ,[ currentSpeciesId ] ) ;
 
@@ -74,7 +110,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                      currnet_Customer_Pets.length > 0 &&
 
                        currnet_Customer_Pets.map( ( x : any , y : any ) => {
-                           return <span key = { y }>
+                           return <span key = { y } onClick={ () => set_Pet_Data(x) }>
                                      &nbsp; <b className="tag is-medium pointer" > { x['name'] } ( { x['species'] } ) </b> &nbsp; &nbsp;
                                  </span>
                        })
@@ -84,15 +120,8 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
                <div className="columns is-multiline  is-mobile">
 
-                   <div className="column is-3-desktop">
-                       <p className="relative"> 編 號 </p>
-                       <div className="control has-icons-left" >
-                           <span className="icon is-small is-left"> <i className="fas fa-list-ol"></i> </span>
-                           <input className="input" type="text" { ...register( "pet_Serial" ) }  disabled = { true }  />
-                       </div>
-                   </div>
-
-                   <Input type="text" name="pet_Name"   label="名 字" register={register} error={errors.pet_Name}   icon="fas fa-paw"     asterisk={true} columns="3" />
+                   <Input type="text" name="pet_Serial" label="編 號" register={register} error={errors.pet_Serial}  icon="fas fa-list-ol" asterisk={true} columns="3" />
+                   <Input type="text" name="pet_Name"   label="名 字" register={register} error={errors.pet_Name}  icon="fas fa-paw"  asterisk={true} columns="3" />
 
                    <div className="column is-3-desktop required">
                        <p> 品 種 &nbsp; <b style={{color:"red"}}> { errors.pet_Species?.message } </b> </p>
@@ -101,7 +130,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                <option value="請選擇">請選擇</option>
                                {
                                    petSpecies.map( ( x , y) => {
-                                       return <option value={ x['species_id'] }  key={ y }> { x['serial'] }  _  { x['species_name'] } </option> ;
+                                       return <option value={ x['species_name'] }  key={ y }> { x['serial'] }  _  { x['species_name'] } </option> ;
                                    })
                                }
                            </select>
@@ -237,7 +266,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
                    <div className="column is-12-desktop">
 
-                       <textarea className = "textarea" { ...register( "pet_Note" ) } placeholder="備註事項" />
+                       <textarea className = "textarea" { ...register( "pet_Note" ) } placeholder="備註事項" style={{ color:"rgb(0,0,180)" , fontWeight : "bold" }}/>
 
                    </div>
 
