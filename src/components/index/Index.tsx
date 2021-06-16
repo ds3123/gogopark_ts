@@ -27,7 +27,8 @@ const Index = ( ) => {
          } ;
 
 
-    return <>
+    return <div className="is-hidden-mobile">
+
 
                 { /*  今日值班人員  */ }
                 <div className="absolute" style = { member } >
@@ -70,7 +71,7 @@ const Index = ( ) => {
 
 
 
-           </>
+           </div>
 
 };
 

@@ -23,6 +23,7 @@ interface IOptionObj {
 
 // 頁面選項
 const OptionArr : IOptionObj[] = [
+                       { title : "首 頁" , url : "/" , color : "is-white" , icon : "fas fa-home"  } ,
                        { title : "客 戶" , url : "/customers" , color : "is-warning" , icon : "fas fa-user"  } ,
                        { title : "寵 物" , url : "/pets" , color : "is-warning" , icon : "fas fa-dog"  } ,
                        { title : "洗 美" , url : "/services" , color : "is-success" , icon : "fas fa-bath"  } ,
@@ -46,7 +47,7 @@ const Nav_Options = () => {
 
     useEffect(() => {
 
-       //  add_Data()
+       // add_Data()
        // show_Qcode() ;
 
     } ,[] ) ;
@@ -64,7 +65,7 @@ const Nav_Options = () => {
     } as const ;
 
 
-   return  <div id="navbarExampleTransparentExample">
+   return  <div id="navbarExampleTransparentExample" className="is-hidden-mobile">
 
                <div className="navbar-start relative" style={ { top:"34%" , left : "11%" } } >
 
@@ -86,7 +87,7 @@ const Nav_Options = () => {
                    }
 
                    {/* 功能按鈕 */}
-                   <span style={{ marginLeft : '100px' }}>
+                   <span style={{ marginLeft : '70px' }}>
 
                        <span className="pointer tag is-medium is-rounded" onClick={ () => show_Qcode() } style={{ background : "rgb(150,0,0)" , color : "white" }}>
                             <i className="fab fa-quora"></i> &nbsp; ( { get_Today().slice(4,8) } )

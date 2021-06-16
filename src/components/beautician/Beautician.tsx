@@ -14,7 +14,6 @@ const Beautician = () => {
     // 目前所點選寵物
     const Current_Pet = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
 
-    console.log( Current_Pet )
 
     // 判斷是否有點選寵物
     const [ has_PetData , set_Has_PetData ] = useState(false) ;
@@ -24,7 +23,6 @@ const Beautician = () => {
 
     // 篩選出 _ 到店狀態( shop_status ) 為 : "到店等候中" ( 之後加上 "今天" 2021.06.15 )
     const shop_Wait  = pet_Arr.filter( x => { return x['shop_status'] === '到店等候中' || x['shop_status'] === '到店美容中'  ;  } ) ;
-
 
     const beautician = [ "吳晨葳" , "曾馨慧" , "吳宜芳" ] ;
 

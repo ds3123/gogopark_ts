@@ -1,17 +1,20 @@
 
 import React from "react" ;
 import {Link} from "react-router-dom";
+import logo  from 'imgs/logo.png';
+
 
 // # 導覽列 Logo
 const Logo = () => {
 
 
+   const lS = { position : "relative" , top:"15px" , width:"300px" , height : "100px"  } as const ;
+
+
   return <div className="navbar-brand">
 
-              <Link className="navbar-item" to="/">
-                  <i className="fas fa-home fa-3x"></i>  &nbsp; &nbsp;
-                  <span className="title"> 狗狗公園 </span>
-              </Link>
+
+              <Link to="/"> <img src={ logo } width='350px' style={ lS }/> </Link>
 
               { /* Menu_Icon ( Mobile ) */ }
               <div className="navbar-burger burger" data-target="navbarExampleTransparentExample" >

@@ -2,25 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="369eb0cf-cbcd-444b-b49e-4445570306d7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/imgs/logo.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/beautician/Beautician.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/Beautician.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/Left_Cards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/Left_Cards.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/Main_Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/Main_Card.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/main_components/Cus_Confirm_Bar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/main_components/Cus_Confirm_Bar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Customer_Confirm_Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Customer_Confirm_Options.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Inform_Customer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Inform_Customer.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Inform_Customer_Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/main_components/inform_customer/Inform_Customer_Options.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/main_components/pet_info/Pet_Info.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/main_components/pet_info/Pet_Info.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/beautician/main_components/pet_info/Pet_Info_Title.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/beautician/main_components/pet_info/Pet_Info_Title.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/customers/Customers_Rows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/customers/Customers_Rows.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/Service_Report.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/Service_Report.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/index/Status_Cards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/Status_Cards.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/services/Services_Rows.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/services/Services_Rows.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/services/edit/Update_Service.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/services/edit/Update_Service.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/ajax_crud/useAjax_Create.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/ajax_crud/useAjax_Create.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/ajax_crud/useAjax_Update.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/ajax_crud/useAjax_Update.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/actions/action_Beautician.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions/action_Beautician.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/reducers/reducer_Beautician.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/reducers/reducer_Beautician.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index/Index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index/Index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/Container.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/Container.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/templates/nav/Logo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/nav/Logo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/templates/nav/Nav.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/nav/Nav.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/templates/nav/Nav_Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/nav/Nav_Options.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +46,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Laravel_Projects/GogoPark" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../store" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -150,7 +138,8 @@
       <workItem from="1623198055979" duration="3012000" />
       <workItem from="1623201114824" duration="921000" />
       <workItem from="1623202689150" duration="67802000" />
-      <workItem from="1623343715838" duration="263835000" />
+      <workItem from="1623343715838" duration="265119000" />
+      <workItem from="1623803430830" duration="8038000" />
     </task>
     <task id="LOCAL-00001" summary="Intialize project : Install Third-Party Package">
       <created>1622024165004</created>
@@ -208,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623750898888</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="First Test Version Done =_=&quot; ...">
+      <created>1623798128274</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1623798128274</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,7 +233,8 @@
     <MESSAGE value="improve all kinds section LAYOUT _ 3" />
     <MESSAGE value="improve all kinds section LAYOUT _ 4" />
     <MESSAGE value="improve all kinds section LAYOUT _ 5" />
-    <option name="LAST_COMMIT_MESSAGE" value="improve all kinds section LAYOUT _ 5" />
+    <MESSAGE value="First Test Version Done =_=&quot; ..." />
+    <option name="LAST_COMMIT_MESSAGE" value="First Test Version Done =_=&quot; ..." />
   </component>
   <component name="WindowStateProjectService">
     <state x="945" y="-1294" key="#Notifications" timestamp="1622464219188">
@@ -254,10 +251,10 @@
     <state x="1045" y="-1235" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623350936536" />
     <state x="845" y="-1235" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1622679931343" />
     <state x="523" y="171" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1622091538969" />
-    <state x="836" y="-1434" key="CommitChangelistDialog2" timestamp="1623750896772">
+    <state x="836" y="-1434" key="CommitChangelistDialog2" timestamp="1623798126959">
       <screen x="202" y="-1440" width="2752" height="1152" />
     </state>
-    <state x="836" y="-1434" key="CommitChangelistDialog2/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623491716868" />
+    <state x="836" y="-1434" key="CommitChangelistDialog2/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623798126959" />
     <state x="636" y="-1434" key="CommitChangelistDialog2/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1623098748809" />
     <state x="393" y="5" key="CommitChangelistDialog2/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1622052879525" />
     <state x="836" y="-1434" key="CommitChangelistDialog2/202.-1440.2752.1152/-1718.-1093.1920.1080/0.0.1536.864@202.-1440.2752.1152" timestamp="1623750896772" />
@@ -265,10 +262,10 @@
       <screen x="0" y="0" width="1707" height="960" />
     </state>
     <state x="415" y="212" key="EditFileWatcherDialog/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@0.0.1707.960" timestamp="1621995367962" />
-    <state x="1191" y="-1185" key="FileChooserDialogImpl" timestamp="1623298534851">
+    <state x="1191" y="-1185" key="FileChooserDialogImpl" timestamp="1623811478710">
       <screen x="202" y="-1440" width="2752" height="1152" />
     </state>
-    <state x="1191" y="-1185" key="FileChooserDialogImpl/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623298534851" />
+    <state x="1191" y="-1185" key="FileChooserDialogImpl/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623811478710" />
     <state x="1193" y="-1185" key="FileChooserDialogImpl/0.0.1536.864/204.-1440.2752.1152/-1716.-1093.1920.1080@204.-1440.2752.1152" timestamp="1623175752938" />
     <state x="-1228" y="-850" key="FileChooserDialogImpl/2.-1440.2752.1152/-1918.-1089.1920.1080/0.0.1707.960/-2560.0.1463.823@-1918.-1089.1920.1080" timestamp="1621985382169" />
     <state width="1654" height="243" key="GridCell.Tab.0.bottom" timestamp="1621995455318">
@@ -318,11 +315,11 @@
       <screen x="202" y="-1440" width="2752" height="1152" />
     </state>
     <state x="1268" y="-1264" width="1548" height="870" key="dock-window-6/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623623168569" />
-    <state x="750" y="-1403" width="1813" height="1023" key="find.popup" timestamp="1623740404586">
+    <state x="750" y="-1403" width="1813" height="1023" key="find.popup" timestamp="1623812464909">
       <screen x="202" y="-1440" width="2752" height="1152" />
     </state>
     <state x="734" y="-1403" width="1813" height="1023" key="find.popup/0.0.1536.864/186.-1440.2752.1152/-1734.-1093.1920.1080@186.-1440.2752.1152" timestamp="1623641873006" />
-    <state x="750" y="-1403" width="1813" height="1023" key="find.popup/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623568883515" />
+    <state x="750" y="-1403" width="1813" height="1023" key="find.popup/0.0.1536.864/202.-1440.2752.1152/-1718.-1093.1920.1080@202.-1440.2752.1152" timestamp="1623812464909" />
     <state x="550" y="-1403" width="1813" height="975" key="find.popup/0.0.1707.960/2.-1440.2752.1152/-1918.-1089.1920.1080/-2560.0.1463.823@2.-1440.2752.1152" timestamp="1623132789457" />
     <state x="750" y="-1403" width="1813" height="1023" key="find.popup/202.-1440.2752.1152/-1718.-1093.1920.1080/0.0.1536.864@202.-1440.2752.1152" timestamp="1623740404586" />
     <state x="1176" y="-458" key="run.anything.popup" timestamp="1623749563193">
