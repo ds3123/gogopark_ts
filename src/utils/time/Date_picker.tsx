@@ -25,7 +25,8 @@ type Dprops = {
 }
 
 
-// 此檔案後續刪除，以使用 React-Hook-Form 製作 ( templates/form/ )  2021.06.13
+// 此檔案後續刪除，已
+// 使用 React-Hook-Form 製作 ( templates/form/ )  2021.06.13
 
 
 const Date_picker : FC<Dprops> = ( {  no_Past = false  }  ) => {

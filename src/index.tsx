@@ -34,7 +34,11 @@ ReactDOM.render(
                           pauseOnHover
                       />
 
-                    <React.StrictMode> <App /> </React.StrictMode >
+                    { /* React Calendar 在嚴格模式中，有問題 2021.06.21 */ }
+                    {/*<React.StrictMode> <App /> </React.StrictMode > */}
+
+                      <App />
+
                   </Provider> ,
                   document.getElementById('root')
                ) ;

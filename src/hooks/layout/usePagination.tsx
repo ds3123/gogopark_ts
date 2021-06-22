@@ -1,17 +1,24 @@
 
 import React , { useEffect , useState } from "react" ;
 import axios from "utils/axios" ;
+import {set_Index_isLoading} from "store/actions/action_Index";
+import {useDispatch} from "react-redux";
 
-/*
-*
-*   @ 分頁功能 _ 共用邏輯
-*
-*/
+// Redux
+import { set_Customer_isLoading } from 'store/actions/action_Customer'
+import { set_Pet_isLoading } from 'store/actions/action_Pet'
+import { set_Service_isLoading } from 'store/actions/action_Service'
 
-const usePagination = ( api : string ) => {
+
+
+/*  @ 分頁功能 _ 共用邏輯 */
+
+const usePagination = ( api : string , type? : string ) => {
+
+    const dispatch = useDispatch() ;
 
     let [ filteredItems , set_filteredItems ] = useState<any[]>( [] ) ; // 點選頁碼後 _ 所篩選項目
-    let [ pageOfItems , set_pageOfItems ]     = useState( [3] ) ; // 當前頁面 _ 顯示項目
+    let [ pageOfItems , set_pageOfItems ]     = useState( [3] ) ;       // 當前頁面 _ 顯示項目
 
     // 點選 : 分頁頁碼
     const click_Pagination = ( _pageOfItems : [] ) => {  set_pageOfItems( _pageOfItems ) ; } ;
@@ -20,7 +27,15 @@ const usePagination = ( api : string ) => {
     useEffect(() => {
 
         axios.get( api ).then( res => {
-            set_filteredItems( res.data )
+
+            // 設定 _ 回傳資料
+            set_filteredItems( res.data ) ;
+
+            // 設定 _ 下載完畢狀態
+            if( type === 'customer' )  dispatch( set_Customer_isLoading(false ) ) ; // 客戶頁
+            if( type === 'pet' )       dispatch( set_Pet_isLoading(false ) ) ;      // 寵物頁
+            if( type === 'service' )   dispatch( set_Service_isLoading(false ) ) ;  // 洗美頁
+
         }) ;
 
     } ,[] ) ;

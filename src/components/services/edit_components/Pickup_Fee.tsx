@@ -47,8 +47,8 @@ const Pickup_Fee : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
                    <span className="relative" style={{top:"8px"}}>元</span>
                </div>
 
-               <div className= "column is-7-desktop" >
-                   * 人工判斷 ( 5 公里內，機車 100 元 / 汽車 200 元 )
+               <div className= "column is-7-desktop relative" >
+                   <span className='absolute' style={{ fontSize:'10pt',left:'-40px' }}> * 人工判斷 ( 5 公里內，機車 100 元 / 汽車 200 元 ) </span>
                </div>
 
             </div>

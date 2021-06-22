@@ -11,24 +11,38 @@ import {useSelector} from "react-redux";
 { /* 寵物表單欄位  */ }
 const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current } ) => {
 
-   // 客戶單，目前所填入客戶 _ 身分證字號
-   const currnet_Customer_Pets = useSelector( ( state:any ) => state.Customer.Current_Customer_Pets ) ;
+   // 客戶單，目前所填入客戶的所有寵物
+   const currnet_Customer_Pets = useSelector(( state:any ) => state.Customer.Current_Customer_Pets ) ;
 
+   // 目前所選擇品種 _ id
+   const [ currentSpeciesId , set_currentSpeciesId  ] = useState("") ;
 
-
-   const [ currentSpeciesId , set_currentSpeciesId  ] = useState( "" ) ;
+   // 目前所選的品種 _ 洗澡、美容價錢
    const [ currentPrice , set_currentPrice  ]         = useState({
-                                                                     bath_first    : "" , // 初次 _ 洗澡
-                                                                     bath_single   : "" , // 單次 _ 洗澡
-                                                                     beauty_single : "" , // 單次 _ 美容
+
+                                                                      bath_first    : "" , // 初次 _ 洗澡
+                                                                      bath_single   : "" , // 單次 _ 洗澡
+                                                                      beauty_single : "" , // 單次 _ 美容
+
                                                                     }) ;
 
-   // 取得 _ 所有寵物品種資料
-   const petSpecies = useRead_All_Species() ;
+    // 取得 _ 所有寵物品種資料
+    const petSpecies = useRead_All_Species() ;
 
 
-   // 品種 變動處理
-   const get_Species_Id = ( id : string ) => set_currentSpeciesId( id ) ;
+    // 變動處理 _ 品種下拉選單
+    const get_Species_Id = ( id : string ) => set_currentSpeciesId( id ) ;
+
+
+    // 變動處理 _ 欄位
+    const handle_Change = (  e : any  ) => {
+
+        // 設定 _ state
+        const { name , value } = e.target ;
+
+
+
+    } ;
 
 
     // 點選 _ 帶入舊寵物資料
@@ -64,9 +78,11 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
     } ;
 
-   useEffect(( ) => {
 
-      petSpecies.forEach( x => {
+    // 設定 _ 目前所選擇品種的洗澡、美容價錢
+    useEffect(( ) => {
+
+       petSpecies.forEach( x => {
 
           if( x['species_id'] === parseInt( currentSpeciesId ) ) {
 
@@ -81,7 +97,6 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
       }) ;
 
-
        // 寵物設定 _ 隨機編號 ( 新增時，才設定 )
        if( current ){
            const randomId = `P_${ get_Today() }_${ get_RandomInt(1000) }` ;
@@ -89,7 +104,20 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
        }
 
 
-   } ,[ currentSpeciesId ] ) ;
+    } ,[ currentSpeciesId ] ) ;
+
+
+    // 確認 _ 目前所填入寵物，是否已存在資料庫中
+    useEffect( ( ) => {
+
+
+
+
+      // console.log( currnet_Customer_Pets )
+
+
+
+    } , [ currnet_Customer_Pets ] ) ;
 
 
 
@@ -114,6 +142,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                      &nbsp; <b className="tag is-medium pointer" > { x['name'] } ( { x['species'] } ) </b> &nbsp; &nbsp;
                                  </span>
                        })
+
                    }
 
                </label>
@@ -121,7 +150,8 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                <div className="columns is-multiline  is-mobile">
 
                    <Input type="text" name="pet_Serial" label="編 號" register={register} error={errors.pet_Serial}  icon="fas fa-list-ol" asterisk={true} columns="3" />
-                   <Input type="text" name="pet_Name"   label="名 字" register={register} error={errors.pet_Name}  icon="fas fa-paw"  asterisk={true} columns="3" />
+
+                   <Input type="text" name="pet_Name"   label="名 字" register={register} error={errors.pet_Name}  icon="fas fa-paw"  asterisk={true} columns="3" onChange={ handle_Change } />
 
                    <div className="column is-3-desktop required">
                        <p> 品 種 &nbsp; <b style={{color:"red"}}> { errors.pet_Species?.message } </b> </p>

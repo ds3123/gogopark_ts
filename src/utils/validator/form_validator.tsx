@@ -2,6 +2,14 @@
 import React from "react" ;
 import * as yup from "yup"
 
+// 測試邏輯
+import test_Customer_Id from "utils/validator/verify_Field_Template/test_Customer_Id";
+
+
+import axios from "../axios";
+
+
+/* @ 新增表單 _ 檢核邏輯 */
 
 // 客戶
 export const schema_Customer = yup.object().shape({
@@ -18,7 +26,6 @@ export const schema_Customer = yup.object().shape({
     customer_Relative_Cellphone : yup.number().required("必填欄位").typeError("須為數字") ,
 
 });
-
 
 // 寵物
 export const schema_Pet = yup.object().shape({
@@ -43,26 +50,25 @@ export const schema_Pet = yup.object().shape({
 });
 
 
-
 // 基礎單
 export const schema_Basic = yup.object().shape({
 
     // 客戶
-    // customer_Id                 : yup.string().required("必填欄位") ,
+    // customer_Id : yup.string().required("必填欄位").test( '身分證字號' , '' , test_Customer_Id ) ,
     // customer_Name               : yup.string().required("必填欄位") ,
     // customer_Cellphone          : yup.number().required("必填欄位").typeError("須為數字") ,
     //
     // // 客戶關係人
     // customer_Relative_Name      : yup.string().required("必填欄位") ,
-    // customer_Relative_Type      : yup.string().required().test( "關係人_類型" , "請選擇", value => value !== "請選擇") ,
-    // customer_Relative_Family    : yup.string().required().test( "關係人_關係" , "請選擇", value => value !== "請選擇") ,
+    // customer_Relative_Type      : yup.string().required().test( "關係人_類型" , "請選擇選項", value => value !== "請選擇" ) ,
+    // customer_Relative_Family       : yup.string().required().test( "關係人_關係" , "請選擇選項", value => value !== "請選擇" ) ,
     // customer_Relative_Cellphone : yup.number().required("必填欄位").typeError("須為數字") ,
 
     // 寵物
     // pet_Serial                  : yup.string().required("必填欄位") ,
     // pet_Name                    : yup.string().required("必填欄位") ,
-    // pet_Species                 : yup.string().required().test( "品種" , "請選擇", value => value !== "請選擇") ,
-    // pet_Sex                     : yup.string().required().test( "性別" , "請選擇", value => value !== "請選擇") ,
+    // pet_Species                 : yup.string().required().test( "品種" , "請選擇選項", value => value !== "請選擇") ,
+    // pet_Sex                     : yup.string().required().test( "性別" , "請選擇選項", value => value !== "請選擇") ,
 
 });
 

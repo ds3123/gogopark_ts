@@ -79,7 +79,6 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , setValue , errors , cont
       if( serviceStatus['is_Appointed_Today'] )  dispatch( set_Info_Column( 'service_Status' , '預約_今天') ) ;
       if( serviceStatus['is_Appointed_Future'] ) dispatch( set_Info_Column( 'service_Status' , '預約_未來') ) ;
 
-
     } , [serviceStatus] ) ;
 
 
@@ -88,12 +87,16 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , setValue , errors , cont
 
 
     return <>
+
               <br/>
-              <div className="columns is-multiline  is-mobile">
+
+              <div className="columns is-multiline is-mobile" >
 
                  { /* 服務性質 */ }
-                 <div className="column is-4-desktop">
+                 <div className="column is-4-desktop" >
+
                      <div className="tag is-large is-white">
+
                          <b> 服務性質 : </b> &nbsp;
 
                          { serviceStatus['is_Arrived_Today'] &&
@@ -197,7 +200,7 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , setValue , errors , cont
 
             </div>
 
-            <br/><hr/><br/>
+              <br/><hr/><br/>
 
            </>
 };

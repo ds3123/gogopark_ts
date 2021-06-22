@@ -6,14 +6,17 @@ import Pagination from "utils/Pagination";
 
 // 資料列
 import Customers_Rows from "components/customers/Customers_Rows";
+import {useSelector} from "react-redux";
 
 
 /* @ 客戶頁面  */
 const Customers = () => {
 
-    // 取得 _ 分頁資料
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/customers/show_customers_relatives_pets/' ) ;
+    // 客戶頁資料 _ 是否下載中
+    const Customer_isLoading = useSelector( ( state:any ) => state.Customer.Customer_isLoading ) ;
 
+    // 取得 _ 分頁資料
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/customers/show_customers_relatives_pets/' , 'customer' ) ;
 
     const blue = { color : "rgb(0,0,170)" } ;
 
@@ -35,17 +38,31 @@ const Customers = () => {
                 </thead>
 
                 <tbody>
-                    {
+
+                    { Customer_isLoading ||
+
                        pageOfItems.map( ( item : any , index ) => {
 
                           if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
                           return <Customers_Rows key={ index } data={ item } /> ;
 
                        })
+
                     }
+
                 </tbody>
 
               </table>
+
+              { /* 下載圖示  */ }
+              { Customer_isLoading &&
+
+                <div className="has-text-centered" >
+                    <br/><br/><br/><br/><br/><br/>
+                    <button className="button is-loading is-white"></button>
+                </div>
+
+              }
 
               { /* 分頁按鈕 */ }
               <div style={{ marginTop:"70px", marginBottom:"150px" }}>

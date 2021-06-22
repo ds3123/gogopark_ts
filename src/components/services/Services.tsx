@@ -1,25 +1,28 @@
 
-import React, {useState} from "react" ;
+import React, {useState} from "react";
 import usePagination from "hooks/layout/usePagination";
 import Services_Rows from "components/services/Services_Rows";
 import Pagination from "utils/Pagination";
 import Plans from "components/services/plans/Plans";
+import {useSelector} from "react-redux";
 
 
 const serviceArr = [
 
-     { title : "洗美資料" , icon : "fas fa-list-ol"  } ,
-     { title : "方案資料" , icon : "fas fa-file-alt"  } ,
+     { title : "洗 美" , icon : "fas fa-list-ol"  } ,
+     { title : "方 案" , icon : "fas fa-file-alt" } ,
 
 ] ;
 
 
-
-/* @ 洗美頁面 */
+/* @ 洗美頁面 ( 洗美資料、方案資料 ) */
 const Services = () => {
 
+    // 洗美頁資料 _ 是否下載中
+    const Service_isLoading = useSelector( ( state:any ) => state.Service.Service_isLoading ) ;
+
     // 取得 _ 分頁資料
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination( "/services/show_with_cus_pet/" ) ;
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination( "/services/show_with_cus_pet/" , 'service' ) ;
 
     // 目前 _ 所點選第 2 層選項
     const [ currentSecond , set_CurrentSecond ] = useState( serviceArr[0].title ) ;
@@ -55,7 +58,7 @@ const Services = () => {
                         <table className="table is-fullwidth is-hoverable">
 
                             <thead>
-                            <tr>
+                              <tr>
                                 <th> 消費類別                          </th>
                                 <th> 寵物資訊                          </th>
                                 <th style={{ width:"80px" }}> 價 格    </th>
@@ -69,18 +72,33 @@ const Services = () => {
                             </thead>
 
                             <tbody>
-                            {
-                                pageOfItems.map( ( item : any , index ) => {
 
-                                    if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
+                                { Service_isLoading ||
 
-                                    return <Services_Rows key={ index } data={ item } /> ;
+                                    pageOfItems.map( ( item : any , index ) => {
 
-                                })
-                            }
+                                        if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
+
+                                        return <Services_Rows key={ index } data={ item } /> ;
+
+                                    })
+
+                                }
+
                             </tbody>
 
                         </table>
+
+                        { /* 下載圖示  */ }
+                        { Service_isLoading &&
+
+                            <div className="has-text-centered" >
+                                <br/><br/><br/><br/><br/><br/>
+                                <button className="button is-loading is-white"></button>
+                            </div>
+
+                        }
+
 
                         { /* 分頁按鈕 */ }
                         <div style={{ marginTop:"70px", marginBottom:"150px" }}>

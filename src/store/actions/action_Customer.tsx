@@ -1,7 +1,10 @@
 
 import React from "react" ;
 import { Dispatch } from "redux";
-import axios from "../../utils/axios";
+import axios from "utils/axios";
+
+
+/* @ 客戶頁  */
 
 
 // # 設定 _ 是否 : 已存在客戶
@@ -10,7 +13,7 @@ export const set_IsExisting_Customer = ( bool : boolean ) => {
     return ( dispatch : Dispatch ) => {
 
         dispatch({
-            type  : "SET_IS_EXISTING_CUSTOMER" ,
+            type : "SET_IS_EXISTING_CUSTOMER" ,
             bool : bool
         }) ;
 
@@ -33,7 +36,20 @@ export const get_Current_Customer_Pets = ( cus_Id : string ) => {
 
                 });
 
+           } ;
 
-          } ;
+} ;
+
+// # 設定 _ 客戶頁資料 _ 是否下載中
+export const set_Customer_isLoading = ( bool : boolean ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type               : "SET_CUSTOMER_ISLOADING" ,
+            Customer_isLoading : bool
+        }) ;
+
+    } ;
 
 } ;

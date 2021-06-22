@@ -2,6 +2,7 @@
 import React from "react" ;
 import { Shop_Status  } from 'utils/Interface_Type'
 import Service_Rows from "components/index/Service_Rows";
+import {useSelector} from "react-redux";
 
 
 interface IStatus {
@@ -16,6 +17,9 @@ interface IStatus {
 /* @ 到店狀態  */
 const Status_Cards = ( props : IStatus ) => {
 
+     // 首頁資料 _ 是否下載中
+     const Index_isLoading = useSelector( (state:any) => state.Index.Index_isLoading ) ;
+
      const { shop_Status , pet_Arr , service_Sum  } = props ;
      const { basic_Num , bath_Num , beauty_Num }    = service_Sum ;
 
@@ -23,7 +27,7 @@ const Status_Cards = ( props : IStatus ) => {
     // 各階段標題 Icon
     let title_Icon  ;
     if( shop_Status === '到店等候中' ){   title_Icon = <i className="fas fa-store"></i> ; }
-    if( shop_Status === '到店美容中' ){   title_Icon = <i className="fas fa-cut"></i> ; }
+    if( shop_Status === '到店美容中' ){   title_Icon = <i className="fas fa-cut"></i>   ; }
     if( shop_Status === '洗完等候中' ){   title_Icon = <i className="fas fa-dog"></i> ; }
     if( shop_Status === '已回家( 房 )' ){ title_Icon = <i className="fas fa-store-alt"></i> ; }
 
@@ -72,7 +76,8 @@ const Status_Cards = ( props : IStatus ) => {
 
                           <div className="card-frame">
 
-                              {
+                              { Index_isLoading ||
+
                                   pet_Arr.map( ( x : any , y : number ) => {
 
                                       if( x['shop_status'] !== shop_Status  ) return ;
@@ -109,11 +114,17 @@ const Status_Cards = ( props : IStatus ) => {
                                                   { /* 服務項目 */ }
                                                   <Service_Rows data = { x } />
 
-
                                              </div>
 
                                   })
                               }
+
+                             <div  className="has-text-centered" style={{ width:"100%" }}>
+
+                              <br/><br/><br/><br/><br/><br/>
+                              { Index_isLoading && <button className="button is-loading is-white"></button> }
+
+                             </div>
 
                           </div>
 

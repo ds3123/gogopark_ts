@@ -6,15 +6,11 @@ import { Edit_Form_Type } from "utils/Interface_Type"
 import { useRead_Customer_By_Column } from "hooks/ajax_crud/useAjax_Read"
 
 // Redux
-import {useDispatch} from "react-redux";
-import { set_IsExisting_Customer , get_Current_Customer_Pets } from "store/actions/action_Customer";
-
+import { useDispatch } from "react-redux";
+import { get_Current_Customer_Pets , set_IsExisting_Customer } from "store/actions/action_Customer";
 
 import { get_Today } from "utils/time/date";
 import { get_RandomInt } from "utils/number/number";
-
-
-import{ useRead_Customer_Pets } from "hooks/ajax_crud/useAjax_Read"
 
 
 
@@ -23,28 +19,34 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
 
     const dispatch = useDispatch() ;
 
-    const [ value , set_Value ] = useState({
-                                                        customer_Id        : "" ,  // 身分證字號
-                                                        customer_Name      : "" ,  // 姓名
-                                                        customer_Cellphone : ""    // 手機號碼
-                                                      }) ;
+    // 是否已開始查詢 : 身分證字號、姓名、手機號碼
+    const [ isQuerying , set_IsQuerying ] = useState( false ) ;
 
-    // 查詢資料 _ 依照 : 身分證字號、姓名、手機號碼
-    const query_By_Id        = useRead_Customer_By_Column('id'   , value['customer_Id'] ) ;
-    const query_By_Name      = useRead_Customer_By_Column('name' , value['customer_Name'] ) ;
-    const query_By_CellPhone = useRead_Customer_By_Column('mobile_phone' , value['customer_Cellphone'] ) ;
+    // 查詢 _ 欄位
+    const [ query , set_Query ] = useState({
+                                                       customer_Id        : '' , // 身分證字號
+                                                       customer_Name      : '' , // 姓名
+                                                       customer_Cellphone : ''   // 手機號碼
+                                                     }) ;
 
 
-    // 變動處理
+    // # 以特定欄位，查詢 _ 客戶資料表 ( 是否有該客戶 )
+     const { data : query_Result_Id }        = useRead_Customer_By_Column('id'           , query['customer_Id'] ) ;        // 身分證字號
+     const { data : query_Result_Name }      = useRead_Customer_By_Column('name'         , query['customer_Name']  ) ;     // 姓名
+     const { data : query_Result_CellPhone } = useRead_Customer_By_Column('mobile_phone' , query['customer_Cellphone'] ) ; // 手機號碼
+
+    // 欄位變動處理 : 身分證字號、姓名、手機號碼
     const handle_Change = ( e : any ) => {
 
-       const { name , value } = e.target ;
-        set_Value( { ...value , [name] : value } ) ;
+        // 設定 _ state
+        const { name , value } = e.target ;
+        set_Query( { ...query , [name] : value } ) ;
 
-        dispatch( set_IsExisting_Customer( false ) );
+        // 設定 _ 是否正在查詢 : 身分證字號、姓名、手機號碼
+        if( name === 'customer_Id' ||  name === 'customer_Id' ||  name === 'customer_Id' ) set_IsQuerying(true ) ;
+        if( name && !value ) set_IsQuerying(false ) ;
 
     } ;
-
 
 
     // 點選 _ 帶入舊客戶資料
@@ -52,7 +54,6 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
 
         // 設定 _ 客戶單，目前所填入客戶 _ 所有寵物 ( for 寵物表單，查詢客戶寵物用 )
         dispatch( get_Current_Customer_Pets( data['id']) ) ;
-
 
         // 客戶
         setValue( "customer_Id"        , data['id']           , { shouldValidate: true , shouldDirty: true } ) ;
@@ -63,16 +64,16 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
         setValue( "customer_Email"     , data['email']        , { shouldValidate: true , shouldDirty: true } ) ;
         setValue( "customer_Address"   , data['address']      , { shouldValidate: true , shouldDirty: true } ) ;
 
-        // 客戶 _ 關係人 ( 先設定 _ 僅有 1 個關係人，之後再確認  2021.06.12)
+        // 客戶 _ 關係人 ( 先設定 _ 僅有 1 個關係人，之後再確認  2021.06.12 )
         if( data['customer_relation'].length === 1 ){
 
             const relative = data['customer_relation'][0] ;
 
-            setValue( "customer_Relative_Name" , relative['name'] , { shouldValidate: true , shouldDirty: true } ) ;
-            setValue( "customer_Relative_Type" , relative['type'] , { shouldValidate: true , shouldDirty: true } ) ;
-            setValue( "customer_Relative_Family" , relative['tag'] , { shouldValidate: true , shouldDirty: true } ) ;
+            setValue( "customer_Relative_Name"      , relative['name']         , { shouldValidate: true , shouldDirty: true } ) ;
+            setValue( "customer_Relative_Type"      , relative['type']         , { shouldValidate: true , shouldDirty: true } ) ;
+            setValue( "customer_Relative_Family"    , relative['tag']          , { shouldValidate: true , shouldDirty: true } ) ;
             setValue( "customer_Relative_Cellphone" , relative['mobile_phone'] , { shouldValidate: true , shouldDirty: true } ) ;
-            setValue( "customer_Relative_Telephone" , relative['tel_phone'] , { shouldValidate: true , shouldDirty: true } ) ;
+            setValue( "customer_Relative_Telephone" , relative['tel_phone']    , { shouldValidate: true , shouldDirty: true } ) ;
 
         }
 
@@ -85,36 +86,38 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
         setValue( "customer_Id" , randomId , { shouldValidate: true  } ) ;
 
 
-
-
     } ;
 
     useEffect(( ) => {
 
-        dispatch( set_IsExisting_Customer( false ) );
+      // * 檢查 _ 資料庫中是否有該客戶紀錄( for 提交表單時，是否要新增該客戶 )
+      if( query_Result_Id.length > 0 || query_Result_Name.length > 0 || query_Result_CellPhone.length > 0 ){
+          dispatch( set_IsExisting_Customer(true)  ) ;
+      }else{
+          dispatch( set_IsExisting_Customer(false )) ;
+      }
 
-       if( query_By_Id.length > 0 ){
-         dispatch( set_IsExisting_Customer( true ) );
-       }
 
-    } ,[ query_By_Id ]) ;
+    } , [ query_Result_Id , query_Result_Name , query_Result_CellPhone ] ) ;
 
 
-    const iStyle = { left: "195px" , top :"4px" , zIndex:"3000" } as any ;
+
 
     return <>
 
                 { /* 客戶訊息 */ }
-                <label className="label relative" style={{ fontSize : "1.3em" }} >
+                <label className="label relative" style={{ fontSize : "1.3em"  }} >
 
                     <i className="fas fa-user"></i> &nbsp; 客戶資訊 &nbsp;
 
                     { /* 有符合 _ 身分證字號  */ }
-                    <div className="absolute" style={{ left : "140px" , top:"-5px" }}>
-                        {
-                          value["customer_Id"] && query_By_Id.length > 0 &&
+                    <div className="absolute" style={{ width: "80%", height:"40px" ,left : "140px" , top:"-5px" , overflowY:"hidden" }}>
 
-                            query_By_Id.map(( x , v) => {
+                        { /* 顯示查詢結果 _ 身分證字號 */ }
+                        {
+                            query_Result_Id.length > 0 &&
+
+                            query_Result_Id.map(( x , v) => {
 
                                 return <span key={ v } >
                                           <b className="tag is-medium hover is-light" onClick={ ( ) => set_Cus_Data( x ) }> { x['name'] } ( { x['mobile_phone'] } )  </b> &nbsp;
@@ -123,10 +126,41 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
                             })
 
                         }
+
+                        { /* 顯示查詢結果 _ 姓名 */ }
+                        {
+                            query_Result_Name.length > 0 &&
+
+                            query_Result_Name.map(( x , v) => {
+
+                                return <span key={ v } >
+                                          <b className="tag is-medium hover is-light" onClick={ ( ) => set_Cus_Data( x ) }> { x['name'] } ( { x['mobile_phone'] } )  </b> &nbsp;
+                                       </span> ;
+
+                            })
+
+                        }
+
+                        { /* 顯示查詢結果 _ 手機號碼 */ }
+
+                        {
+                            query_Result_CellPhone.length > 0 &&
+
+                            query_Result_CellPhone.map(( x , v) => {
+
+                                return <span key={ v } >
+                                          <b className="tag is-medium hover is-light" onClick={ ( ) => set_Cus_Data( x ) }> { x['name'] } ( { x['mobile_phone'] } )  </b> &nbsp;
+                                       </span> ;
+
+                            })
+
+                        }
+
+
                     </div>
 
                     { /* 顯示 : 新客戶 */ }
-                    { ( value["customer_Id"] && query_By_Id.length === 0 ) && <b style={{color:"red"}}>新客戶</b> }
+                    { ( isQuerying && query_Result_Id.length === 0 && query_Result_Name.length === 0 &&  query_Result_CellPhone.length === 0 ) && <b style={{color:"red"}}>新客戶</b> }
 
                 </label>
 

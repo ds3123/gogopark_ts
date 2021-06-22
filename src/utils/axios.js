@@ -8,14 +8,16 @@
 
 import _axios from 'axios';
 
+// Heroku 安裝的 CorsAnywhere 套件網域 ( 為解決 Laravel 部署在 Heroku 上產生的 CORS 跨域問題  )
+const cors = 'https://ds-proxy-cors.herokuapp.com/' ;
+
 const axios = baseURL => {
 
     const instance = _axios.create({
 
-        //baseURL : baseURL || 'http://localhost:3001',
-        //baseURL : baseURL || 'http://localhost/API/gogopark/api',
         baseURL : baseURL || 'http://localhost/Laravel_Projects/gogopark/public/index.php/api' ,
-        timeout : 3000  // ( 原先為 1000ms --> 設長點，避免出現錯誤 : Error: timeout of 1000ms exceeded )
+        // baseURL : `${ cors }https://ds-gogopark.herokuapp.com/public/index.php/api` ,   // Heroku 空間
+        timeout : 5000  // ( 原先為 1000ms --> 設長點，避免出現錯誤 : Error: timeout of 1000ms exceeded )
 
     });
 

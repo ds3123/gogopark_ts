@@ -11,12 +11,12 @@ const Index = ( ) => {
     // 取得資料 : 服務、客戶、寵物
     const pet_Arr = useRead_Service_Cus_Pet(); // 之後加上篩選條件 : "今日"的到店服務 2021.06.15
 
+
     // 到店個階段，基礎、洗澡、美容數量
     const numObj_1 = useShopStatus_Sum( "到店等候中"   , pet_Arr ) ;
     const numObj_2 = useShopStatus_Sum( "到店美容中"   , pet_Arr ) ;
     const numObj_3 = useShopStatus_Sum( "洗完等候中"   , pet_Arr ) ;
     const numObj_4 = useShopStatus_Sum( "已回家( 房 )" , pet_Arr ) ;
-
 
     const member = {
             top          : "-15px" ,
@@ -49,7 +49,7 @@ const Index = ( ) => {
 
                 {/* 到店等候中 */}
                 <div className="column is-3-desktop">
-                    <Status_Cards  pet_Arr = { pet_Arr } shop_Status = "到店等候中"  service_Sum = { numObj_1 } />
+                    <Status_Cards  pet_Arr = { pet_Arr }  shop_Status = "到店等候中"  service_Sum = { numObj_1 } />
                 </div>
 
                 {/* 到店美容中 */}

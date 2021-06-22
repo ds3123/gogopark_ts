@@ -116,8 +116,7 @@ const Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
              <div className="columns is-multiline is-mobile">
 
                <div className="column is-2-desktop">
-                 <input type="checkbox" value = "剪指甲" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} />
-                 <b>剪指甲</b> ( { query_Price( "剪指甲" ) } )
+                 <input type="checkbox" value = "剪指甲" { ...register( "basic_Option" ) } onChange={ e => get_Checkbox( e.target.value )} /> <b>剪指甲</b>
                </div>
 
                <div className="column is-2-desktop">

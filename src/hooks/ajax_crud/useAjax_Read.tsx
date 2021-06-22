@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useCallback} from "react" ;
+import React, { useState , useEffect , useCallback } from "react" ;
 import axios from "utils/axios" ;
 import { Service_Type_Api } from 'utils/Interface_Type'
-import { useSelector } from "react-redux";
-import {toast} from "react-toastify";
-import {set_Side_Panel} from "../../store/actions/action_Global_Layout";
+import { useDispatch , useSelector } from "react-redux";
+import { set_Index_isLoading } from "store/actions/action_Index";
+
+
 
 
 /* @ GET : 透過 Ajax _ 取得資料 */
@@ -14,13 +15,23 @@ import {set_Side_Panel} from "../../store/actions/action_Global_Layout";
 export const useRead_Service_Cus_Pet = ( serviceType? : Service_Type_Api ) => {
 
     const [ data , set_Data ] = useState( [] ) ;
+    const dispatch            = useDispatch() ;
+
 
     // 取得資料
     useEffect(()=>{
 
-       axios.get( '/services/show_with_cus_relative_pet/' ).then( res => { set_Data( res.data ) ; } );
+       axios.get( '/services/show_with_cus_relative_pet/' ).then( res => {
 
-    },[]) ;
+           // 設定 _ 回傳資料
+           set_Data( res.data ) ;
+
+           // 設定 _ 下載完畢狀態
+           dispatch( set_Index_isLoading(false ) ) ;
+
+       } ) ;
+
+    } ,[] ) ;
 
     return data ;
 
@@ -66,24 +77,32 @@ export const useRead_Date_Services = ( date : string ) => {
 // # 客戶 ----
 
 // * 依照特定欄位值，查詢客戶資料 ( LIKE 模糊搜尋 ， 依傳入參數 ，查詢欄位 與 查詢值 ，如 : 'id' & 身分證字號 或 'mobile_phone' & 手機號碼 )
-export const useRead_Customer_By_Column = ( column : string , value : string | number )  => {
+export const useRead_Customer_By_Column = ( column : string , value : string | number  ) => {
 
-    const [ data , set_Data ] = useState( [] ) ;
+    const [ data , set_Data ] = useState([] ) ;
 
-    // 取得資料
-    useEffect(() => {
+     useEffect(( ) => {
 
-        if( value ){
-
-          axios.get( `/customers/show_by_param/${ column }/${ value }` ).then( res => {
-            set_Data( res.data ) ;
-          });
-
+        if( column && value ){
+            axios.get(`/customers/show_by_param/${ column }/${ value }`).then( res => set_Data( res.data ) ) ;
         }
 
-    },[ value ]) ;
+        // 沒有查詢值，設回空陣列
+        if( !value ) set_Data( [] ) ;
 
-    return data ;
+     } , [ column , value ] );
+
+    // // 查詢函式
+    // const read_Customer_By_Column = ( column : string , value : string | number  ) => {
+    //
+    //     set_Data( [] ) ;
+    //
+    //     axios.get(`/customers/show_by_param/${ column }/${ value }`).then( res => set_Data( res.data ) ) ;
+    //
+    // } ;
+
+
+    return { data } ;
 
 } ;
 
@@ -91,7 +110,6 @@ export const useRead_Customer_By_Column = ( column : string , value : string | n
 export const useRead_Customer_Pets = ( cus_Id : string ) => {
 
    const [ cusPets , set_cusPets ] = useState([]) ;
-
 
    useEffect(( ) => {
 
@@ -108,7 +126,6 @@ export const useRead_Customer_Pets = ( cus_Id : string ) => {
    return cusPets ;
 
 } ;
-
 
 
 // # 品種 & 價錢 ----
@@ -142,7 +159,6 @@ export const useRead_Single_Species = ( id : string ) => {
     return species ;
 
 } ;
-
 
 // * 所有價錢
 export const useRead_All_Prices = ( ) => {
