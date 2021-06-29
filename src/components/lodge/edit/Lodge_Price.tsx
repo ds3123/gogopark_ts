@@ -1,37 +1,27 @@
 
 import React, { FC , useEffect , useState} from "react"
-import {get_Interval_Dates, get_Type_Dates, get_Week_Day} from "../../../utils/time/date";
+import {get_Interval_Dates, get_Type_Dates, get_Week_Day} from "utils/time/date";
+import { ILodge } from 'utils/Interface_Type'
 
 
-
-interface ICal {
-
-    lodgeType          : string ; // 房型
-    lodgeNumber        : string ; // 房號
-
-    // 住房
-    lodgeCheckIn_Date  : string ; // 日期
-    lodgeCheckIn_Time  : string ; // 時間
-
-    // 退房
-    lodgeCheckOut_Date : string ; // 日期
-    lodgeCheckOut_Time : string ; // 時間
-
+// 房型價格
+interface ILodge_Price{
+    room_Type        : string ; // 房型
+    ordinary_Day     : number ; // 平日
+    ordinary_Holiday : number ; // 假日
+    national_Holiday : number ; // 國定假日
 }
-
 
 
 // 國定假日
 const national_Holidays_Setting = [
-
     { title : '端午節' , date : '2021-06-14' }
-
 ] ;
 
 
 
-// 房間價格 ( 平日、假日、國定假日 )
-const lodge_Price = [
+// 房型價格 ( 平日、假日、國定假日 )
+const lodge_Price : ILodge_Price[] = [
 
     { room_Type : '大房' , ordinary_Day : 800 , ordinary_Holiday : 900 , national_Holiday : 1000 } ,
     { room_Type : '中房' , ordinary_Day : 640 , ordinary_Holiday : 720 , national_Holiday : 800 } ,
@@ -44,14 +34,12 @@ const lodge_Price = [
 ];
 
 
-
-
 { /* @ 住宿價格計算 */ }
-const Lodge_Price : FC<ICal> = ({ lodgeType , lodgeNumber , lodgeCheckIn_Date , lodgeCheckOut_Date  } ) => {
+const Lodge_Price : FC<ILodge> = ( { lodgeType , lodgeNumber , lodgeCheckIn_Date , lodgeCheckOut_Date  } ) => {
 
     const [ national_Holidays , set_National_Holidays ] = useState( [] ) ; // 國定假日( 系統設定 )
-    const [ holidays       , set_Holidays ]             = useState( [] ) ; // 假日 ( 五、六、日 )
-    const [ ordinary_Days , set_Ordinary_Days ]         = useState( [] ) ; // 平日 ( 一、二、三、四 )
+    const [ holidays          , set_Holidays ]          = useState( [] ) ; // 假日 ( 五、六、日 )
+    const [ ordinary_Days     , set_Ordinary_Days ]     = useState( [] ) ; // 平日 ( 一、二、三、四 )
 
     // 目前所選擇房間類型，所相對應的相關價格
     const [ currentPrice , set_CurrentPrice ] = useState({
@@ -60,7 +48,6 @@ const Lodge_Price : FC<ICal> = ({ lodgeType , lodgeNumber , lodgeCheckIn_Date , 
                                                                      ordinary_Holiday : 0 ,   // 假日
                                                                      national_Holiday : 0     // 國定假日
                                                                    }) ;
-
 
 
     // 設定 : 平日、假日、國定假日
@@ -77,13 +64,12 @@ const Lodge_Price : FC<ICal> = ({ lodgeType , lodgeNumber , lodgeCheckIn_Date , 
 
     } ,[ lodgeCheckIn_Date , lodgeCheckOut_Date ]) ;
 
-
     // 設定 : 所選擇房間類型，其對應的相關價格
     useEffect(( ) => {
 
         lodge_Price.forEach( x => {
 
-          if( x['room_Type'] === lodgeType ){
+           if( x['room_Type'] === lodgeType ){
 
               set_CurrentPrice({ ...currentPrice ,
                                         room_Type        : x['room_Type'] ,
@@ -92,12 +78,12 @@ const Lodge_Price : FC<ICal> = ({ lodgeType , lodgeNumber , lodgeCheckIn_Date , 
                                         national_Holiday : x['national_Holiday']   // 國定假日
                                      })
 
-          }
+           }
 
         })
 
 
-    } ,[ lodgeType ]) ;
+    } ,[ lodgeType ] ) ;
 
 
     const blue = {color:"darkblue"} ;
@@ -111,7 +97,7 @@ const Lodge_Price : FC<ICal> = ({ lodgeType , lodgeNumber , lodgeCheckIn_Date , 
 
                                         <>  房型 : &nbsp;<b style={blue}>{ lodgeType }</b> &nbsp;
                                           <span style={{ fontWeight:"normal" , fontSize:"11pt" , color:"darkorange" }}> &nbsp;&nbsp;
-                                               平日 : { currentPrice['ordinary_Day'] } ( 元 / 日 ) 、
+                                                平日 : { currentPrice['ordinary_Day'] } ( 元 / 日 ) 、
                                                 假日 : { currentPrice['ordinary_Holiday'] } ( 元 / 日 ) 、
                                                 國定假日 : { currentPrice['national_Holiday'] } ( 元 / 日 )
                                           </span>   &nbsp; &nbsp;

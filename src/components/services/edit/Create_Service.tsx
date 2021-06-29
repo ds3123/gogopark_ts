@@ -8,6 +8,7 @@ import Beauty_Form from "components/services/edit_components/Beauty_Form";
 import Extra_Beauty from "components/services/edit_components/Extra_Beauty";
 import Care_Form from "components/lodge/care/edit/Care_Form";
 import Lodge_Form from "components/lodge/edit/Lodge_Form";
+import Plan_Form from "components/plan/edit/Plan_Form";
 
 
 import { Edit_Form_Type } from "utils/Interface_Type"
@@ -37,13 +38,10 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
 
    return <>
 
-             <br/><br/>
+             <br/>
 
              { /* 自備物品、主人交代、櫃台備註  */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿"  ) && <Customer_Note { ...props } /> }
-
-
-
 
              { /* 基礎單項目 */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" ) && <Basic_Form { ...props } /> }
@@ -63,11 +61,15 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
              { /* 住宿項目 */ }
              { current === "住宿" && <Lodge_Form { ...props } /> }
 
+             { /* 方案項目 */ }
+             { current === "方案" && <Plan_Form { ...props } /> }
+
+
              { /* 接送費 */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容"  || current === "安親" || current === "住宿" ) && <Pickup_Fee { ...props } /> }
 
              { /* 費用結算 */ }
-             { ( current === "基礎" || current === "洗澡" || current === "美容" ) && <Fee_Summary { ...props } /> }
+             { ( current === "基礎" || current === "洗澡" || current === "美容" ||  current === "安親" || current === "住宿" || current === "方案" ) && <Fee_Summary { ...props } /> }
 
           </>
 

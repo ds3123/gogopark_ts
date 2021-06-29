@@ -24,7 +24,7 @@ const Create_Pet : FC<Edit_Form_Type> = ({ register , setValue , errors , isDirt
              { /* 寵物表單欄位  */ }
              <Pet_Form {...props}  />
 
-             <br/><hr/>
+             <hr/>
 
           </>
 

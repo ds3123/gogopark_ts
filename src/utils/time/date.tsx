@@ -51,7 +51,7 @@ export const get_Today = () =>{
 
 
 // 西元日期 --> 星期( 一、日 )
-export const get_Week_Day = ( date : string ) =>{
+export const get_Week_Day = ( date : string ) => {
 
     const no = new Date( date ).getDay() ;
     let  day = '' ;
@@ -71,7 +71,7 @@ export const get_Week_Day = ( date : string ) =>{
 };
 
 
-// 取得 : 兩個日期之間，所有的日期
+// 取得 : 兩個日期之間，所有的日期 (  再檢查 get_Interval_Dates ，須先減 1 天  2021.06.28  )
 export const get_Interval_Dates = (  start : string , end : string ) =>{
 
     let arr = [];
@@ -93,7 +93,7 @@ export const get_Interval_Dates = (  start : string , end : string ) =>{
     for ( let k = unixDb ; k <= unixDe ; ) {
 
        // arr.push(  moment( new Date( parseInt( k ) ) ).format( "YYYY-MM-DD" ) ) ;
-       arr.push(  moment( new Date( k ) ).format( "YYYY-MM-DD" ) ) ;
+       arr.push( moment( new Date( k ) ).format( "YYYY-MM-DD" ) ) ;
         k = k + 24 * 60 * 60 * 1000;
 
     }
@@ -146,19 +146,32 @@ export const get_Type_Dates = (  interval : string[] , holiday : any[]  ) =>{
 };
 
 // 取得 : 某日期，所屬型態( 平日、假日、國定假日 )
-export const get_Date_Type = ( date:string , holiday:string[]  ) =>{
+export const get_Date_Type = ( date : string , holiday : { title : string , date : string }[]  ) =>{
 
-    // // 國定假日
-    // let h_Days = holiday.map( x => { return x['date'] ; });  // 國定假日所包含日期
-    // if( h_Days.indexOf( date ) !== -1 ){   return '國定假日' ;  }
-    //
-    // // 平日、假日
-    // var week = new Date( date ).getDay();  // 日期 -> 星期
-    //
-    // if(  week === 1 || week === 2 || week === 3 || week === 4  ){  return '平日' ; }
-    // if(  week === 5 || week === 6 || week === 0               ){  return '假日' ; }
+    // 國定假日
+    let h_Days = holiday.map( ( x) => { return x['date'] ; });  // 國定假日所包含日期
+    if( h_Days.indexOf( date ) !== -1 ){  return '國定假日' ;  }
+
+    // 平日、假日
+    var week = new Date( date ).getDay();  // 日期 -> 星期
+
+    if(  week === 1 || week === 2 || week === 3 || week === 4  ){  return '平日' ; }
+    if(  week === 5 || week === 6 || week === 0               ){  return '假日' ; }
 
 };
+
+
+// 針對 DatePicker套件 : 取得 _ 某房號，使用期間，所包含天數 ( 轉換格式 )
+export const get_InUse_Days = ( startDate : any , endDate : any ) : string [] => {
+
+    const _endDate  = get_Date_Cal( moment( endDate ).format('YYYY-MM-DD')  , -2) ;  // 先減去 1 天
+    const sDate     = moment( startDate ).format('YYYY-MM-DD') ;                           // 開始日期
+    const eDate     = moment( _endDate ).format('YYYY-MM-DD')  ;                           // 結束日期
+
+    return get_Interval_Dates( sDate , eDate ) ;
+
+} ;
+
 
 // 將 ( 國定假日、假日、平日 ) 日期，轉為字串
 export const get_Dates_STR = ( holiday_Arr : string[] , F_S_Arr : string[] , M_T_Arr : string[] ) => {

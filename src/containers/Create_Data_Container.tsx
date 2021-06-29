@@ -30,7 +30,6 @@ const Create_Data_Container = () => {
     // 服務性質 : 已到店、預約_今天、預約_未來
     const service_Status            = useSelector(( state : any ) => state.Info.service_Status ) ;
 
-
     // 分類標籤
     const [ current , set_Current ] = useState('' ) ;     // 目前點選標籤
 
@@ -87,7 +86,6 @@ const Create_Data_Container = () => {
 
         }
 
-
         // # 新增資料
         create_Data( api , data , msg ) ;                               // 所有資料
        // create_Cus_Relatives('/customers/store_relation' , data ) ; // 僅針對 _ 客戶關係人
@@ -111,12 +109,12 @@ const Create_Data_Container = () => {
              <form onSubmit = { handleSubmit( onSubmit ) } >
 
                 { /* 服務單基本資訊 : 服務性質、到店日期、處理碼 ... */ }
-                { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿" )  &&
+                { ( current === "基礎" || current === "洗澡" || current === "美容"  )  &&
                      <Service_Info { ...props } />
                 }
 
                 { /* 客戶 */ }
-                { ( current === "客戶" || current === "寵物" || current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿"  ) &&
+                { ( current === "客戶" || current === "寵物" || current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿" || current === "方案" ) &&
                      <Create_Customer { ...props } />
                 }
 
@@ -126,7 +124,7 @@ const Create_Data_Container = () => {
                 }
 
                 { /* 服務單 : 基礎、洗澡、美容 */ }
-                { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿"  )  &&
+                { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿" || current === "方案"  )  &&
                     <Create_Service { ...props } />
                 }
 

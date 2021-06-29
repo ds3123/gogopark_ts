@@ -1,55 +1,71 @@
-import React , { useState } from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import { Scheduler , DayView , WeekView , MonthView , Appointments , DateNavigator ,  TodayButton , Toolbar, ViewSwitcher,} from '@devexpress/dx-react-scheduler-material-ui';
 import moment from 'moment' ;
+import { ILodge } from 'utils/Interface_Type'
+import {get_Interval_Dates, get_Type_Dates, get_Week_Day , get_Date_Cal} from "utils/time/date";
+
+
 
 // 今日
 const today = moment( new Date ).format('YYYY-MM-DD') ;
 
 
-// NOTE : 月份需要加 1，才是目前月份
-const appointments = [
+interface InUse {
 
-        {
-            title     : 'A01 ( 大房 ) - 富貴 ( 哈士奇 )' ,
-            startDate : new Date(2021 ,5, 23) ,
-            endDate   : new Date(2021 ,5, 25) ,
-        } ,
+   lodgeNumber : string ;   // 房間編號
+   daysInUse   : string[] ; // 此房間編號下，使用的日期
 
-        {
-            title     : 'A02 ( 大房 ) - 招財 ( 秋田犬 )' ,
-            startDate : new Date(2021 ,5, 26) ,
-            endDate   : new Date(2021 ,5, 28) ,
-        } ,
+}
 
 
-    ] ;
 
-const Lodge_Calendar = () => {
-
-    const [ data , set_Data ] = useState( appointments );
+{ /* @ 住宿空間使用情形  */ }
+const Lodge_Calendar : FC<ILodge> = ( { lodgeNumber , lodgeCheckIn_Date , lodgeCheckOut_Date , lodgeData} ) => {
 
 
-    return  <Paper>
+    const [ data , set_Data ] = useState<any[]>([] );    // 目前住宿資料
 
-                <Scheduler data={ data } height={800} >
 
-                    <ViewState defaultCurrentDate={ today } defaultCurrentViewName="Month" />
 
-                    <MonthView />
-                    <WeekView startDayHour={9} endDayHour={21} />
-                    <DayView  startDayHour={9} endDayHour={21} />
+    useEffect(( ) => {
 
-                    <Toolbar />
-                    <DateNavigator />
-                    <TodayButton />
-                    <ViewSwitcher />
-                    <Appointments />
 
-                </Scheduler>
+       // * 設定 _ 目前住宿情形 ( fon Calendar )
+       set_Data( lodgeData ) ;
 
-             </Paper>
+
+    } ,[ lodgeData  ] ) ;
+
+
+
+
+
+    return  <>
+
+
+                  <Paper>
+
+                    <Scheduler data={ data } height={ 800 } >
+
+                        <ViewState defaultCurrentDate={ today } defaultCurrentViewName="Month" />
+
+                        <MonthView />
+                        <WeekView startDayHour={9} endDayHour={21} />
+                        <DayView  startDayHour={9} endDayHour={21} />
+
+                        <Toolbar />
+                        <DateNavigator />
+                        <TodayButton />
+                        <ViewSwitcher />
+                        <Appointments />
+
+                    </Scheduler>
+
+                 </Paper>
+           </>
+
 
 
 } ;

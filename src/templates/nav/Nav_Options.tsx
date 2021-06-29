@@ -42,16 +42,15 @@ const Nav_Options = () => {
     const show_Qcode = () => dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : "住宿" , preLoadData : null } ) );
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '客戶' , preLoadData : null } ) );
 
 
     useEffect(() => {
 
-        add_Data()
+       // add_Data()
        // show_Qcode() ;
 
     } ,[] ) ;
-
 
     const number = {
         position   : "absolute" ,
@@ -67,7 +66,7 @@ const Nav_Options = () => {
 
    return  <div id="navbarExampleTransparentExample" className="is-hidden-mobile">
 
-               <div className="navbar-start relative" style={ { top:"34%" , left : "11%" } } >
+               <div className="navbar-start relative" style={ { top:"34%" , left : "10%" } } >
 
                    {  /* 業務功能頁面 */
                        OptionArr.map( ( option , index ) => {
@@ -87,13 +86,17 @@ const Nav_Options = () => {
                    }
 
                    {/* 功能按鈕 */}
-                   <span style={{ marginLeft : '70px' }}>
+                   <span style={{ marginLeft : '50px' }}>
 
                        <span className="pointer tag is-medium is-rounded" onClick={ () => show_Qcode() } style={{ background : "rgb(150,0,0)" , color : "white" }}>
                             <i className="fab fa-quora"></i> &nbsp; ( { get_Today().slice(4,8) } )
                         </span> &nbsp; &nbsp; &nbsp;
 
                        <span className="pointer tag is-medium is-black is-rounded"  onClick={ () => add_Data() }> <i className="fas fa-plus"></i> &nbsp; 新增資料  </span>
+
+                       &nbsp; &nbsp; &nbsp;
+
+                       {/*<b className="tag"><i className="fas fa-bars"></i></b>*/}
 
                    </span>
 

@@ -41,7 +41,7 @@ const Qcode_Select_Options : FC<Edit_Form_Type> = ( { register } )  => {
 
     return  <div className="tag is-large is-white">
 
-                <b> 到店處理碼 ( Q ) : </b> &nbsp;
+                <span> 到店處理碼 ( Q ) : </span> &nbsp;
                 <div className="select is-small" >
 
                    <select  {...register( "shop_Q_Code" )} style = { way } >

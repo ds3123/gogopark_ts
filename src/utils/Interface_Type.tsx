@@ -117,4 +117,44 @@ export interface IService {
 
 
 
+// ******** 住宿 ********
+
+export interface ILodge {
+
+    lodgeData          : any[] ;  // 住宿資料
+
+    lodgeType          : string ; // 房型
+    lodgeNumber        : string ; // 房號
+
+    // 住房
+    lodgeCheckIn_Date  : string ; // 日期
+    lodgeCheckIn_Time  : string ; // 時間
+
+    // 退房
+    lodgeCheckOut_Date : string ; // 日期
+    lodgeCheckOut_Time : string ; // 時間
+
+
+}
+
+// 住宿資料
+export interface ILodge_Data {
+
+    title       : string ,
+    startDate   : any ,
+    endDate     : any ,
+    lodgeType   : string ,
+    lodgeNumber : string
+
+}
+
+
+export type room_Type = '大房' | '中房' | '小房' | '大籠' | '中籠' | '小籠'  ;
+
+
+
+
+
+
+
 

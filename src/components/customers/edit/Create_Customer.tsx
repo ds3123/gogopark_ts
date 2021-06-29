@@ -22,7 +22,7 @@ const Create_Customer : FC<Edit_Form_Type> = ({ register , setValue , errors , i
                { /* 客戶表單欄位  */ }
                <Customer_Form  { ...props }  />
 
-               <br/><hr/><br/>
+               <hr/><br/>
 
              </>
 

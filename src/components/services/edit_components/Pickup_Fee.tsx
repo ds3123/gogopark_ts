@@ -1,11 +1,11 @@
 
-import React, {FC} from "react" ;
+import React, {FC, useEffect} from "react" ;
 import { Edit_Form_Type } from "utils/Interface_Type"
 import { set_PickupFee } from "store/actions/action_Extra_Service_Fee"
 import { useDispatch } from "react-redux";
 
 /* 接送費 */
-const Pickup_Fee : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
+const Pickup_Fee : FC<Edit_Form_Type> = ({ register , current, setValue } ) => {
 
    const dispatch = useDispatch() ;
 
@@ -27,7 +27,20 @@ const Pickup_Fee : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
    };
 
 
-   return <>
+    // 新增類別變動
+    useEffect(( ) => {
+
+        // 將接送費歸零
+        dispatch( set_PickupFee( 0 ) ) ;
+        setValue( 'pickup_Fee' , ''  ) ;
+
+    } ,[ current ] ) ;
+
+
+
+
+
+    return <>
 
             <div className="columns is-multiline is-mobile">
 

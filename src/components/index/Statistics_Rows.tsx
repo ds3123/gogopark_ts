@@ -1,139 +1,89 @@
 
+import React, {useEffect} from "react" ;
+import {set_Side_Panel} from "store/actions/action_Global_Layout";
+import {useDispatch} from "react-redux";
+import Service_Error from "components/index/list/Service_Error";
+import Appointment_Record from "components/index/list/Appointment_Record";
 
-import React , { useState } from "react" ;
 
-/*
-*
-*  @ 今日來店、今日統計
-*
-*/
 
+/* @ 今日預約、今日統計 */
 const Statistics_Rows = () => {
 
+    const dispatch = useDispatch() ;
 
-    const [ today_Shop , set_TodayShop  ] = useState( true );
-    const [ today_Stat , set_TodayStat  ] = useState( true );
+    // 顯示 _ 預約紀錄
+    const show_Appointments_List   = () => dispatch( set_Side_Panel(true , <Appointment_Record /> , {} ) );
 
-
-    const click_Today_Shop = () => {
-
-
-    } ;
-
-    const click_Today_Stat = () => {
+    // 顯示 _ 服務異常
+    const show_Service_Error       = () => dispatch( set_Side_Panel(true , <Service_Error /> , {} ) );
 
 
-    } ;
+    useEffect(( ) => {
 
-    const atype = {
+        show_Service_Error();
 
-        display      : "inline-block" ,
-        width        : "70px",
-        height       : "30px" ,
-        background   : "white" ,
-        borderRadius : "20px" ,
-        textAlign    : "center"
-
-    } as const  ;
+    } , [] ) ;
 
 
-  return <>
 
-              { /* 今日預約來店 、今日現場來店 */ }
+
+    return <>
+
               <div className="columns is-mobile  is-multiline">
 
+                  { /* 今日預約 */ }
                   <div className="column is-12-desktop">
 
                       <div className="tags has-addons" >
 
-                          <b className= { today_Shop ? "tag is-large is-info" : "tag is-large is-info is-light" } onClick={ ()=> click_Today_Shop() }>
-                              <i className="far fa-calendar-check"></i> &nbsp; 今日來店
+                          <b className= "tag is-large is-primary">
+                              <i className="fas fa-phone"></i> &nbsp; 今日預約
                           </b>
 
-                          { today_Shop &&
+                          <span className="tag is-large is-light">
+                              基礎 : &nbsp; <b className='fDred'> 2 </b> &nbsp;&nbsp;
+                              洗澡 : &nbsp; <b className='fDred'> 7 </b> &nbsp;&nbsp;
+                              美容 : &nbsp; <b className='fDred'> 6 </b> &nbsp;&nbsp;
+                              安親 : &nbsp; <b className='fDred'> 1 </b> &nbsp;&nbsp;
+                              住宿 : &nbsp; <b className='fDred'> 2 </b> &nbsp;
+                          </span>
 
-                            <>
-
-                               <span className="tag is-large is-light">
-                                   <b style={atype}> 預 約 </b>  &nbsp; &nbsp;
-                                   <i className="fas fa-bath"></i> &nbsp; 洗澡 :&nbsp; <b style={{color:"rgb(150,0,0)"}}> 7 </b>
-                               </span>
-
-                               <span className="tag is-large is-light">
-                                   <i className="fas fa-cut"></i> &nbsp; 美容 : &nbsp; <b style={{color:"rgb(150,0,0)"}}> 6 </b>
-                               </span>
-
-                               <span className="tag is-large is-light">
-                                   <b style={atype}> 現 場 </b>  &nbsp; &nbsp;
-                                   <i className="fas fa-bath"></i> &nbsp; 基礎 :&nbsp; <b style={{color:"rgb(150,0,0)"}}> 3 </b>
-                               </span>
-
-                               <span className="tag is-large is-light">
-                                   <i className="far fa-list-alt"></i> &nbsp; 洗澡 : &nbsp; <b style={{color:"rgb(150,0,0)"}}> 2 </b>
-                               </span>
-
-                              <span className="tag is-large is-light">
-                                  <i className="fas fa-cut"></i> &nbsp; 美容 : &nbsp; <b style={{color:"rgb(150,0,0)"}}> 3 </b>
-                              </span>
-
-                              <span className="tag is-large is-black">
-                                  <i className="far fa-list-alt" ></i>
-                              </span>
-
-                            </>
-
-                          }
+                          <span className="tag is-primary is-large is-light pointer" onClick={ show_Appointments_List } >
+                              <i className="fas fa-list"></i> &nbsp; 預約紀錄 : 18
+                          </span>
 
                       </div>
 
-
                   </div>
 
-              </div>
-
-              { /* 今日營業統計 */ }
-              <div className="columns is-mobile  is-multiline ">
-
+                  { /* 今日統計 */ }
                   <div className="column is-12-desktop">
 
-                      <div className="tags has-addons " >
+                      <div className="tags has-addons" >
 
-                          <b className= { today_Stat ? "tag is-large is-primary" : "tag is-large is-primary is-light" } onClick={ () => click_Today_Stat() }>
+                          <b className= "tag is-large is-link" >
                               <i className="fas fa-calculator"></i> &nbsp; 今日統計
                           </b>
 
-                          {  today_Stat &&
+                          <span className="tag is-large is-light">
 
-                          <>
+                              <i className="fas fa-list-alt"></i> &nbsp; 基礎 <b>完</b> &nbsp; :&nbsp;
+                              <b className='fDred'> 3 </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                              <span className="tag is-large is-light">
-                                   <i className="fas fa-bath"></i> &nbsp; 基礎 <b>完</b> &nbsp; :&nbsp; <b
-                                   style={{color: "rgb(150,0,0)"}}> 3 </b>
-                              </span>
+                               <i className="fas fa-bath"></i> &nbsp; 洗澡 <b>完</b> &nbsp; :&nbsp;
+                              <b className='fDred'> 4 </b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                              <span className="tag is-large is-light">
-                                  <i className="fas fa-bath"></i> &nbsp; 洗澡 <b>完</b> &nbsp; :&nbsp; <b
-                                  style={{color: "rgb(150,0,0)"}}> 4 </b>
-                              </span>
+                              <i className="fas fa-cut"></i> &nbsp; 美容 <b>完</b> &nbsp;: &nbsp;
+                              <b className='fDred'> 5 </b> &nbsp;&nbsp;
 
-                              <span className="tag is-large is-light">
-                                  <i className="fas fa-cut"></i> &nbsp; 美容 <b>完</b> &nbsp;: &nbsp; <b
-                                  style={{color: "rgb(150,0,0)"}}> 5 </b>
-                              </span>
+                          </span>
 
-                              <span className="tag is-large is-light  is-info">
-                                  <i className="fas fa-phone-slash"></i> &nbsp; 取消預約 : &nbsp;
-                                  <b> 0 </b>
-                              </span>
 
-                              <span className="tag is-large is-light is-danger" >
-                                  <i className="fas fa-exclamation"></i> &nbsp; 服務異常 : &nbsp;
-                                  <b> 4 </b>
-                              </span>
-
-                          </>
-
-                          }
+                          <span className="tag is-large is-light is-danger pointer" onClick={ show_Service_Error } >
+                              <i className="fas fa-exclamation"></i> &nbsp; 服務異常 : &nbsp;
+                              <b> 0 </b>
+                          </span>
 
                       </div>
 

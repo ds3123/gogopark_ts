@@ -5,12 +5,15 @@ import { TimePicker } from 'antd' ;
 import 'antd/dist/antd.css' ;
 import moment from "moment" ;
 
+import { get_H_M } from "utils/time/time"
+
+
 
 type DType = {
 
     control          : any ;
     name             : string ;
-    default_Time     : string ;
+    default_Time?     : string ;
     handle_OnChange? : any ;    // 自訂 onChange 函式
 
 }
@@ -22,8 +25,8 @@ const Time_Picker:FC<DType> = ( { control , name, default_Time , handle_OnChange
 
         name ,
         control ,
-        rules        : { required : true },
-        defaultValue : default_Time ,
+        rules        : { required : true } ,
+        defaultValue : default_Time ? default_Time : get_H_M() ,            // 目前時間 ( 格式 Ex. 14:40 )
 
     });
 

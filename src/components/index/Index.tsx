@@ -19,8 +19,8 @@ const Index = ( ) => {
     const numObj_4 = useShopStatus_Sum( "已回家( 房 )" , pet_Arr ) ;
 
     const member = {
-            top          : "-15px" ,
-            right        : "2%" ,
+            top          : "10px" ,
+            right        : "1%" ,
             padding      : "13px",
             boxShadow    : "0px 0px 4px 0px rgba(0,0,0,.1)" ,
             borderRadius : "5px" ,
@@ -28,7 +28,6 @@ const Index = ( ) => {
 
 
     return <div className="is-hidden-mobile">
-
 
                 { /*  今日值班人員  */ }
                 <div className="absolute" style = { member } >
