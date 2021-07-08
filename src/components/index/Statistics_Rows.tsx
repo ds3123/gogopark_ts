@@ -13,19 +13,16 @@ const Statistics_Rows = () => {
     const dispatch = useDispatch() ;
 
     // 顯示 _ 預約紀錄
-    const show_Appointments_List   = () => dispatch( set_Side_Panel(true , <Appointment_Record /> , {} ) );
+    const show_Appointments_List = () => dispatch( set_Side_Panel(true , <Appointment_Record /> , {} ) ) ;
 
     // 顯示 _ 服務異常
-    const show_Service_Error       = () => dispatch( set_Side_Panel(true , <Service_Error /> , {} ) );
+    const show_Service_Error     = () => dispatch( set_Side_Panel(true , <Service_Error /> , {} ) ) ;
 
+    useEffect(() => {
 
-    useEffect(( ) => {
-
-        show_Service_Error();
+       // show_Service_Error();
 
     } , [] ) ;
-
-
 
 
     return <>
@@ -50,7 +47,10 @@ const Statistics_Rows = () => {
                           </span>
 
                           <span className="tag is-primary is-large is-light pointer" onClick={ show_Appointments_List } >
-                              <i className="fas fa-list"></i> &nbsp; 預約紀錄 : 18
+                              <i className="fas fa-list"></i> &nbsp; 預約紀錄 &nbsp;
+                              <b className="tag is-medium is-white relative" style={{ top:"4px"  }}>
+                                 洗澡 + 美容 &nbsp; : &nbsp;  <span className='fDred f_14'>13</span>
+                              </b>
                           </span>
 
                       </div>

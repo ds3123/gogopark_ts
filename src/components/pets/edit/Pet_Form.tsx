@@ -5,13 +5,17 @@ import {Input} from "templates/form/Input";
 import { useRead_All_Species } from "hooks/ajax_crud/useAjax_Read";
 import {get_Today} from "utils/time/date";
 import {get_RandomInt} from "utils/number/number";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-import useSection_Folding from "hooks/layout/useSection_Folding";
+import useSection_Folding from "hooks/layout/useSection_Folding" ;
+import { set_IsExisting_Pet } from "store/actions/action_Pet" ;
+
 
 
 { /* 寵物表單欄位  */ }
 const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current } ) => {
+
+   const dispatch = useDispatch() ;
 
    // 收折區塊
    const { is_folding , Folding_Bt } = useSection_Folding() ;
@@ -19,7 +23,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
    // 客戶單，目前所填入客戶的所有寵物
    const currnet_Customer_Pets = useSelector(( state:any ) => state.Customer.Current_Customer_Pets ) ;
 
-   // 目前所選擇品種 _ id
+   // 目前所選擇品種 _ species 資料表的 id
    const [ currentSpeciesId , set_currentSpeciesId  ] = useState("") ;
 
    // 目前所選的品種 _ 洗澡、美容價錢
@@ -31,55 +35,48 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
                                                                     }) ;
 
+
+
     // 取得 _ 所有寵物品種資料
     const petSpecies = useRead_All_Species() ;
-
 
     // 變動處理 _ 品種下拉選單
     const get_Species_Id = ( id : string ) => set_currentSpeciesId( id ) ;
 
 
-    // 變動處理 _ 欄位
-    const handle_Change = (  e : any  ) => {
-
-        // 設定 _ state
-        const { name , value } = e.target ;
-
-
-
-    } ;
-
-
     // 點選 _ 帶入舊寵物資料
     const set_Pet_Data = ( pet : any ) => {
 
-      // 基本資料
-      setValue( "pet_Serial"   , pet['serial']  , { shouldValidate: true } ) ;
-      setValue( "pet_Name"     , pet['name']    , { shouldValidate: true } ) ;
-      setValue( "pet_Species"  , pet['species'] , { shouldValidate: true } ) ;
-      setValue( "pet_Sex"      , pet['sex']     , { shouldValidate: true } ) ;
-      setValue( "pet_Color"    , pet['color']   , { shouldValidate: true } ) ;
-      setValue( "pet_Weight"   , pet['weight']  , { shouldValidate: true } ) ;
-      setValue( "pet_Age"      , pet['age']     , { shouldValidate: true } ) ;
+          // 設定 store : 資料庫，有 _ 該寵物
+          dispatch( set_IsExisting_Pet( true ) ) ;
 
-      // 調查資料 ( 單選 )
-      setValue( "injection" , pet['injection'] , { shouldValidate: true } ) ;
-      setValue( "flea"      , pet['flea']      , { shouldValidate: true } ) ;
-      setValue( "ligate"    , pet['ligate']    , { shouldValidate: true } ) ;
-      setValue( "chip"      , pet['chip']      , { shouldValidate: true } ) ;
-      setValue( "infection" , pet['infection'] , { shouldValidate: true } ) ;
-      setValue( "together"  , pet['together']  , { shouldValidate: true } ) ;
-      setValue( "drug"      , pet['drug']      , { shouldValidate: true } ) ;
-      setValue( "bite"      , pet['bite']      , { shouldValidate: true } ) ;
+          // 基本資料
+          setValue( "pet_Serial"   , pet['serial']  , { shouldValidate: true } ) ;
+          setValue( "pet_Name"     , pet['name']    , { shouldValidate: true } ) ;
+          setValue( "pet_Species"  , pet['species'] , { shouldValidate: true } ) ;
+          setValue( "pet_Sex"      , pet['sex']     , { shouldValidate: true } ) ;
+          setValue( "pet_Color"    , pet['color']   , { shouldValidate: true } ) ;
+          setValue( "pet_Weight"   , pet['weight']  , { shouldValidate: true } ) ;
+          setValue( "pet_Age"      , pet['age']     , { shouldValidate: true } ) ;
 
-      // 調查資料 ( 複選 : 轉為陣列 )
-      setValue( "health"       , pet['health'] ? pet['health'].split(',') : []             , { shouldValidate: true } ) ;
-      setValue( "feed"         , pet['feed'] ? pet['feed'].split(',') : []                 , { shouldValidate: true } ) ;
-      setValue( "toilet"       , pet['toilet'] ? pet['toilet'].split(',') : []             , { shouldValidate: true } ) ;
-      setValue( "ownerProvide" , pet['ownerProvide'] ? pet['ownerProvide'].split(',') : [] , { shouldValidate: true } ) ;
+          // 調查資料 ( 單選 )
+          setValue( "injection" , pet['injection'] , { shouldValidate: true } ) ;
+          setValue( "flea"      , pet['flea']      , { shouldValidate: true } ) ;
+          setValue( "ligate"    , pet['ligate']    , { shouldValidate: true } ) ;
+          setValue( "chip"      , pet['chip']      , { shouldValidate: true } ) ;
+          setValue( "infection" , pet['infection'] , { shouldValidate: true } ) ;
+          setValue( "together"  , pet['together']  , { shouldValidate: true } ) ;
+          setValue( "drug"      , pet['drug']      , { shouldValidate: true } ) ;
+          setValue( "bite"      , pet['bite']      , { shouldValidate: true } ) ;
 
-      // 備註
-      setValue( "pet_Note" , pet['note'] , { shouldValidate: true } ) ;
+          // 調查資料 ( 複選 : 轉為陣列 )
+          setValue( "health"       , pet['health'] ? pet['health'].split(',') : []             , { shouldValidate: true } ) ;
+          setValue( "feed"         , pet['feed'] ? pet['feed'].split(',') : []                 , { shouldValidate: true } ) ;
+          setValue( "toilet"       , pet['toilet'] ? pet['toilet'].split(',') : []             , { shouldValidate: true } ) ;
+          setValue( "ownerProvide" , pet['ownerProvide'] ? pet['ownerProvide'].split(',') : [] , { shouldValidate: true } ) ;
+
+          // 備註
+          setValue( "pet_Note" , pet['note'] , { shouldValidate: true } ) ;
 
     } ;
 
@@ -91,34 +88,33 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
           if( x['species_id'] === parseInt( currentSpeciesId ) ) {
 
-              set_currentPrice({ ...currentPrice ,
-                                          bath_first    : x['bath_first'] ,    // 初次洗澡
-                                          bath_single   : x['bath_single'] ,   // 洗澡_單次
-                                          beauty_single : x['beauty_single'] , // 美容_單次
-                                      }
-                               ) ;
+              set_currentPrice({  ...currentPrice ,
+                                        bath_first    : x['bath_first'] ,    // 初次洗澡
+                                        bath_single   : x['bath_single'] ,   // 洗澡 _ 單次
+                                        beauty_single : x['beauty_single'] , // 美容 _ 單次
+                                     }
+                              ) ;
 
           }
 
       }) ;
 
-       // 寵物設定 _ 隨機編號 ( 新增時，才設定 )
-       if( current ){
-           const randomId = `P_${ get_Today() }_${ get_RandomInt(1000) }` ;
-           setValue( "pet_Serial" , randomId  ) ;
-       }
-
 
     } ,[ currentSpeciesId ] ) ;
 
 
-    // 確認 _ 目前所填入寵物，是否已存在資料庫中
-    useEffect( ( ) => {
+    // 設定 _ 隨機寵物編號 ( '新增'時，才設定 )
+    useEffect(( ) => {
 
-      // console.log( currnet_Customer_Pets )
+        if( current ){
 
-    } , [ currnet_Customer_Pets ] ) ;
+            const randomId = `P_${ get_Today() }_${ get_RandomInt(1000) }` ;
+            dispatch( set_IsExisting_Pet( false ) ) ; // 設定 store : 資料庫，沒有 _ 該寵物
+            setValue( "pet_Serial" , randomId  ) ;          // 設定 input 欄位值
 
+        }
+
+    } , [] ) ;
 
 
 
@@ -156,13 +152,25 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
                        <div className="columns is-multiline  is-mobile">
 
-                           <Input type="text" name="pet_Serial" label="編 號" register={register} error={errors.pet_Serial}
-                                  icon="fas fa-list-ol" asterisk={true} columns="3"/>
+                           { /* 編號 */ }
+                           <div className=  'column is-3-desktop'  >
 
+                               <p className="relative"> 編號  </p>
+                               <div className="control has-icons-left" >
+                                   <span className="icon is-small is-left"> <i className="fas fa-list-ol"></i> </span>
+                                   <input disabled={true} className="input" type='text' { ...register( 'pet_Serial' ) }    />
+                               </div>
+
+                           </div>
+
+
+                           { /* 名字 */ }
                            <Input type="text" name="pet_Name" label="名 字" register={register} error={errors.pet_Name}
-                                  icon="fas fa-paw" asterisk={true} columns="3" onChange={handle_Change}/>
+                                  icon="fas fa-paw" asterisk={true} columns="3" />
 
+                           { /* 品種 */ }
                            <div className="column is-3-desktop required">
+
                                <p> 品 種 &nbsp; <b style={{color: "red"}}> {errors.pet_Species?.message} </b></p>
                                <div className="select">
                                    <select {...register("pet_Species")} onChange={e => get_Species_Id(e.target.value)}>
@@ -175,9 +183,12 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                        }
                                    </select>
                                </div>
+
                            </div>
 
+                           { /* 性別  */ }
                            <div className="column is-3-desktop required">
+
                                <p> 性 別 &nbsp; <b style={{color: "red"}}> {errors.pet_Sex?.message} </b></p>
                                <div className="select">
                                    <select {...register("pet_Sex")}  >
@@ -186,6 +197,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                        <option value="母">母</option>
                                    </select>
                                </div>
+
                            </div>
 
                            <Input type="text" name="pet_Color" label="毛 色" register={register} error={errors.pet_Color}

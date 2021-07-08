@@ -23,7 +23,7 @@ const Services_Rows = ( props : any ) => {
     const { color , icon }  = useServiceType( data[ 'service_type' ] , false , 'medium' );
 
     // * 寵物按鈕
-    const petButton = usePet_Button( [ pet ] ) ;
+    const petButton = usePet_Button([ pet ] ) ;
 
     // 點選 _ 服務單
     const click_Service = () => dispatch( set_Side_Panel(true , <Update_Service /> , { service_Type : data['service_type'] ,  preLoadData : data } as { service_Type : string } ) ) ;

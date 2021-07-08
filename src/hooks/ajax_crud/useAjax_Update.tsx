@@ -7,12 +7,14 @@ import {toast} from "react-toastify";
 import {set_Side_Panel} from "store/actions/action_Global_Layout";
 
 import { columns_Covert_Customer } from "hooks/ajax_crud/useAjax_Create"
+import { columns_Covert_Employee } from "hooks/ajax_crud/useAjax_Create"
+import {set_Current_Second_Tab} from "store/actions/action_Management";
 
 
 
 /* @ PUT : 透過 Ajax _ 更新資料 */
 
-// # 客戶
+
 export const useUpdate_Data = ( ) => {
 
     const history  = useHistory() ;
@@ -26,6 +28,10 @@ export const useUpdate_Data = ( ) => {
 
         // 客戶
         if( api === '/customers' )  submitData = columns_Covert_Customer( data ) ;
+
+        // 員工
+        if( api === '/employees' )  submitData = columns_Covert_Employee( data ) ;
+
 
         // 更新資料
         axios.put(`${api}/${data_id}` , submitData ).then(res => {
@@ -55,10 +61,16 @@ export const useUpdate_Data = ( ) => {
             // 關掉右側面板
             dispatch( set_Side_Panel(false , null ,{} ) ) ;
 
+
+            // for 新增後，跳回 /management ，並點選 '員工管理' 頁籤
+            if( api === '/employees' ){
+               dispatch( set_Current_Second_Tab('員工管理') ) ;
+            }
+
             // 前往相對應頁面
             // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )
             if( redirect ) history.push("/wrongpath");  // 錯誤路徑
-            if( redirect ) history.push( redirect );  // 正確路徑
+            if( redirect ) history.push( redirect );         // 正確路徑
 
         });
 

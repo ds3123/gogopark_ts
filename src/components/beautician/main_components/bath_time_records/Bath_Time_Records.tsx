@@ -1,11 +1,14 @@
 import React from "react" ;
 import Bath_Time_Button from "components/beautician/main_components/bath_time_records/Bath_Time_Button";
+import {useSelector} from "react-redux";
 
 
 
 /* 洗澡紀錄_點選按鈕 */
 const Bath_Time_Records = () => {
 
+
+    const data      = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
 
 
     const t_Center  = { textAlign:"center" , marginBottom : "30px" } as any ;
@@ -47,122 +50,130 @@ const Bath_Time_Records = () => {
 
                </div>
 
+                { ( data['service_type'] === '洗澡' || data['service_type'] === '美容' ) &&
+                 <>
 
+                   { /* 第一次洗澡 */ }
+                   <div className="column is-2-desktop relative" style={t_Center}>
 
-               { /* 第一次洗澡 */ }
-               <div className="column is-2-desktop relative" style={t_Center}>
+                       <div style={p_Title}>
+                           <div className="select is-small m_Bottom_5">
+                               <select>
+                                   <option value="請選擇">請選擇</option>
+                               </select>
+                           </div> <br/>
+                           <b className="fRed">*</b> 第一次洗澡
+                       </div>
 
-                   <div style={p_Title}>
-                       <div className="select is-small m_Bottom_5">
-                           <select>
-                               <option value="請選擇">請選擇</option>
-                           </select>
-                       </div> <br/>
-                       <b className="fRed">*</b> 第一次洗澡
+                       <Bath_Time_Button />
+                       <Bath_Time_Button />
+
                    </div>
 
-                   <Bath_Time_Button />
-                   <Bath_Time_Button />
+                   { /* 第二次洗澡 */ }
+                   <div className="column is-2-desktop relative" style={t_Center}>
 
-               </div>
+                       <div style={p_Title}>
+                           <div className="select is-small m_Bottom_5">
+                               <select>
+                                   <option value="請選擇">請選擇</option>
+                               </select>
+                           </div> <br/>
+                           <b className="fRed">*</b> 第二次洗澡
+                       </div>
 
-               { /* 第二次洗澡 */ }
-               <div className="column is-2-desktop relative" style={t_Center}>
+                       <Bath_Time_Button />
+                       <Bath_Time_Button />
 
-                   <div style={p_Title}>
-                       <div className="select is-small m_Bottom_5">
-                           <select>
-                               <option value="請選擇">請選擇</option>
-                           </select>
-                       </div> <br/>
-                       <b className="fRed">*</b> 第二次洗澡
                    </div>
 
-                   <Bath_Time_Button />
-                   <Bath_Time_Button />
+                   { /* 第一次浸泡 */ }
+                   <div className="column is-2-desktop relative" style={t_Center}>
 
-               </div>
+                       <div style={p_Title}>
+                           <div className="select is-small m_Bottom_5">
+                               <select>
+                                   <option value="請選擇">請選擇</option>
+                               </select>
+                           </div> <br/>
+                           <b className="fRed">*</b> 第一次浸泡
+                       </div>
 
-               { /* 第一次浸泡 */ }
-               <div className="column is-2-desktop relative" style={t_Center}>
+                       <Bath_Time_Button />
+                       <Bath_Time_Button />
 
-                   <div style={p_Title}>
-                       <div className="select is-small m_Bottom_5">
-                           <select>
-                               <option value="請選擇">請選擇</option>
-                           </select>
-                       </div> <br/>
-                       <b className="fRed">*</b> 第一次浸泡
                    </div>
 
-                   <Bath_Time_Button />
-                   <Bath_Time_Button />
+                   { /* 第三次洗澡 */ }
+                   <div className="column is-2-desktop relative" style={t_Center}>
 
-               </div>
+                       <div style={p_Title}>
+                           <div className="select is-small m_Bottom_5">
+                               <select>
+                                   <option value="請選擇">請選擇</option>
+                               </select>
+                           </div> <br/>
+                           <b className="fRed">*</b> 第三次洗澡
+                       </div>
 
-               { /* 第三次洗澡 */ }
-               <div className="column is-2-desktop relative" style={t_Center}>
+                       <Bath_Time_Button />
+                       <Bath_Time_Button />
 
-                   <div style={p_Title}>
-                       <div className="select is-small m_Bottom_5">
-                           <select>
-                               <option value="請選擇">請選擇</option>
-                           </select>
-                       </div> <br/>
-                       <b className="fRed">*</b> 第三次洗澡
                    </div>
 
-                   <Bath_Time_Button />
-                   <Bath_Time_Button />
+                   { /* 第二次浸泡 */ }
+                   <div className="column is-2-desktop relative" style={t_Center}>
 
-               </div>
+                       <div style={p_Title}>
+                           <div className="select is-small m_Bottom_5">
+                               <select>
+                                   <option value="請選擇">請選擇</option>
+                               </select>
+                           </div> <br/>
+                           <b className="fRed">*</b> 第二次浸泡
+                       </div>
 
-               { /* 第二次浸泡 */ }
-               <div className="column is-2-desktop relative" style={t_Center}>
+                       <Bath_Time_Button />
+                       <Bath_Time_Button />
 
-                   <div style={p_Title}>
-                       <div className="select is-small m_Bottom_5">
-                           <select>
-                               <option value="請選擇">請選擇</option>
-                           </select>
-                       </div> <br/>
-                       <b className="fRed">*</b> 第二次浸泡
                    </div>
 
-                   <Bath_Time_Button />
-                   <Bath_Time_Button />
+                   { /* 進烘箱 */ }
+                   <div className="column is-2-desktop relative" style={t_Center}>
 
-               </div>
+                       <div style={p_Title}>
+                           <div className="select is-small m_Bottom_5">
+                               <select>
+                                   <option value="請選擇">請選擇</option>
+                               </select>
+                           </div> <br/>
+                           <b className="fRed">*</b> 進烘箱
+                       </div>
 
-               { /* 進烘箱 */ }
-               <div className="column is-2-desktop relative" style={t_Center}>
+                       <Bath_Time_Button />
+                       <Bath_Time_Button />
 
-                   <div style={p_Title}>
-                       <div className="select is-small m_Bottom_5">
-                           <select>
-                               <option value="請選擇">請選擇</option>
-                           </select>
-                       </div> <br/>
-                       <b className="fRed">*</b> 進烘箱
                    </div>
 
-                   <Bath_Time_Button />
-                   <Bath_Time_Button />
+                 </>
 
-               </div>
+                }
 
+                { /* 大美容 */}
+                { data['service_type'] === '美容' &&
 
-               { /* 大美容 */ }
-               <div className="column is-2-desktop relative" style = { t_Center } >
+                   <div className="column is-2-desktop relative" style = {t_Center} >
 
-                   <div style={ p_Title } > <span > <br/> <b className="fRed">*</b> 大美容 </span> </div>
+                   <div style={p_Title} > <span > <br/> <b className="fRed">*</b> 大美容 </span> </div>
 
                    <Bath_Time_Button />
                    <Bath_Time_Button />
 
                    <br/><br/><br/>
 
-               </div>
+                   </div>
+
+               }
 
         </div>
 

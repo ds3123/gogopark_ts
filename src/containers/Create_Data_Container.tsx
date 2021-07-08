@@ -5,7 +5,9 @@ import React, {useState, useContext, useEffect} from "react" ;
 import { useForm , SubmitHandler , Controller } from "react-hook-form" ;
 
 // 各表單驗證條件
-import { schema_Customer , schema_Pet , schema_Basic , schema_Bath , schema_Beauty  }  from "utils/validator/form_validator" ;
+import { schema_Customer , schema_Pet , schema_Basic , schema_Bath , schema_Beauty , schema_Employee }  from "utils/validator/form_validator" ;
+
+
 
 // 各分類標籤元件
 import Create_Customer from "components/customers/edit/Create_Customer";
@@ -13,6 +15,8 @@ import Create_Pet from "components/pets/edit/Create_Pet";
 import Create_Service from "components/services/edit/Create_Service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Edit_Form_Tabs from "templates/tab/Edit_Form_Tabs";
+import Create_Employee from "components/employees/edit/Create_Employee";
+
 
 // Interface
 import { ICustomer } from "utils/Interface_Type" ;
@@ -36,8 +40,10 @@ const Create_Data_Container = () => {
     // 取得 _ 子元件目前所點選的標籤
     const get_Current_Tab           = ( tab : string ) => set_Current( tab ) ;
 
+
     // 依照不同服務類型，切換 : 驗證條件
     let validator = schema_Customer as any ;
+
 
     switch( current ){
 
@@ -46,6 +52,7 @@ const Create_Data_Container = () => {
         case "基礎" : validator = schema_Basic ;    break ;
         case "洗澡" : validator = schema_Bath ;     break ;
         case "美容" : validator = schema_Beauty ;   break ;
+        case "員工" : validator = schema_Employee ; break ;
 
     }
 
@@ -83,12 +90,18 @@ const Create_Data_Container = () => {
           case "基礎" : api = "/basics"    ; msg = "基礎" ; data.service_Status = service_Status ; break ;
           case "洗澡" : api = "/bathes"    ; msg = "洗澡" ; data.service_Status = service_Status ; break ;
           case "美容" : api = "/beauties"  ; msg = "美容" ; data.service_Status = service_Status ; break ;
+          case "員工" : api = "/employees" ; msg = "員工" ;  break ;
 
         }
 
         // # 新增資料
-        create_Data( api , data , msg ) ;                               // 所有資料
-       // create_Cus_Relatives('/customers/store_relation' , data ) ; // 僅針對 _ 客戶關係人
+        create_Data( api , data , msg ) ;  // 所有資料
+
+        // 僅針對 _ 客戶關係人 ( 再確認 2021.07.05 )
+        if( current === '客戶' || current === '寵物' || current === '基礎' || current === '洗澡' || current === '美容' ){
+            create_Cus_Relatives('/customers/store_relation' , data ) ;
+        }
+
 
     } ;
 
@@ -127,6 +140,12 @@ const Create_Data_Container = () => {
                 { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿" || current === "方案"  )  &&
                     <Create_Service { ...props } />
                 }
+
+
+                 { /* 員工項目 */ }
+                 { current === "員工" && <Create_Employee { ...props } /> }
+
+
 
                 <br/><br/><br/><br/>
 

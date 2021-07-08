@@ -17,12 +17,11 @@ interface IStatus {
 /* @ 到店狀態  */
 const Status_Cards = ( props : IStatus ) => {
 
-     // 首頁資料 _ 是否下載中
-     const Index_isLoading = useSelector( (state:any) => state.Index.Index_isLoading ) ;
+    // 首頁資料 _ 是否下載中
+    const Index_isLoading = useSelector( (state:any) => state.Index.Index_isLoading ) ;
 
-     const { shop_Status , pet_Arr , service_Sum  } = props ;
-     const { basic_Num , bath_Num , beauty_Num }    = service_Sum ;
-
+    const { shop_Status , pet_Arr , service_Sum  } = props ;
+    const { basic_Num , bath_Num , beauty_Num }    = service_Sum ;
 
     // 各階段標題 Icon
     let title_Icon  ;
@@ -31,10 +30,8 @@ const Status_Cards = ( props : IStatus ) => {
     if( shop_Status === '洗完等候中' ){   title_Icon = <i className="fas fa-dog"></i> ; }
     if( shop_Status === '已回家( 房 )' ){ title_Icon = <i className="fas fa-store-alt"></i> ; }
 
-
     const boxShadow = { boxShadow : "1px 1px 4px 1px rgba(0,0,0,.2)" , position : "absolute" , top : "-35px" } as const ;
-    const way_Leave = { paddingLeft:"65px" , marginBottom : "5px" , fontSize : "11pt" } as const ;
-
+    const way_Leave = { paddingLeft : "65px" , marginBottom : "3px" , fontSize : "10pt" , color:"gray"} as const ;
 
     return  <div className="card" style={{ height:"550px"}}>
 
@@ -51,15 +48,15 @@ const Status_Cards = ( props : IStatus ) => {
 
                                 <span className="tag is-large" style={ boxShadow } >
 
-                                   { title_Icon } &nbsp;&nbsp; <b> { shop_Status } </b> </span>
+                                  { title_Icon } &nbsp;&nbsp; <b> { shop_Status } </b> </span>
 
-                                <div className="relative" >
+                                  <div className="relative" >
 
-                                   <b className="tag is-medium is-light is-rounded"> 基 礎 &nbsp; <b className="tag is-rounded is-warning"> { basic_Num }  </b> </b> &nbsp;
-                                   <b className="tag is-medium is-light is-rounded"> 洗 澡 &nbsp; <b className="tag is-rounded is-success"> { bath_Num }   </b> </b> &nbsp;
-                                   <b className="tag is-medium is-light is-rounded"> 美 容 &nbsp; <b className="tag is-rounded is-danger">  { beauty_Num } </b> </b>
+                                    <b className="tag is-medium is-light is-rounded"> 基 礎 &nbsp; <b className="tag is-rounded is-warning"> { basic_Num }  </b> </b> &nbsp;
+                                    <b className="tag is-medium is-light is-rounded"> 洗 澡 &nbsp; <b className="tag is-rounded is-success"> { bath_Num }   </b> </b> &nbsp;
+                                    <b className="tag is-medium is-light is-rounded"> 美 容 &nbsp; <b className="tag is-rounded is-danger">  { beauty_Num } </b> </b>
 
-                                </div>
+                                  </div>
 
                               </span>
 
@@ -70,17 +67,18 @@ const Status_Cards = ( props : IStatus ) => {
                   </div>
 
                   { /* 項目內容 */ }
-                  <div className="media" >
+                  <div className="media" style={{ height:"450px" }}>
 
-                      <div className="media-content">
+                      <div className="media-content" style={{ height:"100%" }}>
 
-                          <div className="card-frame">
+                          <div className="card-frame" style={{ height:"100%" }}>
 
                               { Index_isLoading ||
 
                                   pet_Arr.map( ( x : any , y : number ) => {
 
-                                      if( x['shop_status'] !== shop_Status  ) return ;
+                                      // 依據 到店狀態( shop_status ) , 區分 4 個到店狀態區塊內容
+                                      if( x['shop_status'] !== shop_Status ) return ;
 
                                       let service_id = '' ;  // 資料表( 基礎、洗澡、美容 )
                                       if( x['service_type'] === '基礎' ) service_id = x['basic_id'] ;
@@ -93,7 +91,7 @@ const Status_Cards = ( props : IStatus ) => {
                                                   <div style={ way_Leave }  >
                                                       {  x['shop_status'] === '洗完等候中' &&
                                                           <div>
-                                                              <b> 進籠子等候 </b> &nbsp; / &nbsp;
+                                                              <b> 進籠子等候 </b>  &nbsp;
                                                               <b style = { { color : "rgb(180,120,60)" } }  >
                                                                           <b> { x['way_leave'] } </b> &nbsp; { x['expected_leave'] }
                                                                        </b>

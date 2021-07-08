@@ -13,6 +13,8 @@ import reducer_Service from "store/reducers/reducer_Service";
 import reducer_Lodge from "store/reducers/reducer_Lodge";
 import reducer_Plan from "store/reducers/reducer_Plan";
 import reducer_Care from "store/reducers/reducer_Care";
+import reducer_Management from "store/reducers/reducer_Management";
+import reducer_Signin from "store/reducers/reducer_Signin";
 
 
 
@@ -50,6 +52,12 @@ const root_Reducer = combineReducers({
 
                          // @ 方案
                          "Plan"       : reducer_Plan ,
+
+                         // @ 管理區
+                         "Management" : reducer_Management ,
+
+                         // @ 登入頁
+                         "Signin"     : reducer_Signin ,
 
 
                      }) ;

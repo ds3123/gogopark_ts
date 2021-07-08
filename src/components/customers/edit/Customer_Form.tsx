@@ -36,8 +36,9 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
 
     // # 以特定欄位，查詢 _ 客戶資料表 ( 是否有該客戶 )
     const { data : query_Result_Id }        = useRead_Customer_By_Column('id'           , query['customer_Id'] ) ;        // 身分證字號
-    const { data : query_Result_Name }      = useRead_Customer_By_Column('name'         , query['customer_Name']  ) ;     // 姓名
+    const { data : query_Result_Name }      = useRead_Customer_By_Column('name'         , query['customer_Name'] ) ;      // 姓名
     const { data : query_Result_CellPhone } = useRead_Customer_By_Column('mobile_phone' , query['customer_Cellphone'] ) ; // 手機號碼
+
 
     // 欄位變動處理 : 身分證字號、姓名、手機號碼
     const handle_Change = ( e : any ) => {
@@ -51,6 +52,7 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
         if( name && !value ) set_IsQuerying(false ) ;
 
     } ;
+
 
     // 點選 _ 帶入舊客戶資料
     const set_Cus_Data = ( data : any ) => {
@@ -88,9 +90,9 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
         const randomId = `C_${ get_Today() }_${ get_RandomInt(100) }` ;
         setValue( "customer_Id" , randomId , { shouldValidate: true  } ) ;
 
-
     } ;
 
+    // 檢查 _ 資料庫是否有該客戶 ( 依 : 身分證字號 / 姓名 / 手機號碼 )
     useEffect(( ) => {
 
       // * 檢查 _ 資料庫中是否有該客戶紀錄( for 提交表單時，是否要新增該客戶 )
@@ -99,7 +101,6 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
       }else{
           dispatch( set_IsExisting_Customer(false )) ;
       }
-
 
     } , [ query_Result_Id , query_Result_Name , query_Result_CellPhone ] ) ;
 

@@ -41,7 +41,7 @@ const Date_Picker:FC<DType> = ( { control , name, default_Date , handle_OnChange
     } ;
 
 
-    const dStyle = { width  :"150px" , zIndex:"2000" } as any ;
+    const dStyle = { width  :"150px" , zIndex:"10" } as any ;
 
     useEffect(() => {
 
@@ -64,7 +64,6 @@ const Date_Picker:FC<DType> = ( { control , name, default_Date , handle_OnChange
                                                          onChange(e) ;                   // useController 內建 _傳送所擷取到的值
                                                          handle_External_OnChange( e ) ; // 自訂 onChange 處理
                                                        }
-
                                     }
                         selected  = { value } />
 

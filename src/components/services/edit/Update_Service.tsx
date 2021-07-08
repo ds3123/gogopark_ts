@@ -29,7 +29,7 @@ const Update_Service = ( ) => {
     const value             = useContext( SidePanelContext ) ;  // 取得 context 值
     const service_Type      = value.service_Type as any ;
     const data              = value.preLoadData ;
-    const pet               = data.pet ;
+    const pet               = data.pet ? data.pet : {}  ;
     const Q_code            = data.q_code  ;
 
 

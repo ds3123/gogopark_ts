@@ -139,8 +139,6 @@ const Plan_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , erro
      } ,[ coupon_Num ] ) ;
 
 
-
-
      const box = {
                    width:'80%' ,
                    minHeight:'300px' ,

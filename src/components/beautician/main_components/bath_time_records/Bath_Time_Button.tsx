@@ -8,9 +8,9 @@ const Bath_Time_Button = () => {
    const timeBt = { marginBottom:"15px" , position : "relative" , zIndex : "10" } as any ;
 
    return  <span style     = { timeBt }
-                 className = "tag is-large"  >
+                 className = "tag is-large pointer"  >
 
-                00 : 00
+                 00 : 00
 
            </span>
 

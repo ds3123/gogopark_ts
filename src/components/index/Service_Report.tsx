@@ -102,7 +102,6 @@ const Service_Report = () => {
         if( service_Type === '美容' ){ service_Id = service['beauty_id'] ; api = '/beauties' };
 
 
-
         // 更改欄位
         const updateObj = {
                             shop_status : columnsData['shop_Status']
@@ -115,6 +114,7 @@ const Service_Report = () => {
 
     const props = {
                     register : register ,
+                    setValue : setValue ,
                     control  : control ,
                     errors   : errors ,
                     isDirty  : isDirty ,

@@ -9,13 +9,13 @@ import React, { useState } from "react"
        ~ 點選元件     ( JSXElement )
 
  */
-const useSection_Folding = ( ) => {
+const useSection_Folding = ( defaultFolding? : boolean ) => {
 
-    const [ is_folding , set_Is_Folding ] = useState( true );
+    const [ is_folding , set_Is_Folding ] = useState( defaultFolding ?  defaultFolding : false );
 
 
     const Folding_Bt = <b className = { `tag is-medium f_10 pointer ${ !is_folding ? 'is-white' : 'is-success is-light' }` }
-                          style     = {{ float:'right' }}
+                          style     = { { float:'right' } }
                           onClick   = { () => set_Is_Folding( !is_folding ) } >
 
                           <i className="fas fa-bars"></i>

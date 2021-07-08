@@ -5,9 +5,7 @@ import {useDispatch} from "react-redux";
 
 // Redux
 import { set_BasicSumPrice } from "store/actions/action_Basic"
-
 import useSection_Folding from "hooks/layout/useSection_Folding";
-
 
 
 
@@ -16,7 +14,7 @@ const Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
 
     const dispatch                    = useDispatch() ;
     const basicPrices                 = useRead_All_Prices( ) ; // 讀取 _ 基礎所有價格資料
-    const { is_folding , Folding_Bt } = useSection_Folding() ;  // 收折區塊
+    const { is_folding , Folding_Bt } = useSection_Folding(true) ;  // 收折區塊
 
 
     // 所填寫 _ 基礎價格
@@ -106,12 +104,11 @@ const Basic_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid
 
                 <i className="far fa-list-alt"></i> &nbsp; 基 礎
 
-
                 { /* 顯示 : 基礎價格 */ }
                 { price !== 0 &&
                   <>
                     &nbsp;&nbsp;
-                    <b className="tag is-rounded" style={{ fontSize : "12pt" }}> 小計 : <span style={{color:"red"}}> &nbsp; { price } &nbsp; </span> 元</b>
+                    <b className="tag is-rounded" style={{ fontSize : "12pt" }} > 小計 : <span style={{color:"red"}}> &nbsp; { price } &nbsp; </span> 元 </b>
                   </>
                 }
 

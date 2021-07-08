@@ -15,8 +15,8 @@ const axios = baseURL => {
 
     const instance = _axios.create({
 
-        baseURL : baseURL || 'http://localhost/Laravel_Projects/gogopark/public/index.php/api' ,
-        // baseURL : `${ cors }https://ds-gogopark.herokuapp.com/public/index.php/api` ,   // Heroku 空間
+         baseURL : baseURL || 'http://localhost/Laravel_Projects/gogopark/public/index.php/api' ,
+         //baseURL : `${ cors }https://ds-gogopark.herokuapp.com/public/index.php/api` ,   // Heroku 空間
         timeout : 5000  // ( 原先為 1000ms --> 設長點，避免出現錯誤 : Error: timeout of 1000ms exceeded )
 
     });

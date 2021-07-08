@@ -9,9 +9,9 @@ import Customers from 'components/customers/Customers'
 import Pets from 'components/pets/Pets'
 import Services from 'components/services/Services'
 import Lodge from 'components/lodge/Lodge'
-import Beautician from "components/beautician/Beautician";
+import Beautician from 'components/beautician/Beautician';
 import Management from 'components/management/Management'
-
+import Sign_In from 'components/account/Sign_In';
 
 function App(){
 
@@ -47,6 +47,12 @@ function App(){
 
                 { /* 管理區 */ }
                 <Route path="/management" component = { () => make_Component( <Management /> ) } />
+
+                { /* 登入頁 */ }
+                <Route path="/signin" component = { Sign_In } />
+
+
+
 
             </Switch>
 

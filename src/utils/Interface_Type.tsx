@@ -2,9 +2,11 @@ import React from "react" ;
 
 /* @ 定義 _ 全局 Interface、Type */
 
-
 // 限制 : 到店狀態 _ 類型
-export type Shop_Status  = '到店等候中' | '到店美容中' | '洗完等候中' | '已回家( 房 )' ;
+export type Shop_Status    = '到店等候中' | '到店美容中' | '洗完等候中' | '已回家( 房 )' ;
+
+// 限制 : 服務狀態 _ 類型
+export type Service_Status = '已到店' | '預約_今天' | '預約_未來' ;
 
 
 // 限制 : 主要服務 _ 類型
@@ -150,6 +152,23 @@ export interface ILodge_Data {
 
 
 export type room_Type = '大房' | '中房' | '小房' | '大籠' | '中籠' | '小籠'  ;
+
+
+
+// 員工資料
+export interface IEmployee {
+
+    employee_Type        : string ;   // 員工類型( Ex. 管理員、美容師 ...  )
+    employee_Account     : string ;   // 帳號
+    employee_Password    : string ;   // 密碼
+    employee_Nickname    : string ;   // 暱稱 / 別名
+
+    employee_Name        : string ;   // 員工姓名
+    employee_Id          : string ;   // 員工身分證字號
+    employee_MobilePhone : string ;   // 員工手機號碼
+    employee_Address     : string ;   // 員工通訊地址
+
+}
 
 
 

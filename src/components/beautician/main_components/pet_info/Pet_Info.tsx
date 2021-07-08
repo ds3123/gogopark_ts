@@ -9,7 +9,7 @@ import {useSelector} from "react-redux";
 const Pet_Info = ()=>{
 
   // 目前所點選寵物
-  const data               = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
+  const data       = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
 
   const basicFoot  =  data['basic_foot'] ? data['basic_foot'] : '' ;
   const basicItems = ( data['basic_data'] + basicFoot  ).split(',') ;    // 所點選 _　基礎項目

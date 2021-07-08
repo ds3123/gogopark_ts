@@ -101,7 +101,6 @@ export const useRead_Customer_By_Column = ( column : string , value : string | n
     //
     // } ;
 
-
     return { data } ;
 
 } ;
@@ -126,6 +125,25 @@ export const useRead_Customer_Pets = ( cus_Id : string ) => {
    return cusPets ;
 
 } ;
+
+
+// # 寵物 ---
+
+// 依照 _ 寵物編號
+export const useRead_Pet_By_Serial = ( serial : string ) => {
+
+    const [ data , set_Data ] = useState([] ) ;
+
+    useEffect(( ) => {
+
+       axios.get(`/pets/${ serial }`).then( res => set_Data( res.data ) ) ;
+
+    } , [ serial ] );
+
+    return data ;
+
+} ;
+
 
 
 // # 品種 & 價錢 ----
@@ -174,6 +192,25 @@ export const useRead_All_Prices = ( ) => {
     return prices ;
 
 } ;
+
+
+
+// * 員工
+export const useRead_Employees = ( ) => {
+
+    const [ employees , set_Employees ] = useState([]);
+
+    useEffect(() => {
+
+        axios.get( '/employees/' ).then( res => { set_Employees( res.data ) ; } );
+
+    } , [] ) ;
+
+    return employees ;
+
+
+} ;
+
 
 
 // # 檢查 _ 資料庫是否 : 已有相關資料 ( 尚未完成 2021.06.12 )

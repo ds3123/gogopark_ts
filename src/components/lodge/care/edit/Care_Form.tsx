@@ -10,8 +10,6 @@ import moment from "moment";
 
 
 
-
-
 { /* 安親表單欄位 */ }
 const Care_Form : FC<Edit_Form_Type> = ({ register  , control , setValue , errors , current } ) => {
 
@@ -19,14 +17,11 @@ const Care_Form : FC<Edit_Form_Type> = ({ register  , control , setValue , error
 
     const today    = moment( new Date ).format('YYYY-MM-DD') ; // 今日
 
-
     // 目前所選擇 : 安親類型
     const [ current_Care_Type , set_Current_Care_Type ]     = useState('' ) ;
 
-
     // 一般安親費用
     const [ care_Ordinary_Price , set_Care_Ordinary_Price ] = useState(0 ) ;
-
 
     // 安親日期、時間
     const [ Date_Time , set_Date_Time ] = useState<any>({
@@ -42,8 +37,6 @@ const Care_Form : FC<Edit_Form_Type> = ({ register  , control , setValue , error
                                             // care_End_Time   : get_H_M()   // 時間
 
                                          }) ;
-
-
 
 
    // 取得 _ 安親類別
@@ -282,16 +275,32 @@ const Care_Form : FC<Edit_Form_Type> = ({ register  , control , setValue , error
 
                    </div>
 
-                   { /* 安親結束時間 */ }
-                   <div className="column is-7-desktop">
 
-                      { Date_Time['care_End_DateTime'] &&
+                 { Date_Time['care_End_DateTime'] &&
+
+                    <>
+
+                     { /* 安親結束時間 */}
+                     <div className="column is-2-desktop">
+
                          <b className="tag is-medium is-white"> 結束時間 : &nbsp;
-                             <span className="tag is-medium is-success is-light"> { Date_Time['care_End_DateTime'] }  </span>
+                             <span className="tag is-medium is-success is-light"> {Date_Time['care_End_DateTime']}  </span>
                          </b>
-                      }
 
-                   </div>
+                     </div>
+
+                     { /* 逾時計算 */}
+                     <div className="column is-5-desktop">
+
+                         <b className="tag is-medium is-white fDred"> 逾時計算 : &nbsp;
+                            00 : 00
+                         </b>
+
+                     </div>
+
+                   </>
+
+                 }
 
                    {/*<div className="column is-1-desktop">  <span className="relative" style={{ top:"7px" }}> { '---------' } </span> </div>*/}
 

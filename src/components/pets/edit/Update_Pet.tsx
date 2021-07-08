@@ -20,7 +20,7 @@ import Pet_Form from "components/pets/edit/Pet_Form";
 const Update_Pet = ( ) => {
 
     const value = useContext( SidePanelContext ) ;  // 取得 context 值
-    const pet   = value.preLoadData ;
+    const pet   = value.preLoadData ? value.preLoadData : { } ;
 
     // React Hook Form
     const { register , setValue , handleSubmit , formState: { errors , isDirty , isValid } } =
@@ -78,7 +78,6 @@ const Update_Pet = ( ) => {
 
               { /* 寵物表單欄位  */ }
               <Pet_Form  {...props}  />
-
 
               { /* 提交按鈕 */ }
               <div className="has-text-centered" >

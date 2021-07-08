@@ -73,7 +73,6 @@ export const schema_Basic = yup.object().shape({
 });
 
 
-
 // 洗澡單
 export const schema_Bath = yup.object().shape({
 
@@ -97,7 +96,6 @@ export const schema_Bath = yup.object().shape({
 });
 
 
-
 // 美容單
 export const schema_Beauty = yup.object().shape({
 
@@ -119,3 +117,15 @@ export const schema_Beauty = yup.object().shape({
     // pet_Sex                     : yup.string().required().test( "性別" , "請選擇", value => value !== "請選擇") ,
 
 });
+
+
+
+// 員工單
+export const schema_Employee = yup.object().shape({
+
+    employee_Type     : yup.string().required().test( "類別" , "請選擇", value => value !== "請選擇") ,
+    employee_Account  : yup.string().required("必填欄位") ,
+    employee_Password : yup.string().required("必填欄位") ,
+
+});
+

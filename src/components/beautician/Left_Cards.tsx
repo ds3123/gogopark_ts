@@ -126,9 +126,9 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
                            const { color , icon } = get_ServiceType( x['service_type'] ) ;  // 取得樣式
 
                            return  <b className={ color } key={ y } style={ rS }  onClick = { () => click_Pet( x ) } >
-                               <i className ={ icon} ></i> &nbsp; { pet['name'] } ( { pet['species'] } )
-                               <b className="tag is-rounded is-white absolute" style={{ right:"10px" }}> { x['expected_leave'] } </b>
-                           </b>
+                                       <i className ={ icon} ></i> &nbsp; { pet['name'] } ( { pet['species'] } )
+                                       <b className="tag is-rounded is-white absolute" style={{ right:"10px" }}> { x['expected_leave'] } </b>
+                                   </b>
 
                        })
 

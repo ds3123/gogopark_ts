@@ -8,7 +8,7 @@ import React from "react" ;
 // 擷取 _ 長字串 ( ... )
 export const string_Short = ( str : string ) : string => {
 
-    if(  str.length > 3 )  return str.slice(0,4) +'...' ;
+    if(  str.length > 3 )  return str.slice(0,3) +'...' ;
 
     return str ;
 

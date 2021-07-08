@@ -1,5 +1,4 @@
 import React, {useContext} from "react"
-import {Input} from "../../../templates/form/Input";
 
 // React Hook Form
 import { useForm , SubmitHandler} from "react-hook-form";
@@ -22,8 +21,8 @@ import { useUpdate_Data , useUpdate_Customer_Relatives } from "hooks/ajax_crud/u
 const Update_Customer = ( ) => {
 
     const value    = useContext( SidePanelContext ) ;  // 取得 context 值
-    const customer = value.preLoadData ;
-    const relative = value.preLoadData.customer_relation ;
+    const customer = value.preLoadData ? value.preLoadData : {} ;
+    const relative = value.preLoadData ? value.preLoadData.customer_relation : { customer_relation : [] } ;
 
 
     // React Hook Form

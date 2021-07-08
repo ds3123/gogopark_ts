@@ -5,8 +5,8 @@ import Date_Picker from "templates/form/Date_Picker";
 
 // React Hook Form
 import { useForm , SubmitHandler , Controller } from "react-hook-form" ;
-import {ICustomer} from "utils/Interface_Type";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { ICustomer } from "utils/Interface_Type";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 
 
@@ -46,12 +46,12 @@ const Service_Error = ( ) => {
                         <b className="f_14"> 查詢類別 </b>
                         <div className="select">
                             <select >
-                                <option value="請選擇"> 請選擇 </option>
-                                <option value="取消預約"> 取消預約 </option>
-                                <option value="客人投訴"> 客人投訴 </option>
+                                <option value="請選擇">       請選擇       </option>
+                                <option value="取消預約">     取消預約     </option>
+                                <option value="客人投訴">     客人投訴     </option>
                                 <option value="客人態度不佳"> 客人態度不佳 </option>
                                 <option value="寵物難以處理"> 寵物難以處理 </option>
-
+                                <option value="其他">        其他         </option>
                             </select>
                         </div>
 

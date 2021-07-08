@@ -5,8 +5,7 @@ import React from "react" ;
 
 interface ICustomer {
 
-   // # 資料庫 _ 是否已有該客戶紀錄
-   IsExisting_Customer   : boolean ;
+   IsExisting_Customer   : boolean ; // 資料庫 _ 是否已有該客戶紀錄
 
    Current_Customer_Pets : any[] ;   // 目前 _ 客戶的所有寵物
    Customer_isLoading    : boolean ; // 客戶頁資料 _ 是否下載中

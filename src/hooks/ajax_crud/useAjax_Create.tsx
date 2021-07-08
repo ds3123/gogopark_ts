@@ -7,15 +7,13 @@ import axios from "utils/axios" ;
 import { toast } from "react-toastify";
 
 // Redux
-import {useDispatch, useSelector} from "react-redux";
-import {set_Side_Panel} from "store/actions/action_Global_Layout";
+import { useDispatch , useSelector } from "react-redux";
+import { set_Side_Panel } from "store/actions/action_Global_Layout";
+import { set_Current_Second_Tab } from "store/actions/action_Management"
 import moment from "moment";
 
 
-
-
 /* @ POST : 透過 Ajax _ 新增資料 */
-
 
 // 新增 _ 客戶
 const useCreate_Customer = ( history : any , dispatch : any ) => {
@@ -83,25 +81,24 @@ const useCreate_Pet = ( history : any , dispatch : any ) => {
 // 新增 _ 基礎單
 const useCreate_Basic = ( history : any , dispatch : any ) => {
 
-    // 資料庫已有 : 該客戶紀錄
-    const IsExisting_Customer = useSelector( ( state : any ) => state.Customer.IsExisting_Customer ) ;
+    // 資料庫已有 : 該客戶、寵物紀錄
+    const IsExisting_Customer = useSelector(( state : any ) => state.Customer.IsExisting_Customer ) ;
+    const IsExisting_Pet      = useSelector(( state : any ) => state.Pet.IsExisting_Pet ) ;
 
     const create_Basic = ( api : string  , data  : any , msg? : string ) => {
 
         const dataArr = columns_Covert_Basic( data ) ;
 
         // 轉換欄位
-        const obj_Customer  = dataArr[0] as any ;  // 客戶
-        const obj_Pet       = dataArr[1] ;  // 寵物
-        const obj_Basic     = dataArr[2] ;  // 基礎單
+        const obj_Customer  = dataArr[0] as any ; // 客戶
+        const obj_Pet       = dataArr[1] ;        // 寵物
+        const obj_Basic     = dataArr[2] ;        // 基礎單
 
-        console.log( IsExisting_Customer )
-
-        return false ;
 
         // 新增資料
         if( !IsExisting_Customer ) axios.post( "/customers" , obj_Customer );
-        axios.post( "/pets" , obj_Pet );
+        if( !IsExisting_Pet )      axios.post( "/pets" , obj_Pet ) ;
+
         axios.post( "/basics" , obj_Basic ).then(res => {
 
             // 新增成功通知
@@ -196,7 +193,38 @@ const useCreate_Beauty = ( history : any , dispatch : any  ) => {
 
 } ;
 
+// 新增 _ 員工
+const useCreate_Employee = ( history : any , dispatch : any  ) => {
 
+    const create_Employee = ( api : string  , data  : any , msg? : string ) => {
+
+        const dataObj = columns_Covert_Employee( data ) ;
+
+        // 新增資料
+        axios.post( "/employees" , dataObj ).then( res => {
+
+            // 新增成功通知
+            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+
+            // 關掉右側面板
+            dispatch( set_Side_Panel(false , null ,{} ) ) ;
+
+            // for 新增後，跳回 /management ，並點選 '員工管理' 頁籤
+            dispatch( set_Current_Second_Tab('員工管理') ) ;
+
+            history.push("/wrongpath");  // 錯誤路徑
+            history.push("/management");  // 正確路徑
+
+        }) ;
+
+    } ;
+
+    return create_Employee ;
+
+} ;
+
+
+// ------------------------------------------------------------------------------
 
 // # 新增資料
 export const useCreate_Data = ( ) => {
@@ -210,6 +238,7 @@ export const useCreate_Data = ( ) => {
     const create_Basic    = useCreate_Basic( history , dispatch ) ;    // 基礎單
     const create_Bath     = useCreate_Bath( history , dispatch ) ;     // 洗澡單
     const create_Beauty   = useCreate_Beauty( history , dispatch ) ;   // 美容單
+    const create_Employee = useCreate_Employee( history , dispatch ) ; // 員工
 
 
     // * Controller / 表示層
@@ -230,6 +259,8 @@ export const useCreate_Data = ( ) => {
         // 美容
         if (api === "/beauties") create_Beauty(api, data, msg);
 
+        // 員工
+        if (api === "/employees") create_Employee(api, data, msg);
 
     } ;
 
@@ -237,34 +268,33 @@ export const useCreate_Data = ( ) => {
 
 } ;
 
-
 // # 新增資料 ( for 客戶關係人 )
 export const useCreate_Customer_Relatives = ( ) => {
+
+    // 資料庫已有 : 該客戶紀錄
+    const IsExisting_Customer = useSelector( ( state : any ) => state.Customer.IsExisting_Customer ) ;
 
     // 新增資料邏輯
     const create_Cus_Relatives = ( api : string , data : any ) => {
 
         // 轉換資料欄位
         const submitData = {
-
             customer_id  : data['customer_Id'] ,
             type         : data['customer_Relative_Type'] ,
             tag          : data['customer_Relative_Family'] ,
             name         : data['customer_Relative_Name'] ,
             mobile_phone : data['customer_Relative_Cellphone'] ,
             tel_phone    : data['customer_Relative_Telephone'] ,
-
         } ;
 
-        // 新增資料
-        axios.post( api , submitData ) ;
+        // 新增資料 ( 資料庫沒有該客戶，才能新增關係人 )
+        if( !IsExisting_Customer ) axios.post( api , submitData ) ;
 
     } ;
 
     return create_Cus_Relatives
 
 } ;
-
 
 // # 轉換資料欄位 ---------------------------------------------------
 // 客戶
@@ -470,8 +500,22 @@ export const columns_Covert_Beauty = ( data : any ) => {
 
 } ;
 
+// 員工
+export const columns_Covert_Employee = ( data : any ) => {
 
+    return {
+              employee_type         : data['employee_Type'] ,         // 員工類型( Ex. 管理員、美容師 ... )
+              account               : data['employee_Account'] ,      // 帳號
+              password              : data['employee_Password'] ,     // 密碼
+              nickname              : data['employee_Nickname'] ,     // 暱稱
 
+              employee_name         : data['employee_Name'] ,         // 員工姓名
+              employee_id           : data['employee_Id'] ,           // 員工身分證字號
+              employee_mobile_phone : data['employee_MobilePhone'] ,  // 員工手機號碼
+              employee_address      : data['employee_Address'] ,      // 員工通訊地址
+           } ;
+
+} ;
 
 
 
