@@ -9,7 +9,7 @@ import useSection_Folding from "hooks/layout/useSection_Folding";
 const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
 
-   const { is_folding , Folding_Bt } = useSection_Folding() ;  // 收折區塊
+   const { is_folding , Folding_Bt } = useSection_Folding( true ) ;  // 收折區塊
 
    const padding = { paddingLeft : "70px" } as const ;
 

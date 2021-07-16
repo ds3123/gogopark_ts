@@ -3,9 +3,10 @@ import React, {FC, useEffect} from "react" ;
 import { Edit_Form_Type } from "utils/Interface_Type"
 import { set_PickupFee } from "store/actions/action_Extra_Service_Fee"
 import { useDispatch } from "react-redux";
+import {Input} from "../../../templates/form/Input";
 
 /* 接送費 */
-const Pickup_Fee : FC<Edit_Form_Type> = ({ register , current, setValue } ) => {
+const Pickup_Fee : FC<Edit_Form_Type> = ({ register , current, setValue , errors} ) => {
 
    const dispatch = useDispatch() ;
 
@@ -50,18 +51,23 @@ const Pickup_Fee : FC<Edit_Form_Type> = ({ register , current, setValue } ) => {
                    </b>
                </div>
 
-               <div className= "column is-2-desktop" >
+                <div className= "column is-2-desktop" >
 
-                  <input type="text" className="input" { ...register( "pickup_Fee" ) } onChange={ e => get_Fee( e.target.value ) }/>
+                    <div className="control has-icons-left" >
+                        <input className="input" type="number" { ...register( "pickup_Fee" ) } />
+                        <span className="icon is-small is-left"> <i className="fas fa-dollar-sign"></i> </span>
+                    </div>
 
-               </div>
+                </div>
+
 
                <div className= "column is-1-desktop" >
                    <span className="relative" style={{top:"8px"}}>元</span>
                </div>
 
                <div className= "column is-7-desktop relative" >
-                   <span className='absolute' style={{ fontSize:'10pt',left:'-40px' }}> * 人工判斷 ( 5 公里內，機車 100 元 / 汽車 200 元 ) </span>
+                   <span className='absolute' style={{ fontSize:'10pt',left:'-40px', top:"20px" }}> * 人工判斷 ( 5 公里內，機車 100 元 / 汽車 200 元 ) </span>
+
                </div>
 
             </div>

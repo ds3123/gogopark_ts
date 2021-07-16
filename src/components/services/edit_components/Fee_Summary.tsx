@@ -6,6 +6,8 @@ import { usePrice_Basic , usePrice_Plan , usePrice_Care } from "hooks/data/usePr
 import { set_PickupFee } from "store/actions/action_Extra_Service_Fee"
 
 
+
+
 interface TS extends Edit_Form_Type {
     current : string ;
 }
@@ -96,7 +98,6 @@ const Fee_Summary : FC<TS> = ({ register , setValue , errors , isDirty , isValid
       setValue( 'actual_Payment' , receivable - value ) ;  // 實收
 
     } ;
-
 
     // -----------------------------------------------------------------------------------
 
@@ -195,185 +196,208 @@ const Fee_Summary : FC<TS> = ({ register , setValue , errors , isDirty , isValid
 
     return <div className="columns is-multiline  is-mobile">
 
-             <div className="column is-3-desktop">
+                    <div className="column is-4-desktop">
 
-               <span className="tag is-large is-white">
-                  <b> 服務項目 :
-                      <span style={ blue }> { current } &nbsp;
-                        <span className='f_10'>
-                          { ( current === '方案' && current_Plan_Type ) && `( ${ current_Plan_Type } )` }
-                          { ( current === '安親' && current_Care_Type ) && `( ${ current_Care_Type } )` }
-                        </span>
-                      </span>
-                  </b>
-               </span>
+                       <span className="tag is-large is-white">
+                          <b> 服務項目 :
+                              <span style={ blue }> { current } &nbsp;
+                                  <span className='f_10'>
+                                  { ( current === '方案' && current_Plan_Type ) && `( ${ current_Plan_Type } )` }
+                                      { ( current === '安親' && current_Care_Type ) && `( ${ current_Care_Type } )` }
+                                </span>
+                              </span>
+                          </b>
+                       </span>
 
-             </div>
+                    </div>
 
-             <div className="column is-9-desktop">
+                    <div className="column is-8-desktop">
 
-               <span className="tag is-large is-white">
-                  <b> 應收金額 : <span style={{ color:"red" }} > { receivable } </span> 元 </b>
-               </span> &nbsp; &nbsp;
+                       <span className="tag is-large is-white">
+                          <b> 應收金額 : <span style={{ color:"red" }} > { receivable } </span> 元 </b>
+                       </span> &nbsp; &nbsp;
 
-               { /* 金額明細 */ }
-               { current === '基礎' &&
+                        { /* 金額明細 */ }
+                        { current === '基礎' &&
 
-                  <b className="tag is-medium is-rounded"> &nbsp; &nbsp;
-                      { basicSumPrice !== 0 && <span> 基礎費 : { basicSumPrice } 元 </span> } &nbsp;
-                      { pickupFee !== 0     && <span> 接送費 : { pickupFee } 元     </span> } &nbsp; &nbsp;
-                  </b>
+                        <b className="tag is-medium is-rounded"> &nbsp; &nbsp;
+                            { basicSumPrice !== 0 && <span> 基礎費 : { basicSumPrice } 元 </span> } &nbsp;
+                            { pickupFee !== 0     && <span> 接送費 : { pickupFee } 元     </span> } &nbsp; &nbsp;
+                        </b>
 
-               }
+                        }
 
-               { current === '安親' &&
+                        { current === '安親' &&
 
-                   <b className="tag is-medium is-rounded"> &nbsp; &nbsp;
-                       { Care_Ordinary_Price !== 0 && <span> 一般安親 : { Care_Ordinary_Price } 元       </span> } &nbsp;
-                       { Care_Ahead_Price !== 0    && <span> 住宿 _ 提早抵達 : { Care_Ahead_Price } 元    </span> } &nbsp;
-                       { Care_Postpone_Price !== 0 && <span> 住宿 _ 延後帶走 : { Care_Postpone_Price } 元 </span> } &nbsp;
-                       { pickupFee !== 0           && <span> 接送費 : { pickupFee } 元                    </span> } &nbsp;
-                   </b>
+                        <b className="tag is-medium is-rounded"> &nbsp; &nbsp;
+                            { Care_Ordinary_Price !== 0 && <span> 一般安親 : { Care_Ordinary_Price } 元       </span> } &nbsp;
+                            { Care_Ahead_Price !== 0    && <span> 住宿 _ 提早抵達 : { Care_Ahead_Price } 元    </span> } &nbsp;
+                            { Care_Postpone_Price !== 0 && <span> 住宿 _ 延後帶走 : { Care_Postpone_Price } 元 </span> } &nbsp;
+                            { pickupFee !== 0           && <span> 接送費 : { pickupFee } 元                    </span> } &nbsp;
+                        </b>
 
-               }
+                        }
 
-             </div>
+                    </div>
 
-             { /* 付款方式  */ }
-             <div className="column is-3-desktop">
+                    { /* 付款方式  */ }
+                    <div className="column is-4-desktop">
 
-                 <span className="tag is-large is-white">
+                         <span className="tag is-large is-white">
 
-                      <b> 付款方式 : </b> &nbsp;
-                      <div className="select is-small relative" >
+                              <b> 付款方式 : </b> &nbsp;
 
-                         <select { ...register( "payment_Method" ) }
-                                   style    = {{ fontSize : "13pt" , top : "-7px" , fontWeight : "bold" }}
-                                   onChange = { e => handle_PaymentMethod( e.target.value )} >
+                              <div className="control has-icons-left">
 
-                              <option value="現金" > 現金        </option>
+                                 <div className="select is-small relative" >
 
-                              { ( current === '基礎' || current === '洗澡' || current === '美容') &&
-                                 <option value="贈送"> 贈送 </option>
-                              }
+                                     <select { ...register( "payment_Method" ) }
+                                             style    = {{ fontSize : "13pt" , top : "-7px" , fontWeight : "bold" }}
+                                             onChange = { e => handle_PaymentMethod( e.target.value )} >
 
-                              { ( current === '基礎' || current === '洗澡' || current === '美容') &&
-                                 <option value="優惠"> 優惠 </option>
-                              }
+                                          <option value="現金" > 現金        </option>
 
-                              {  current === '洗澡' &&
-                                 <option value="包月洗澡"> 包月洗澡 </option>
-                              }
+                                         { ( current === '基礎' || current === '洗澡' || current === '美容') &&
+                                         <option value="贈送"> 贈送 </option>
+                                         }
 
-                              {  current === '美容' &&
-                                 <option value="包月美容" > 包月美容 </option>
-                              }
+                                         { ( current === '基礎' || current === '洗澡' || current === '美容') &&
+                                         <option value="優惠"> 優惠 </option>
+                                         }
 
-                         </select>
+                                         {  current === '洗澡' &&
+                                         <option value="包月洗澡"> 包月洗澡 </option>
+                                         }
 
-                      </div>
+                                         {  current === '美容' &&
+                                         <option value="包月美容" > 包月美容 </option>
+                                         }
 
-                 </span>
+                                     </select>
 
-             </div>
+                                  </div>
 
-             { ( paymentMethod === '現金' || paymentMethod === '贈送' || paymentMethod === '包月洗澡' || paymentMethod === '包月美容' ) &&
+                                  <div className="icon is-small is-left"> <i className="fas fa-money-bill-wave"></i> </div>
 
-                <>
+                              </div>
 
-                   <div className="column is-2-desktop">
-                     <span className="tag is-large is-white"> <b> 實收金額 : </b> </span>
-                   </div>
+                         </span>
 
-                   { ( paymentMethod === '現金' || paymentMethod === '包月洗澡' || paymentMethod === '包月美容' ) &&
-                       <div className="column is-2-desktop relative">
-                         <input className="input relative"  type="text"
-                                {...register( "actual_Payment" )}
-                                onChange={ e => handle_ActualPayment( e.target.value ) } style={{left:"-60px"}}/>
-                         <span className="tag is-large is-white absolute" style={{left: "110px"}}> <b> 元 </b> </span>
-                       </div>
-                   }
+                    </div>
 
-                   { /* 實收金額不能填寫  */ }
-                   { paymentMethod === '贈送' &&
+                    { ( paymentMethod === '現金' || paymentMethod === '贈送' || paymentMethod === '包月洗澡' || paymentMethod === '包月美容' ) &&
+
+                    <>
+
+                        <div className="column is-2-desktop">
+                            <span className="tag is-large is-white"> <b> 實收金額 : </b> </span>
+                        </div>
+
+                        { ( paymentMethod === '現金' || paymentMethod === '包月洗澡' || paymentMethod === '包月美容' ) &&
+                        <div className="column is-2-desktop relative">
+
+                            <div className="control has-icons-left" style={{left:"-60px"}}>
+
+                                <input className="input relative"  type="text"
+                                       {...register( "actual_Payment" )}
+                                       onChange={ e => handle_ActualPayment( e.target.value ) } />
+
+                                <span className="icon is-small is-left"> <i className="fas fa-dollar-sign"></i> </span>
+
+                            </div>
+
+                            <span className="tag is-large is-white absolute" style={{left: "110px",top:"12px"}}> <b> 元 </b> </span>
+
+                        </div>
+                        }
+
+                        { /* 實收金額不能填寫  */ }
+                        { paymentMethod === '贈送' &&
                         <div className="column is-2-desktop relative">
                             <input className="input relative" type="text" {...register( "actual_Payment" )} style={{left:"-60px"}} disabled/>
                             <span className="tag is-large is-white absolute" style={{left: "110px"}}> <b> 元 </b> </span>
                         </div>
-                   }
+                        }
 
 
-                </>
+                    </>
 
-             }
+                    }
 
-             { paymentMethod === '優惠' &&
+                    { paymentMethod === '優惠' &&
 
-                <>
-                    <div className="column is-2-desktop">
-                        <span className="tag is-large is-white"> <b> <span style={{ color:"orange" }}>優惠</span>金額 : </b> </span>
+                    <>
+                        <div className="column is-2-desktop">
+                            <span className="tag is-large is-white"> <b> <span style={{ color:"orange" }}>優惠</span>金額 : </b> </span>
+                        </div>
+
+                        <div className="column is-1-desktop relative">
+                            <input className="input relative" type="text"
+                                   { ...register( "discount_Amount" ) }
+                                   onChange={ e => handle_Discount( e.target.value ) }
+                                   style={{left:"-60px"}}/>
+                            <span className="tag is-large is-white absolute" style={{left: "16px"}}> <b> 元 </b> </span>
+                        </div>
+
+                        <div className="column is-2-desktop">
+                            <span className="tag is-large is-white"> <b> 實收金額 : </b> </span>
+                        </div>
+
+                        <div className="column is-1-desktop relative" >
+                            <input className="input relative" type="text" { ...register( "actual_Payment" ) } style={{left:"-60px"}} disabled/>
+                            <span className="tag is-large is-white absolute" style={{left: "16px"}}> <b> 元 </b> </span>
+                        </div>
+                    </>
+
+                    }
+
+                    { /* 未收金額 */ }
+                    <div className="column is-3-desktop">
+
+                           <span className="tag is-large is-white">
+                              <b> 未收金額 : <span style={{ color:"red" }}> { delinquent_Amount } </span> 元 </b>
+                           </span>
+
                     </div>
 
-                    <div className="column is-1-desktop relative">
-                        <input className="input relative" type="text"
-                               { ...register( "discount_Amount" ) }
-                               onChange={ e => handle_Discount( e.target.value ) }
-                               style={{left:"-60px"}}/>
-                        <span className="tag is-large is-white absolute" style={{left: "16px"}}> <b> 元 </b> </span>
+                    { /* 經手人員  */ }
+                    <div className="column is-4-desktop">
+
+                         <span className="tag is-large is-white">
+
+                             <b> 經手人員 : </b> &nbsp;
+
+
+                             <div className="control has-icons-left">
+
+                                 <div className="select is-small relative" >
+                                    <select  style={{ fontSize : "13pt" , top : "-7px" , fontWeight : "bold" }}  >
+                                      <option value="請選擇" > 請選擇 </option>
+                                      <option value="陳宜芳" > 陳宜芳 </option>
+                                      <option value="李馨慧" > 李馨慧 </option>
+                                    </select>
+                                 </div>
+
+                                 <div className="icon is-medium is-left">  <i className="fas fa-user"></i> </div>
+
+                             </div>
+
+                       </span>
+
                     </div>
 
-                    <div className="column is-2-desktop">
-                        <span className="tag is-large is-white"> <b> 實收金額 : </b> </span>
+                    { /* 建檔日期 */ }
+                    <div className="column is-8-desktop">
+
+                       <span className="tag is-large is-white">
+
+                          <b> 建檔日期 : <span style={ blue } > { get_Today() } </span> </b>
+
+                       </span>
+
                     </div>
 
-                    <div className="column is-1-desktop relative" >
-                        <input className="input relative" type="text" { ...register( "actual_Payment" ) } style={{left:"-60px"}} disabled/>
-                        <span className="tag is-large is-white absolute" style={{left: "16px"}}> <b> 元 </b> </span>
-                    </div>
-                </>
-
-             }
-
-             { /* 未收金額 */ }
-             <div className="column is-3-desktop">
-
-                   <span className="tag is-large is-white">
-                      <b> 未收金額 : <span style={{ color:"red" }}> { delinquent_Amount } </span> 元 </b>
-                   </span>
-
-            </div>
-
-             { /* 經手人員  */ }
-             <div className="column is-3-desktop">
-
-                 <span className="tag is-large is-white">
-
-                     <b> 經手人員 : </b> &nbsp;
-                     <div className="select is-small relative" >
-                        <select  style={{ fontSize : "13pt" , top : "-7px" , fontWeight : "bold" }}  >
-                          <option value="請選擇" > 請選擇 </option>
-                          <option value="陳宜芳" > 陳宜芳 </option>
-                          <option value="李馨慧" > 李馨慧 </option>
-                        </select>
-                     </div>
-
-               </span>
-
-             </div>
-
-             { /* 建檔日期 */ }
-             <div className="column is-6-desktop">
-
-               <span className="tag is-large is-white">
-
-                  <b> 建檔日期 : <span style={ blue } > { get_Today() } </span> </b>
-
-               </span>
-
-             </div>
-
-           </div>
-
+                </div>
 
 };
 

@@ -34,6 +34,7 @@ interface IOptionObj {
 // # 導覽列 _ 選項
 const Nav_Options = () => {
 
+    // 使用者類別 ( Ex. 櫃台、美容 .... )
     const [ userType , set_UserType ] = useState( '' ) ;
 
     const history  = useHistory();
@@ -73,13 +74,13 @@ const Nav_Options = () => {
     const click_SignOut = ( ) => {
 
         // 刪除 cookie
-        cookie.remove( 'userInfo'  ,  { path : '/' } );
+        cookie.remove( 'userInfo' ,{ path : '/' } );
 
         // 通知
         toast(`🦄 登出成功`, { position: "top-left", autoClose: 1500 , hideProgressBar: false,});
 
         // 轉址
-        history.push('/signin')
+        history.push('/signin');
 
     } ;
 
@@ -87,24 +88,22 @@ const Nav_Options = () => {
     const show_Qcode = () => dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '客戶' , preLoadData : null } ) );
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '價格' , preLoadData : null } ) );
 
     useEffect(() => {
 
         // 設定 _ 使用者類別
-        const _cookie =  cookie.load( 'userInfo' ) ;
+        const _cookie = cookie.load( 'userInfo' ) ;
 
         // 需確認 cookie 是否存在 ( 首頁網址 ( '/' )，需設為登入頁 Signin )
         if( _cookie ){
 
             set_UserType( _cookie['employee_type'] ) ;
 
-            // 前往美容頁面
+            // 前往 _ 美容頁面
             if( _cookie['employee_type']  === '美容' ) history.push('/beautician')
 
         }
-
-
 
         // add_Data()
         // show_Qcode() ;
@@ -125,7 +124,7 @@ const Nav_Options = () => {
 
    return  <div id="navbarExampleTransparentExample" className="is-hidden-mobile">
 
-               <div className="navbar-start relative" style={ { top:"34%" , left:"0px" } } >
+               <div className="navbar-start relative" style={ { top:"34%" , left:"30px" } } >
 
                       {  /* 業務功能頁面 */
                        _OptionArr.map( ( option , index ) => {
@@ -162,10 +161,9 @@ const Nav_Options = () => {
 
                       }
 
-
-
                        { /*  登出鈕  */ }
-                       <b className="tag is-medium is-rounded pointer" onClick={ click_SignOut }>
+                       <b className="tag is-medium is-rounded pointer relative" style={{ right : '-120px' }} onClick={ click_SignOut }>
+
                            <i className="fas fa-sign-out-alt"></i>
                        </b>
 
@@ -176,8 +174,6 @@ const Nav_Options = () => {
                </div>
 
            </div>
-
-
 
 } ;
 

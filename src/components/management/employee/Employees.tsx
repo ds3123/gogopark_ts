@@ -2,7 +2,7 @@ import React from "react"
 import { useRead_Employees } from 'hooks/ajax_crud/useAjax_Read'
 import {set_Side_Panel} from "store/actions/action_Global_Layout";
 import {useDispatch, useSelector} from "react-redux";
-import Update_Employee from "components/employees/edit/Update_Employee";
+import Update_Employee from "components/management/employee/edit/Update_Employee";
 import {useHistory} from "react-router-dom";
 
 

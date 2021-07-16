@@ -42,7 +42,7 @@ const Service_Info : FC<Edit_Form_Type> = ({ register , setValue , errors , cont
                                                                        is_Appointed_Future : false    // 預約 _ 未來
                                                                      }) ;
 
-    const { is_folding , Folding_Bt }          = useSection_Folding() ;  // 收折區塊
+    const { is_folding , Folding_Bt }          = useSection_Folding(true) ;  // 收折區塊
 
 
     // 點選 _ 預約今天

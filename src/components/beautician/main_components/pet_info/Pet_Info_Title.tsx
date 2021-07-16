@@ -18,7 +18,7 @@ const Pet_Info_Title = () => {
 
     return  <b className = { color } >
 
-                <i className={ icon }></i> &nbsp; { Current_Pet['q_code']  } { pet['name'] } ( { pet['species'] } ) &nbsp;
+                <i className={ icon }></i> &nbsp; Q{ Current_Pet['q_code']  } &nbsp;&nbsp;{ pet['name'] } ( { pet['species'] } ) &nbsp;
 
                 <b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['sex'] } </b> &nbsp;
 

@@ -11,8 +11,13 @@ const Pet_Info = ()=>{
   // 目前所點選寵物
   const data       = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
 
+  // 基礎項目
   const basicFoot  =  data['basic_foot'] ? data['basic_foot'] : '' ;
-  const basicItems = ( data['basic_data'] + basicFoot  ).split(',') ;    // 所點選 _　基礎項目
+  const basicData  =  data['basic_data'] ? data['basic_data'] : '' ;
+  const basicItems = ( basicData + basicFoot  ).split(',') ;
+
+
+
 
   return <>
 
@@ -57,20 +62,15 @@ const Pet_Info = ()=>{
                   { /*  --------------------------------------------------------------------------------------------------  */ }
 
           { /* 小美容項目 */ }
-          { basicItems.length > 0 &&
+          { ( basicItems[0] && basicItems.length > 0 ) &&
 
               <div className="column is-12-desktop relative">
-
                   <b className="tag is-medium is-warning"> <i className="far fa-list-alt"></i> &nbsp; 基礎項目 </b> <br/><br/>
-
                   {
                       basicItems.map((x: string, y: number) => {
-
-                          if( x )  return <span key={y}> <b className="tag is-medium is-rounded m_Bottom_10"> {x} </b> &nbsp; &nbsp; </span>
-
+                          return <span key={y}> <b className="tag is-medium is-rounded m_Bottom_10"> {x} </b> &nbsp; &nbsp; </span>
                       })
                   }
-
               </div>
 
           }

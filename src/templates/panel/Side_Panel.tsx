@@ -13,11 +13,9 @@ type MaskProps = {
     active : boolean ;
 }
 
-
 type WrapperProps = {
     active : boolean ;
 }
-
 
 // 遮罩
 const Mask = styled.div<MaskProps>`

@@ -5,8 +5,11 @@ import React, {useState, useContext, useEffect} from "react" ;
 import { useForm , SubmitHandler , Controller } from "react-hook-form" ;
 
 // 各表單驗證條件
-import { schema_Customer , schema_Pet , schema_Basic , schema_Bath , schema_Beauty , schema_Employee }  from "utils/validator/form_validator" ;
-
+import {
+          schema_Customer , schema_Pet ,
+          schema_Basic , schema_Bath , schema_Beauty ,
+          schema_Price , schema_Species ,
+          schema_Employee }  from "utils/validator/form_validator" ;
 
 
 // 各分類標籤元件
@@ -15,7 +18,9 @@ import Create_Pet from "components/pets/edit/Create_Pet";
 import Create_Service from "components/services/edit/Create_Service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Edit_Form_Tabs from "templates/tab/Edit_Form_Tabs";
-import Create_Employee from "components/employees/edit/Create_Employee";
+import Create_Employee from "components/management/employee/edit/Create_Employee";
+import Create_Price from "components/prices/edit/Create_Price";
+import Create_Species from "components/management/setting/species/edit/Create_Species";
 
 
 // Interface
@@ -49,9 +54,14 @@ const Create_Data_Container = () => {
 
         case "客戶" : validator = schema_Customer ; break ;
         case "寵物" : validator = schema_Pet ;      break ;
+
         case "基礎" : validator = schema_Basic ;    break ;
         case "洗澡" : validator = schema_Bath ;     break ;
         case "美容" : validator = schema_Beauty ;   break ;
+
+        case "價格" : validator = schema_Price   ; break ;
+        case "品種" : validator = schema_Species ; break ;
+
         case "員工" : validator = schema_Employee ; break ;
 
     }
@@ -77,25 +87,36 @@ const Create_Data_Container = () => {
     const create_Cus_Relatives = useCreate_Customer_Relatives() ; // 新增 _ 客戶關係人
 
 
-    // 提交表單
+    // 提交表單 ( ICustomer 要再修改 ; 新增資料時，所有類別共用 2021.07.13 )
     const onSubmit : SubmitHandler<ICustomer> = ( data : any ) => {
 
         let api = "" ;  // 新增資料 API 路徑
         let msg = "" ;  // 新增成功後訊息
 
+        console.log( data )
+
+        return false ;
+
         switch( current ){
 
           case "客戶" : api = "/customers" ; msg = "客戶" ; break ;
           case "寵物" : api = "/pets"      ; msg = "寵物" ; break ;
+
           case "基礎" : api = "/basics"    ; msg = "基礎" ; data.service_Status = service_Status ; break ;
           case "洗澡" : api = "/bathes"    ; msg = "洗澡" ; data.service_Status = service_Status ; break ;
           case "美容" : api = "/beauties"  ; msg = "美容" ; data.service_Status = service_Status ; break ;
+
+          case "價格" : api = "/service_prices" ; msg = "服務價格" ; break ;
+          case "品種" : api = "/pet_species"    ; msg = "寵物品種" ; break ;
+
           case "員工" : api = "/employees" ; msg = "員工" ;  break ;
 
         }
 
+
         // # 新增資料
         create_Data( api , data , msg ) ;  // 所有資料
+
 
         // 僅針對 _ 客戶關係人 ( 再確認 2021.07.05 )
         if( current === '客戶' || current === '寵物' || current === '基礎' || current === '洗澡' || current === '美容' ){
@@ -142,9 +163,15 @@ const Create_Data_Container = () => {
                 }
 
 
+                 { /* 價格項目 */ }
+                 { current === "價格" && <Create_Price { ...props } /> }
+
+                 { /* 品種項目 */ }
+                 { current === "品種" && <Create_Species { ...props } /> }
+
+
                  { /* 員工項目 */ }
                  { current === "員工" && <Create_Employee { ...props } /> }
-
 
 
                 <br/><br/><br/><br/>

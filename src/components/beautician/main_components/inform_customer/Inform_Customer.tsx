@@ -19,7 +19,6 @@ const Inform_Customer = () => {
     // 顯示 _ 主人確認面板
     const show_CustomerConfirm = () => dispatch( set_Side_Panel( true , <Customer_Confirm_Options /> , {} ) ) ;
 
-
     useEffect(() => {
 
        // show_InfoCustomer() ;

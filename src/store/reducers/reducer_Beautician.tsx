@@ -4,51 +4,61 @@ import React from "react"
 
 
 /* @ 美容師專區  */
-interface IBasic {
+interface IBeautician {
 
-    is_Admin_Confirmed : boolean ;  // 是否交付櫃台確認
-    Current_Pet        : any ;      // 美容師目前所點選寵物
+    is_Admin_Confirmed    : boolean ; // 是否交付櫃台確認
+
+    Existing_Time_Records : any[] ;   // 資料庫中，某服務單，已有的點選時間紀錄
+
+    Current_Beautician    : string ;  // 目前處理美容師姓名
+    Current_Pet           : any ;     // 美容師目前所點選寵物
 
 }
 
 const initState = {
 
-    is_Admin_Confirmed : false ,
+    is_Admin_Confirmed    : false ,
 
-    Current_Pet : {
+    Existing_Time_Records : [] ,
 
-        basic_data : '' ,
-        basic_foot : '' ,
+    Current_Beautician    : '' ,
 
-        pet        : {
-                        name    : '' ,
-                        serial  : '' ,
-                        species : '' ,
-                        sex     : '' ,
-                        color   : '' ,
-                        age     : '' ,
-                        note    : ''
-                      } ,
+    Current_Pet           : {
 
+                                basic_data : '' ,
+                                basic_foot : '' ,
 
+                                pet        : {
+                                                name    : '' ,
+                                                serial  : '' ,
+                                                species : '' ,
+                                                sex     : '' ,
+                                                color   : '' ,
+                                                age     : '' ,
+                                                note    : ''
+                                              } ,
 
-    } ,  // 所點選寵物
+                             } ,  // 所點選寵物
 
 } ;
 
 
-const reducer_Beautician = ( state : IBasic = initState , action : any ) => {
+const reducer_Beautician = ( state : IBeautician = initState , action : any ) => {
 
 
     switch( action.type ){
 
-        // # 設定 _ 所點選寵物
-        case  "SET_CURRENT_PET" :
-            return { ...state , Current_Pet : action.currentPet } ;
+        // # 設定 _ 所點選 : 寵物
+        case  "SET_CURRENT_PET" : return { ...state , Current_Pet : action.currentPet } ;
+
+        // # 設定 _ 所點選 : 美容師
+        case  "SET_CURRENT_BEAUTICIAN" : return { ...state , Current_Beautician : action.currentBeautician } ;
+
+        // # 設定 _ 資料庫中，某服務單，已有的點選時間紀錄
+        case  "SET_EXISTING_TIME_RECORDS" : return { ...state , Existing_Time_Records : action.Existing_Time_Records } ;
 
         // # 是否交付櫃台確認
-        case  "SET_IS_ADMIN_CONFIRMED" :
-            return { ...state , is_Admin_Confirmed : action.is_Admin_Confirmed } ;
+        case  "SET_IS_ADMIN_CONFIRMED" : return { ...state , is_Admin_Confirmed : action.is_Admin_Confirmed } ;
 
         default : return state ;
 

@@ -31,7 +31,7 @@ const Index = ( ) => {
 
     const member = {
             width         : "260px" ,
-            top           : "-25px" ,
+            top           : "0px" ,
             right         : "35px" ,
             padding       : "13px",
             paddingBottom : "3px" ,

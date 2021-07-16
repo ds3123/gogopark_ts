@@ -6,8 +6,8 @@ import {useHistory} from "react-router-dom";
 import {toast} from "react-toastify";
 import {set_Side_Panel} from "store/actions/action_Global_Layout";
 
-import { columns_Covert_Customer } from "hooks/ajax_crud/useAjax_Create"
-import { columns_Covert_Employee } from "hooks/ajax_crud/useAjax_Create"
+import { columns_Covert_Customer , columns_Covert_Pet_Species , columns_Covert_Employee , columns_Covert_Service_Prices  } from "hooks/ajax_crud/useAjax_Create"
+
 import {set_Current_Second_Tab} from "store/actions/action_Management";
 
 
@@ -28,6 +28,13 @@ export const useUpdate_Data = ( ) => {
 
         // 客戶
         if( api === '/customers' )  submitData = columns_Covert_Customer( data ) ;
+
+
+        // 價格 ( 各項服務 )
+        if( api === '/service_prices' ) submitData = columns_Covert_Service_Prices( data ) ;
+
+        // 品種
+        if( api === '/pet_species' ) submitData = columns_Covert_Pet_Species( data ) ;
 
         // 員工
         if( api === '/employees' )  submitData = columns_Covert_Employee( data ) ;

@@ -155,6 +155,36 @@ export type room_Type = '大房' | '中房' | '小房' | '大籠' | '中籠' | '
 
 
 
+// 價格 ( 各項服務 )
+export interface IService_Price{
+
+
+    price_Type       : string ;
+    price_Plan       : string ;
+    price_Species_Id : number ;
+    price_Item       : string ;
+    price_Amount     : number ;
+    price_Note       : string ;
+
+
+}
+
+
+// 品種資料
+export interface ISpecies {
+
+    species_Serial    : string ,
+    species_Character : string ,
+    species_Size      : string ,
+    species_Fur       : string ,
+    species_Name      : string ,
+    species_Note      : string ,
+
+}
+
+
+
+
 // 員工資料
 export interface IEmployee {
 

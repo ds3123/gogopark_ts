@@ -9,6 +9,8 @@ import {useUpdate_Data} from "hooks/ajax_crud/useAjax_Update";
 import {set_Side_Panel} from "store/actions/action_Global_Layout";
 import {IService} from "utils/Interface_Type";
 
+import { useRating_Options } from "hooks/layout/useRating"
+
 
 type Inputs = {
 
@@ -31,6 +33,7 @@ const Inform_Customer_Options = () => {
 
     const dispatch = useDispatch() ;
 
+
     // 目前所點選寵物
     const data = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
 
@@ -52,6 +55,9 @@ const Inform_Customer_Options = () => {
     const { register , handleSubmit , formState: { errors , isDirty , isValid } } =
         useForm<Inputs>( { mode: "all" , resolver : yupResolver( schema_Customer ) } ) ;
 
+
+    // 評分選項
+    const rating_Options = useRating_Options('美容師評分', 'rating', register ) ;
 
     // ---------------------------------------------------------------------
 
@@ -111,7 +117,6 @@ const Inform_Customer_Options = () => {
 
         // 設定 _ 判斷是否有點選寵物狀態
         set_Has_PetData(data['pet_id'] ? true : false ) ;
-
 
     } ,[] ) ;
 
@@ -226,18 +231,8 @@ const Inform_Customer_Options = () => {
 
                  </div>
 
-                 <div className="column is-12-desktop" >
-
-                     <i className="far fa-star"></i>&nbsp;<b className="tag is-medium is-white"> 美容師評分 : </b> &nbsp; &nbsp;
-
-                     <input type="radio" value = "拒接" { ...register( "star" ) } /> <b style={{color:"rgb(200,0,0)"}}>拒接</b> &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
-                     <input type="radio" value = "1"    { ...register( "star" ) } /> 1    &nbsp; &nbsp; &nbsp; &nbsp;
-                     <input type="radio" value = "2"    { ...register( "star" ) } /> 2    &nbsp; &nbsp; &nbsp; &nbsp;
-                     <input type="radio" value = "3"    { ...register( "star" ) } /> 3    &nbsp; &nbsp; &nbsp; &nbsp;
-                     <input type="radio" value = "4"    { ...register( "star" ) } /> 4    &nbsp; &nbsp; &nbsp; &nbsp;
-                     <input type="radio" value = "5"    { ...register( "star" ) } /> 5
-
-                 </div>
+                 { /* 評分選項 */ }
+                 { rating_Options }
 
                  <div className="column is-12-desktop" >
 

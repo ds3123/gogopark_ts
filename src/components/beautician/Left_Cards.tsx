@@ -1,5 +1,5 @@
 
-import React , { FC , useEffect } from 'react' ;
+import React , { FC , useEffect , useState } from 'react' ;
 import useServiceType from 'hooks/layout/useServiceType'
 import {useUpdate_Data} from 'hooks/ajax_crud/useAjax_Update';
 import {set_Current_Pet } from 'store/actions/action_Beautician'
@@ -16,7 +16,11 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
     // 資料 _ 是否下載中 ( 與首頁使用同樣的 API )
     const Index_isLoading = useSelector( (state:any) => state.Index.Index_isLoading ) ;
 
-    const dispatch    = useDispatch() ;
+
+    const [ in_Process , set_In_Process ] = useState<any>( null ) ;
+
+
+    const dispatch        = useDispatch() ;
 
     // 更新函式
     const update_Data = useUpdate_Data() ;
@@ -31,8 +35,13 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
     const get_ServiceType = useServiceType( null , true , 'medium' ) ;
 
 
+
+
     // 點選 : 列表資料 --> 接換處理狀態
-    const click_Pet = ( pet : any ) => {
+    const click_Pet = ( pet : any , index? : number ) => {
+
+        // 設定 _ 到店美容列表中，所點選、處理中的寵物
+        set_In_Process( index ) ;
 
         let service_Id = '' ;
         let api        = '' ;
@@ -83,15 +92,16 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
                       pets_Wait.map( ( x , y ) => {
 
-                          const pet = x['pet'] ;
-                          const { color , icon } = get_ServiceType( x['service_type'] ) ;  // 取得樣式
+                          const pet       = x['pet'] ;
+                          const { color } = get_ServiceType( x['service_type'] , true ) ;  // 取得樣式
 
-                          return  <b className = { color } key = { y } style = { rS }  onClick = { () => click_Pet( x ) } >
-                                     <i className ={ icon } ></i> &nbsp; { pet['name'] } ( { pet['species'] } )
-                                     <b className="tag is-rounded is-white absolute" style={{ right:"10px" }}> { x['expected_leave'] } </b>
+                          return  <b className    = { color } key = { y } style = { rS }  onClick = { () => click_Pet( x  ) } >
+                                     Q{ x['q_code'] } &nbsp; { pet['name'] } ( { pet['species'] } )
+                                     <b className = "tag is-rounded is-white absolute" style={{ right:"10px" }}> { x['expected_leave'] } </b>
                                   </b>
 
                       })
+
                   }
 
                    { /* 下載圖示  */ }
@@ -122,11 +132,15 @@ const Left_Cards : FC<ILeft>  = ( { pet_Arr } ) => {
 
                        pets_Beauty.map( ( x , y ) => {
 
-                           const pet = x['pet'] ;
-                           const { color , icon } = get_ServiceType( x['service_type'] ) ;  // 取得樣式
+                           let is_Light = true ;
 
-                           return  <b className={ color } key={ y } style={ rS }  onClick = { () => click_Pet( x ) } >
-                                       <i className ={ icon} ></i> &nbsp; { pet['name'] } ( { pet['species'] } )
+                           is_Light = ( in_Process === y ) ? false : true ;
+
+                           const pet       = x['pet'] ;
+                           const { color } = get_ServiceType( x['service_type'] , is_Light ) ;  // 取得樣式
+
+                           return  <b className = { color } key = { y } style = { rS }  onClick = { () => click_Pet( x , y ) } >
+                                       Q{ x['q_code'] } &nbsp;{ pet['name'] } ( { pet['species'] } )
                                        <b className="tag is-rounded is-white absolute" style={{ right:"10px" }}> { x['expected_leave'] } </b>
                                    </b>
 

@@ -13,7 +13,7 @@ export const get_H_M = () => {
     let h = ( hours < 10 )   ? '0'+ hours.toString() : hours ;      // 時
     let m = ( minutes < 10 ) ? '0'+ minutes.toString() : minutes ;  // 分
 
-    const time = h + ':' + m ;
+    const time = h + ' : ' + m ;
 
     return time
 

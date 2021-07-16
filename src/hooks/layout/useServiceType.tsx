@@ -9,22 +9,22 @@ const useServiceType = ( serviceType? : Service_Type | null , func? : boolean , 
 
    // 回傳 : 函式
 
-   const get_ServiceType = ( _serviceType : Service_Type ) => {
+   const get_ServiceType = ( _serviceType : Service_Type , is_Light? : boolean  ) => {
 
        let _obj = {} as any ;
 
        if( _serviceType === "基礎" ){
-           _obj.color =  size ? `tag is-${ size } is-warning is-light pointer` : 'tag is-large is-warning is-light pointer' ;
+           _obj.color = `tag ${ size ? 'is-'+size : '' } is-warning ${ is_Light ? 'is-light' : '' } pointer`  ;
            _obj.icon  = "far fa-list-alt"
        }
 
        if( _serviceType === "洗澡" ){
-           _obj.color = size ? `tag is-${ size } is-success is-light pointer` : 'tag is-large is-success is-light pointer' ;
+           _obj.color = `tag ${ size ? 'is-'+size : '' } is-success ${ is_Light ? 'is-light' : '' } pointer` ;
            _obj.icon  = "fas fa-bath"
        }
 
        if( _serviceType === "美容" ){
-           _obj.color = size ? `tag is-${ size } is-danger is-light pointer` : 'tag is-large is-danger is-light pointer' ;
+           _obj.color = `tag ${ size ? 'is-'+size : '' } is-danger ${ is_Light ? 'is-light' : '' } pointer` ;
            _obj.icon  = "fas fa-cut"
        }
 

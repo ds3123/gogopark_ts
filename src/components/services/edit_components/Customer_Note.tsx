@@ -1,14 +1,13 @@
 import React , { FC } from "react" ;
 import { Edit_Form_Type } from "utils/Interface_Type"
-import useSection_Folding from "../../../hooks/layout/useSection_Folding";
+import useSection_Folding from "hooks/layout/useSection_Folding";
 
 
 
 { /*  自備物品、主人交代、櫃台備註  */ }
 const Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
-   const { is_folding , Folding_Bt }          = useSection_Folding() ;  // 收折區塊
-
+   const { is_folding , Folding_Bt }          = useSection_Folding( true ) ;  // 收折區塊
 
 
    return <>

@@ -9,9 +9,7 @@ import logo from "../imgs/logo.png";
 // 容器元件
 const Container = ( props : any ) => {
 
-   const { pathname } = useLocation() ; // 頁面路徑
-
-
+    const { pathname } = useLocation() ; // 頁面路徑
 
     const lS = {  width:"300px" , height : "100px"  } as const ;
 
@@ -19,7 +17,6 @@ const Container = ( props : any ) => {
 
             { /* 導覽列 */ }
             <Nav/>
-
 
             { /*  目前系統尚未支援手機版本 */ }
             <div className="columns is-mobile  is-multiline is-hidden-desktop ">
@@ -33,7 +30,6 @@ const Container = ( props : any ) => {
                    <b className="tag is-large is-danger"> <i className="far fa-smile-beam" style={{ fontSize : "22pt" }}></i> &nbsp; 目前尚未支援手機版本 </b>
                </div>
            </div>
-
 
             <Side_Panel />
 

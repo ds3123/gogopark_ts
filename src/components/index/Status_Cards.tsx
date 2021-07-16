@@ -33,7 +33,7 @@ const Status_Cards = ( props : IStatus ) => {
     const boxShadow = { boxShadow : "1px 1px 4px 1px rgba(0,0,0,.2)" , position : "absolute" , top : "-35px" } as const ;
     const way_Leave = { paddingLeft : "65px" , marginBottom : "3px" , fontSize : "10pt" , color:"gray"} as const ;
 
-    return  <div className="card" style={{ height:"550px"}}>
+    return  <div className="card" style={{ height:"550px" , marginTop : "20px"}}>
 
               <div className="card-content" style={{ padding : "10px" }}>
 

@@ -1,11 +1,11 @@
 import React, {FC, useEffect, useState} from "react"
 
 import { Edit_Form_Type } from "utils/Interface_Type"
-import {Input} from "templates/form/Input";
-import { useRead_All_Species } from "hooks/ajax_crud/useAjax_Read";
-import {get_Today} from "utils/time/date";
-import {get_RandomInt} from "utils/number/number";
-import {useDispatch, useSelector} from "react-redux";
+import { Input } from "templates/form/Input";
+import { useRead_Species } from "hooks/ajax_crud/useAjax_Read";
+import { get_Today } from "utils/time/date";
+import { get_RandomInt } from "utils/number/number";
+import { useDispatch , useSelector } from "react-redux";
 
 import useSection_Folding from "hooks/layout/useSection_Folding" ;
 import { set_IsExisting_Pet } from "store/actions/action_Pet" ;
@@ -18,7 +18,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
    const dispatch = useDispatch() ;
 
    // 收折區塊
-   const { is_folding , Folding_Bt } = useSection_Folding() ;
+   const { is_folding , Folding_Bt } = useSection_Folding( true ) ;
 
    // 客戶單，目前所填入客戶的所有寵物
    const currnet_Customer_Pets = useSelector(( state:any ) => state.Customer.Current_Customer_Pets ) ;
@@ -36,13 +36,13 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                                                     }) ;
 
 
-
     // 取得 _ 所有寵物品種資料
-    const petSpecies = useRead_All_Species() ;
+    const petSpecies = useRead_Species() ;
+
+
 
     // 變動處理 _ 品種下拉選單
     const get_Species_Id = ( id : string ) => set_currentSpeciesId( id ) ;
-
 
     // 點選 _ 帶入舊寵物資料
     const set_Pet_Data = ( pet : any ) => {
@@ -80,7 +80,6 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
     } ;
 
-
     // 設定 _ 目前所選擇品種的洗澡、美容價錢
     useEffect(( ) => {
 
@@ -101,7 +100,6 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
 
     } ,[ currentSpeciesId ] ) ;
-
 
     // 設定 _ 隨機寵物編號 ( '新增'時，才設定 )
     useEffect(( ) => {
@@ -163,7 +161,6 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
                            </div>
 
-
                            { /* 名字 */ }
                            <Input type="text" name="pet_Name" label="名 字" register={register} error={errors.pet_Name}
                                   icon="fas fa-paw" asterisk={true} columns="3" />
@@ -172,16 +169,33 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                            <div className="column is-3-desktop required">
 
                                <p> 品 種 &nbsp; <b style={{color: "red"}}> {errors.pet_Species?.message} </b></p>
-                               <div className="select">
-                                   <select {...register("pet_Species")} onChange={e => get_Species_Id(e.target.value)}>
-                                       <option value="請選擇">請選擇</option>
-                                       {
-                                           petSpecies.map((x, y) => {
-                                               return <option value={x['species_name']}
-                                                              key={y}> {x['serial']} _ {x['species_name']} </option>;
-                                           })
-                                       }
-                                   </select>
+
+                               <div className="control has-icons-left">
+
+                                   <div className="select">
+                                       <select {...register("pet_Species")} onChange={e => get_Species_Id(e.target.value)}>
+                                           <option value="請選擇">請選擇</option>
+                                           {
+                                               petSpecies.map((x, y) => {
+
+                                                   // NOTE : 此處留意 value 已由原先 species_name 改為 id 再確認是否會造成影響 2021.07.15
+                                                   // return <option value={x['species_name']}
+                                                   //                key={y}>
+                                                   //                {x['serial']} _ {x['species_name']}
+                                                   //        </option>;
+
+                                                   return <option value = {x['id']}
+                                                                  key   = {y} >
+                                                                  {x['serial']} _ { x['name'] }  { x['character'] ? `( ${ x['character'] } )` : '' }
+                                                            </option> ;
+
+                                               })
+                                           }
+                                       </select>
+                                   </div>
+
+                                   <div className="icon is-small is-left"> <i className="fas fa-cat"></i> </div>
+
                                </div>
 
                            </div>
@@ -190,12 +204,21 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                            <div className="column is-3-desktop required">
 
                                <p> 性 別 &nbsp; <b style={{color: "red"}}> {errors.pet_Sex?.message} </b></p>
-                               <div className="select">
-                                   <select {...register("pet_Sex")}  >
-                                       <option value="請選擇">請選擇</option>
-                                       <option value="公">公</option>
-                                       <option value="母">母</option>
-                                   </select>
+
+                               <div className="control has-icons-left">
+
+                                   <div className="select">
+                                       <select {...register("pet_Sex")}  >
+                                           <option value="請選擇">請選擇</option>
+                                           <option value="公">公</option>
+                                           <option value="母">母</option>
+                                       </select>
+                                   </div>
+
+                                   <div className="icon is-small is-left">
+                                       <i className="fas fa-venus-mars"></i>
+                                   </div>
+
                                </div>
 
                            </div>

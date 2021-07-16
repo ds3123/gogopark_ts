@@ -7,7 +7,7 @@ import useSection_Folding from "hooks/layout/useSection_Folding";
 /* 洗澡單選項 */
 const Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
-    const { is_folding , Folding_Bt } = useSection_Folding() ;  // 收折區塊
+    const { is_folding , Folding_Bt } = useSection_Folding( true ) ;  // 收折區塊
 
     return <>
 
@@ -28,7 +28,7 @@ const Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid 
                             <div className="column is-2-desktop"><b className="tag is-light is-large"> 第一次洗澡 </b></div>
                             <div className="column is-10-desktop">
                                 <input type="radio" value="第一道"  {...register("bath_Option_1")} /> 第一道  &nbsp; &nbsp;
-                                <input type="radio" value="伊斯特除蚤_皮膚"  {...register("bath_Option_1")} /> 伊斯特除蚤_皮膚   &nbsp; &nbsp;
+                                <input type="radio" value="伊斯特除蚤_皮膚" {...register("bath_Option_1")} /> 伊斯特除蚤_皮膚   &nbsp; &nbsp;
                                 <input type="radio" value="貓咪"     {...register("bath_Option_1")} /> 貓咪   &nbsp; &nbsp;
                                 <input type="radio" value="自備"     {...register("bath_Option_1")} /> 自備
                             </div>

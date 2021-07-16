@@ -77,7 +77,6 @@ const useCreate_Pet = ( history : any , dispatch : any ) => {
 
 } ;
 
-
 // 新增 _ 基礎單
 const useCreate_Basic = ( history : any , dispatch : any ) => {
 
@@ -158,7 +157,7 @@ const useCreate_Bath = ( history : any , dispatch : any ) => {
 } ;
 
 // 新增 _ 美容單
-const useCreate_Beauty = ( history : any , dispatch : any  ) => {
+const useCreate_Beauty = ( history : any , dispatch : any ) => {
 
     const create_Beauty = ( api : string  , data  : any , msg? : string ) => {
 
@@ -194,7 +193,7 @@ const useCreate_Beauty = ( history : any , dispatch : any  ) => {
 } ;
 
 // 新增 _ 員工
-const useCreate_Employee = ( history : any , dispatch : any  ) => {
+const useCreate_Employee = ( history : any , dispatch : any ) => {
 
     const create_Employee = ( api : string  , data  : any , msg? : string ) => {
 
@@ -224,7 +223,98 @@ const useCreate_Employee = ( history : any , dispatch : any  ) => {
 } ;
 
 
-// ------------------------------------------------------------------------------
+// 新增 _ 服務價格
+const useCreate_Service_Price = ( history : any , dispatch : any ) => {
+
+    const create_Service_Price = ( api : string  , data  : any , msg? : string ) => {
+
+        
+
+
+        // 轉換資料表欄位
+        const obj = columns_Covert_Service_Prices( data ) ;
+
+        // 新增資料
+        axios.post( "/service_prices" , obj ).then( res => {
+
+            // 新增成功通知
+            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+
+            // 關掉右側面板
+            dispatch( set_Side_Panel(false , null ,{} ) ) ;
+
+            history.push("/wrongpath");  // 錯誤路徑
+            history.push("/management");  // 正確路徑
+
+        }) ;
+
+    } ;
+
+    return create_Service_Price ;
+
+} ;
+
+
+// 新增 _ 品種
+const useCreate_Pet_Species = ( history : any , dispatch : any ) => {
+
+    const create_Pet_Species = ( api : string  , data  : any , msg? : string ) => {
+
+        // 轉換資料表欄位
+        const obj = columns_Covert_Pet_Species( data ) ;
+
+        // 新增資料
+        axios.post( "/pet_species" , obj ).then( res => {
+
+            // 新增成功通知
+            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+
+            // 關掉右側面板
+            dispatch( set_Side_Panel(false , null ,{} ) ) ;
+
+            history.push("/wrongpath");   // 錯誤路徑
+            history.push("/management");  // 正確路徑
+
+        }) ;
+
+    } ;
+
+    return create_Pet_Species ;
+
+} ;
+
+
+// 新增 _ 時間按鈕紀錄 ( 美容區中，美容師點選 _ 時間按鈕 )
+export const useCreate_TimeRecord = ( ) => {
+
+    const create_TimeRecord = ( id  : string , type : string , button : string , time : string , beautician : string ) => {
+
+        // 轉換資料表欄位
+        const obj = {
+            service_table_id : id ,
+            service_type     : type ,
+            button_name      : button ,
+            button_time      : time ,
+            beautician       : beautician
+        } ;
+
+
+        // 新增資料
+        axios.post( "/time_records" , obj ).then(res => {
+
+          // 新增成功通知
+          toast(`🦄 已新增 : ` ,{ position : "top-left" , autoClose : 1500 , hideProgressBar : false } );
+
+        }) ;
+
+    } ;
+
+    return create_TimeRecord ;
+
+} ;
+
+
+// @ 新增資料 ------------------------------------------------------------------------------
 
 // # 新增資料
 export const useCreate_Data = ( ) => {
@@ -238,11 +328,17 @@ export const useCreate_Data = ( ) => {
     const create_Basic    = useCreate_Basic( history , dispatch ) ;    // 基礎單
     const create_Bath     = useCreate_Bath( history , dispatch ) ;     // 洗澡單
     const create_Beauty   = useCreate_Beauty( history , dispatch ) ;   // 美容單
-    const create_Employee = useCreate_Employee( history , dispatch ) ; // 員工
+
+
+    const create_Service_Price = useCreate_Service_Price( history , dispatch ) ; // 價格 ( 各項服務 )
+    const create_Pet_Species   = useCreate_Pet_Species( history , dispatch ) ;   // 寵物品種
+
+    const create_Employee      = useCreate_Employee( history , dispatch ) ; // 員工
 
 
     // * Controller / 表示層
     const create_Data = ( api : string  , data  : any , msg? : string  ) => {
+
 
         // 客戶
         if (api === "/customers") create_Customer(api, data, msg);
@@ -258,6 +354,12 @@ export const useCreate_Data = ( ) => {
 
         // 美容
         if (api === "/beauties") create_Beauty(api, data, msg);
+
+        // 價格 ( 各項服務 )
+        if (api === "/service_prices") create_Service_Price(api, data, msg);
+
+        // 寵物品種
+        if (api === "/pet_species") create_Pet_Species(api, data, msg);
 
         // 員工
         if (api === "/employees") create_Employee(api, data, msg);
@@ -296,7 +398,11 @@ export const useCreate_Customer_Relatives = ( ) => {
 
 } ;
 
-// # 轉換資料欄位 ---------------------------------------------------
+
+
+// @  轉換資料欄位 ---------------------------------------------------
+
+
 // 客戶
 export const columns_Covert_Customer = ( data : any ) => {
 
@@ -497,6 +603,37 @@ export const columns_Covert_Beauty = ( data : any ) => {
                           } ;
 
     return [ obj_Customer , obj_Pet , obj_Beauty ] ;
+
+} ;
+
+// 價格( 各項服務 )
+export const columns_Covert_Service_Prices = ( data : any ) => {
+
+    return {
+             service_type  : data['price_Type'] ,        // 服務類型
+
+             service_plan  : data['price_Plan'] ,        // 指定方案
+             species_id    : data['price_Species_Id'] ,  // species 資料表 id ( 指定品種 )
+
+             service_name  : data['price_Item'] ,        // 服務名稱
+             service_price : data['price_Amount'] ,      // 服務價格
+
+             note          : data['price_Note'] ,        // 備註
+          }  ;
+
+} ;
+
+// 品種
+export const columns_Covert_Pet_Species = ( data : any ) => {
+
+    return {
+             name      : data['species_Name'] ,
+             serial    : data['species_Serial'] ,
+             character : data['species_Character'] === '請選擇' ? '' : data['species_Character'] ,
+             size      : data['species_Size'] === '請選擇' ? '' : data['species_Size'] ,
+             fur       : data['species_Fur'] === '請選擇' ? '' : data['species_Fur'] ,
+             note      : data['species_Note'] ,
+           } ;
 
 } ;
 

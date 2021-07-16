@@ -1,6 +1,6 @@
 
 
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 
 /*
     @ 收折 / 展開 _ 區塊資訊
@@ -11,7 +11,14 @@ import React, { useState } from "react"
  */
 const useSection_Folding = ( defaultFolding? : boolean ) => {
 
-    const [ is_folding , set_Is_Folding ] = useState( defaultFolding ?  defaultFolding : false );
+    const [ is_folding , set_Is_Folding ] = useState<any>( defaultFolding ?  true : false );
+
+
+    useEffect(( ) => {
+
+        set_Is_Folding( defaultFolding )
+
+    } , [ defaultFolding ] ) ;
 
 
     const Folding_Bt = <b className = { `tag is-medium f_10 pointer ${ !is_folding ? 'is-white' : 'is-success is-light' }` }

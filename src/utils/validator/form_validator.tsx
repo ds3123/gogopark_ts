@@ -129,3 +129,26 @@ export const schema_Employee = yup.object().shape({
 
 });
 
+
+
+
+// 品種
+export const schema_Species = yup.object().shape({
+
+    species_Serial : yup.string().required().test( "品種代碼" , "請選擇 _ 品種代碼", value => value !== "請選擇") ,
+    species_Name   : yup.string().required("必填欄位") ,
+
+});
+
+
+
+// 價格 ( 各項服務 )
+export const schema_Price = yup.object().shape({
+
+    // NOTE : 服務價格
+    
+    // price_Type   : yup.string().required().test( "類別" , "請選擇 : 類別選項", value => value !== "請選擇") ,
+    // price_Amount : yup.number().typeError('價格必須填寫').required() ,
+
+});
+

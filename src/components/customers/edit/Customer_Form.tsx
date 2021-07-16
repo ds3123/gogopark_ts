@@ -17,12 +17,16 @@ import { get_RandomInt } from "utils/number/number";
 
 
 { /*  客戶表單欄位  */ }
-const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) => {
+const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current } ) => {
+
 
     const dispatch = useDispatch() ;
 
+
     // 收折區塊
-    const { is_folding , Folding_Bt } = useSection_Folding() ;
+    const { is_folding , Folding_Bt } = useSection_Folding(current === '客戶' ? false : true ) ;
+
+
 
     // 是否已開始查詢 : 身分證字號、姓名、手機號碼
     const [ isQuerying , set_IsQuerying ] = useState( false ) ;
@@ -206,10 +210,19 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
                            <div className="column is-2-desktop required">
 
                                <p> 類 型 &nbsp; <b style={{color:"red"}}> { errors.customer_Relative_Type?.message } </b> </p>
-                               <div className="select">
-                                   <select { ...register( "customer_Relative_Type" ) }  >
-                                       <option value="緊急連絡人">緊急連絡人</option>
-                                   </select>
+
+                               <div className="control has-icons-left">
+
+                                   <div className="select">
+                                       <select { ...register( "customer_Relative_Type" ) }  >
+                                           <option value="緊急連絡人">緊急連絡人</option>
+                                       </select>
+                                   </div>
+
+                                   <div className="icon is-small is-left">
+                                       <i className="fas fa-globe"></i>
+                                   </div>
+
                                </div>
 
                            </div>
@@ -217,19 +230,28 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors } ) 
                            <div className="column is-2-desktop required">
 
                                <p> 關 係 &nbsp; <b style={{color:"red"}}> { errors.customer_Relative_Family?.message } </b> </p>
-                               <div className="select">
-                                   <select { ...register( "customer_Relative_Family" ) }  >
-                                       <option value="請選擇"> 請選擇 </option>
-                                       <option value="父"> 父 </option>
-                                       <option value="母"> 母 </option>
-                                       <option value="兄"> 兄 </option>
-                                       <option value="弟"> 弟 </option>
-                                       <option value="姊"> 姊 </option>
-                                       <option value="妹"> 妹 </option>
-                                       <option value="同學"> 同學 </option>
-                                       <option value="朋友"> 朋友 </option>
-                                       <option value="其他"> 其他 </option>
-                                   </select>
+
+                               <div className="control has-icons-left">
+
+                                   <div className="select">
+                                       <select { ...register( "customer_Relative_Family" ) }  >
+                                           <option value="請選擇"> 請選擇 </option>
+                                           <option value="父"> 父 </option>
+                                           <option value="母"> 母 </option>
+                                           <option value="兄"> 兄 </option>
+                                           <option value="弟"> 弟 </option>
+                                           <option value="姊"> 姊 </option>
+                                           <option value="妹"> 妹 </option>
+                                           <option value="同學"> 同學 </option>
+                                           <option value="朋友"> 朋友 </option>
+                                           <option value="其他"> 其他 </option>
+                                       </select>
+                                   </div>
+
+                                   <div className="icon is-small is-left">
+                                       <i className="fas fa-user-friends"></i>
+                                   </div>
+
                                </div>
 
                            </div>

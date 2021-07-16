@@ -9,12 +9,12 @@ import Extra_Beauty from "components/services/edit_components/Extra_Beauty";
 import Care_Form from "components/lodge/care/edit/Care_Form";
 import Lodge_Form from "components/lodge/edit/Lodge_Form";
 import Plan_Form from "components/plan/edit/Plan_Form";
-import Create_Employee from "components/employees/edit/Create_Employee";
-
 
 import { Edit_Form_Type } from "utils/Interface_Type"
 import Pickup_Fee from "components/services/edit_components/Pickup_Fee";
 import Fee_Summary from "components/services/edit_components/Fee_Summary";
+
+import { useRating_Options } from "hooks/layout/useRating"
 
 
 interface TS extends Edit_Form_Type {
@@ -37,7 +37,12 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
 
     } ;
 
-   return <>
+
+    // 評分選項
+    const rating_Options = useRating_Options('櫃台人員評分', 'rating', register ) ;
+
+
+    return <>
 
              { /* 自備物品、主人交代、櫃台備註  */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿"  ) && <Customer_Note { ...props } /> }
@@ -66,6 +71,10 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
 
              { /* 接送費 */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容"  || current === "安親" || current === "住宿" ) && <Pickup_Fee { ...props } /> }
+
+             { /* 評分選項 */ }
+             { ( current === "基礎" || current === "洗澡" || current === "美容"  || current === "安親" || current === "住宿" ) && rating_Options } <hr/>
+
 
              { /* 費用結算 */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" ||  current === "安親" || current === "住宿" || current === "方案" ) && <Fee_Summary { ...props } /> }

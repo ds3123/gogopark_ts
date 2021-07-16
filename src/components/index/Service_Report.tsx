@@ -15,8 +15,11 @@ import Service_Info from "components/services/edit_components/Service_Info";
 import Customer_Note from "components/services/edit_components/Customer_Note";
 import Fee_Summary from "components/services/edit_components/Fee_Summary";
 import Extra_Beauty from "../services/edit_components/Extra_Beauty";
-import Date_Picker from "../../templates/form/Date_Picker";
 import {useUpdate_Data} from "../../hooks/ajax_crud/useAjax_Update";
+
+
+import { useRating_Options } from "hooks/layout/useRating"
+
 
 
 // Yup 第三方驗證
@@ -85,6 +88,8 @@ const Service_Report = () => {
                            }
                          ) ;
 
+    // 評分選項
+    const rating_Options = useRating_Options('美容師評分', 'rating', register ) ;
 
     // 更新函式
     const update_Data  = useUpdate_Data() ;
@@ -214,18 +219,7 @@ const Service_Report = () => {
 
                   </div>
 
-                  <div className="column is-12-desktop" >
-
-                      <i className="far fa-star"></i>&nbsp;<b className="tag is-medium is-white"> 美容師評分 : </b> &nbsp; &nbsp;
-
-                      <input type="radio" value = "拒接"  /> <b style={{color:"rgb(200,0,0)"}}>拒接</b> &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
-                      <input type="radio" value = "1"     /> 1    &nbsp; &nbsp; &nbsp; &nbsp;
-                      <input type="radio" value = "2"     /> 2    &nbsp; &nbsp; &nbsp; &nbsp;
-                      <input type="radio" value = "3"     /> 3    &nbsp; &nbsp; &nbsp; &nbsp;
-                      <input type="radio" value = "4"     /> 4    &nbsp; &nbsp; &nbsp; &nbsp;
-                      <input type="radio" value = "5"     /> 5
-
-                  </div>
+                  { rating_Options }
 
                   <div className="column is-12-desktop" >
 

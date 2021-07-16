@@ -6,7 +6,7 @@ import { set_Side_Panel } from "../../store/actions/action_Global_Layout";
 import Service_Report from "components/index/Service_Report";
 import Update_Customer from "components/customers/edit/Update_Customer";
 import Update_Pet from "components/pets/edit/Update_Pet";
-import useRating from "hooks/layout/useRating";
+import { useRating_Sign }  from "hooks/layout/useRating";
 
 
 import { Service_Type } from "utils/Interface_Type"
@@ -23,8 +23,8 @@ const Service_Rows : FC<IService> = ( { data } ) => {
     // 首頁詳細模式 ( 展開所有統計資料 )
     const is_Detail_Mode = useSelector( ( state : any ) => state.Index.is_Detail_Mode ) ;
 
-    const rating_1 = useRating( 5  , 5 ) ;
-    const rating_2 = useRating( 1  , 10 ) ;
+    const rating_1 = useRating_Sign( 5  , 5 ) ;
+    const rating_2 = useRating_Sign( 1  , 10 ) ;
 
     const customer     = data['customer'] ;
     const pet          = data['pet'] ;

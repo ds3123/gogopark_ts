@@ -13,6 +13,8 @@ import Beautician from 'components/beautician/Beautician';
 import Management from 'components/management/Management'
 import Sign_In from 'components/account/Sign_In';
 
+
+
 function App(){
 
   // 利用 Children API，組合 : <Container/> 與 各個路徑下的頁面元件

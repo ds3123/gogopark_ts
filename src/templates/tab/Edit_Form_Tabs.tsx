@@ -21,12 +21,11 @@ const tabsArr : ITabs[] = [
     { title : "住宿" , style : "pointer tag is-large is-info"    , icon : "fas fa-home"  } ,
     { title : "方案" , style : "pointer tag is-large is-danger"  , icon : "fas fa-file-alt"  } ,
     { title : "價格" , style : "pointer tag is-large is-danger"  , icon : "fas fa-dollar-sign"  } ,
-    { title : "品種" , style : "pointer tag is-large is-danger"  , icon : "fas fa-paw"  } ,
+    { title : "品種" , style : "pointer tag is-large is-danger"  , icon : "fas fa-cat"  } ,
     { title : "員工" , style : "pointer tag is-large is-primary"  , icon : "fas fa-user-circle"  } ,
     { title : "權限" , style : "pointer tag is-large is-primary"  , icon : "fas fa-layer-group"  } ,
     { title : "品牌" , style : "pointer tag is-large is-primary"  , icon : "fas fa-store"  } ,
 ] ;
-
 
 interface IProps {
     get_Current_Tab : ( a : string ) => void
