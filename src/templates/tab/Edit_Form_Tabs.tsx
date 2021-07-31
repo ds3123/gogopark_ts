@@ -2,6 +2,7 @@
 import React, {createContext, useState, FC, useEffect, useContext} from "react" ;
 
 import { SidePanelContext } from "templates/panel/Side_Panel";
+import {useSelector} from "react-redux";
 
 
 interface ITabs {
@@ -85,6 +86,9 @@ const Edit_Form_Tabs : FC<IProps> = ( { get_Current_Tab } ) => {
     } ,[ value ] ) ;
 
 
+    const IsExisting_Customer = useSelector(( state : any ) => state.Customer.IsExisting_Customer ) ;
+    const IsExisting_Pet      = useSelector(( state : any ) => state.Pet.IsExisting_Pet ) ;
+
     return <>
 
                 <span> <i className="fas fa-plus-circle"></i> &nbsp;請選擇 : <b >新增資料類型</b>  </span> <br/><br/>
@@ -109,6 +113,9 @@ const Edit_Form_Tabs : FC<IProps> = ( { get_Current_Tab } ) => {
                     </div>
 
                 </div>
+
+             { IsExisting_Customer ? <b> 舊客戶 </b> : <b> 新客戶 </b> }    &nbsp; &nbsp; &nbsp;
+             { IsExisting_Pet ? <b> 舊寵物 </b> : <b> 新寵物 </b> }    &nbsp; &nbsp; &nbsp;
 
            </>
 

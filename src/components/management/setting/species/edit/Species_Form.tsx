@@ -10,8 +10,8 @@ import {useToastContainer} from "react-toastify";
 { /* 品種表單欄位  */ }
 const Species_Form : FC<Edit_Form_Type> = ( { register , errors , current  } ) => {
 
-    // 產生 _ 品種代碼 ( 01 ~ 50 )
-    const serial = useSerial( 1 , 50 ) ;
+    // 產生 _ 品種代碼 ( 01 ~ 100 )
+    const serial = useSerial( 1 , 100 ) ;
 
     // 所有寵物品種資料
     const species_Data = useRead_Species();
@@ -145,6 +145,7 @@ const Species_Form : FC<Edit_Form_Type> = ( { register , errors , current  } ) =
                              <select { ...register("species_Fur") } >
                                  <option value="請選擇">請選擇</option>
                                  <option value="長毛"> 長 毛 </option>
+                                 <option value="中毛"> 中 毛 </option>
                                  <option value="短毛"> 短 毛 </option>
                              </select>
                          </div>

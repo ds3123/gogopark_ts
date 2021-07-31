@@ -2,8 +2,11 @@ import React, { useState , useEffect , useCallback } from "react" ;
 import axios from "utils/axios" ;
 import { Service_Type_Api } from 'utils/Interface_Type'
 import { useDispatch , useSelector } from "react-redux";
+
+// Redux
 import { set_Index_isLoading } from "store/actions/action_Index";
 
+import { set_Current_Customer_Pets } from "store/actions/action_Customer";
 
 
 
@@ -86,29 +89,45 @@ export const useRead_Date_Services = ( date : string ) => {
 // * 依照特定欄位值，查詢客戶資料 ( LIKE 模糊搜尋 ， 依傳入參數 ，查詢欄位 與 查詢值 ，如 : 'id' & 身分證字號 或 'mobile_phone' & 手機號碼 )
 export const useRead_Customer_By_Column = ( column : string , value : string | number  ) => {
 
-    const [ data , set_Data ] = useState([] ) ;
+    const dispatch = useDispatch();
 
-     useEffect(( ) => {
+     // 回傳資料
+     const [ data , set_Data ]   = useState([] ) ;
 
+     // 非同步( setTimeout Timer ID )
+     const [ timer , set_Timer ] = useState<any>() ;
+
+
+     useEffect(() => {
+
+        // # 避免快速、頻繁 onChange，導致 Too Many Requests
+        // 如果有前一次的執行( Timer ID ) --> 先清除( 該動作 )
+        if( timer ) clearTimeout( timer ) ;
+
+        // 有查詢值
         if( column && value ){
-            axios.get(`/customers/show_by_param/${ column }/${ value }`).then( res => set_Data( res.data ) ) ;
+
+            // 延後 ( 300 ms ) 執行，並產生該執行的 Timer ID
+            const _timer  = setTimeout(( ) => {
+
+                                axios.get(`/customers/show_by_param/${ column }/${ value }`).then( res => set_Data( res.data ) ) ;
+
+                            } , 300 ) ;
+
+            // 設定 Timer ID
+            set_Timer( _timer ) ;
+
         }
 
-        // 沒有查詢值，設回空陣列
-        if( !value ) set_Data( [] ) ;
+        // 沒有查詢值、但有查詢資料 --> 清空資料、客戶所有寵物( 寵物標題右側列 )
+        if( !value && data.length > 0 ) {
+            set_Data( [] ) ;                                 // 清空資料
+            dispatch( set_Current_Customer_Pets( [] ) ) ; // 客戶所有寵物
+        }
 
-     } , [ column , value ] );
+     } ,[ column , value ] );
 
-    // // 查詢函式
-    // const read_Customer_By_Column = ( column : string , value : string | number  ) => {
-    //
-    //     set_Data( [] ) ;
-    //
-    //     axios.get(`/customers/show_by_param/${ column }/${ value }`).then( res => set_Data( res.data ) ) ;
-    //
-    // } ;
-
-    return { data } ;
+     return { data } ;
 
 } ;
 
@@ -133,7 +152,6 @@ export const useRead_Customer_Pets = ( cus_Id : string ) => {
 
 } ;
 
-
 // # 寵物 ---
 
 // 依照 _ 寵物編號
@@ -152,6 +170,11 @@ export const useRead_Pet_By_Serial = ( serial : string ) => {
 } ;
 
 
+// # 方案 ( Ex. 包月洗澡 ... ) ---
+
+
+
+
 // # 品種 & 價錢 ----
 
 // 依照品種資料表的 欄位 與 欄位值，查詢是否已有該品種資料
@@ -162,18 +185,17 @@ export const useRead_Species_By_Column = ( column : string , value : string | nu
     useEffect(( ) => {
 
         if( column && value ){
-            axios.get(`/pet_species/show_by_col_param/${ column }/${ value }`).then( res => set_Data( res.data ) ) ;
+            axios.get( `/pet_species/show_by_col_param/${ column }/${ value }` ).then( res => set_Data( res.data ) ) ;
         }
 
         // 沒有查詢值，設回空陣列
-        if( !value ) set_Data( [] ) ;
+        if( !value ) set_Data([] ) ;
 
     } , [ column , value ] );
 
     return { data } ;
 
 } ;
-
 
 
 // * 所有品種 ( 之後廢除 ，改為以下 useRead_Species 2021.07.13 )
@@ -191,6 +213,7 @@ export const useRead_All_Species = ( ) => {
 
 } ;
 
+// 所有品種資料
 export const useRead_Species = ( ) => {
 
     const [ species , set_Species ] = useState([]);
@@ -198,6 +221,23 @@ export const useRead_Species = ( ) => {
     useEffect(( ) => {
 
         axios.get( '/pet_species/' ).then( res => { set_Species( res.data ) ; } );
+
+    } , [] ) ;
+
+    return species ;
+
+} ;
+
+// 所有品種，其資料 + 服務價格
+export const useRead_All_Species_With_Service_Prices = ( ) => {
+
+    const [ species , set_Species ] = useState([]);
+
+    useEffect(( ) => {
+
+
+
+        axios.get( '/pet_species/show_all_species_service_prices' ).then( res => { set_Species( res.data ) ; } );
 
     } , [] ) ;
 
@@ -236,7 +276,6 @@ export const useRead_All_Prices = ( ) => {
 
 } ;
 
-
 // 特定服務類型價格 ( prices 之後廢除  2021.07.13 )
 export const useRead_Type_Prices = ( serviceType : string ) => {
 
@@ -253,7 +292,7 @@ export const useRead_Type_Prices = ( serviceType : string ) => {
 } ;
 
 
-// 服務類型價格 ( 所有、特定服務類型 )
+// 服務類型價格 ( 所有 or 特定服務類型 )
 export const useRead_Service_Prices = ( serviceType? : string ) => {
 
     const [ prices , set_Prices ] = useState([]);
@@ -304,14 +343,6 @@ export const useRead_TimeRecord_By_Id_Button = ( table_id : string , button : st
     return timeRecord ;
 
 } ;
-
-
-
-
-
-
-
-
 
 
 // # 檢查 _ 資料庫是否 : 已有相關資料 ( 尚未完成 2021.06.12 )

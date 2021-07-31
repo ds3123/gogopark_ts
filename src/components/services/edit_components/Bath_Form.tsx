@@ -1,20 +1,87 @@
-import React, {FC} from "react" ;
+import React, {FC, useEffect,useState} from "react" ;
 import { Edit_Form_Type } from "utils/Interface_Type"
 import useSection_Folding from "hooks/layout/useSection_Folding";
+import {useSelector} from "react-redux";
+
+
+
+interface IBath extends Edit_Form_Type {
+
+    editType?    : string ;
+    serviceData? : any ;
+
+}
 
 
 
 /* 洗澡單選項 */
-const Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
+const Bath_Form : FC< IBath > = ( { register , errors  , current , editType, serviceData } ) => {
 
-    const { is_folding , Folding_Bt } = useSection_Folding( true ) ;  // 收折區塊
+
+    // 洗澡價格
+    const price = useSelector( ( state:any ) => state.Bath.Bath_Price ) ;
+
+    // 服務類型
+    const type  = useSelector( ( state:any ) => state.Service.current_Create_Service_Type ) ;
+
+
+    const { is_folding , Folding_Bt } = useSection_Folding( false ) ;  // 收折區塊
 
     return <>
 
-                <b className="tag is-large is-success"> <i className="fas fa-bath"></i> &nbsp; 洗 澡 </b>
+                <div className="columns is-multiline is-mobile">
 
-                { /* 收折鈕 */ }
-                <label className="label relative" style={{top:"-40px"}}> { Folding_Bt }  </label>
+                    <div className="column is-2-desktop">
+
+                        <b className="tag is-large is-success"> <i className="fas fa-bath"></i> &nbsp; 洗 澡
+
+                            { /* 顯示 : 洗澡價格 */ }
+
+                            { /* for 新增 */ }
+                            { ( price !== 0 && editType !== '編輯' ) &&
+
+                                <>
+                                    &nbsp;&nbsp;
+                                    <b className="tag is-rounded is-white" style={{ fontSize : "12pt" }} > 小計 : <span style={{color:"red"}}> &nbsp; { price } &nbsp; </span> 元 </b>
+                                    &nbsp;&nbsp;
+                                    { type && <span> ( { type } ) </span> }
+                                </>
+
+                            }
+
+                            { /* for 編輯 */ }
+                            { ( editType === '編輯' && current === '洗澡' ) &&
+
+                                <>
+                                    &nbsp;&nbsp;
+                                    <b className="tag is-rounded is-white" style={{ fontSize : "12pt" }} > 小計 : <span style={{color:"red"}}> &nbsp; { serviceData.bath_fee } &nbsp; </span> 元 </b>
+                                </>
+
+                            }
+
+                        </b>
+
+                    </div>
+
+                    {/*<div className="column is-2-desktop">*/}
+
+                    {/*    <div className="control has-icons-left" >*/}
+                    {/*        <input className="input" type="number" { ...register( "bath_price" ) } min="0"/>*/}
+                    {/*        <span className="icon is-small is-left"> <i className="fas fa-dollar-sign"></i> </span>*/}
+                    {/*    </div>*/}
+
+                    {/*</div>*/}
+
+                    {/*<div className= "column is-1-desktop" >*/}
+                    {/*    <span className="relative" style={{top:"8px"}}>元</span>*/}
+                    {/*</div>*/}
+
+                    { /* 收折鈕 */ }
+                    <div className="column is-10-desktop">
+                        <label className="label relative" > { Folding_Bt }  </label>
+                    </div>
+
+                </div>
 
                 { /* 是否收折 : 客戶資料 */ }
                 { is_folding ||
@@ -25,7 +92,7 @@ const Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid 
 
                         <div className="columns is-multiline is-mobile">
 
-                            <div className="column is-2-desktop"><b className="tag is-light is-large"> 第一次洗澡 </b></div>
+                            <div className="column is-2-desktop"> <b className="tag is-light is-large"> 第一次洗澡 </b> </div>
                             <div className="column is-10-desktop">
                                 <input type="radio" value="第一道"  {...register("bath_Option_1")} /> 第一道  &nbsp; &nbsp;
                                 <input type="radio" value="伊斯特除蚤_皮膚" {...register("bath_Option_1")} /> 伊斯特除蚤_皮膚   &nbsp; &nbsp;
@@ -78,35 +145,6 @@ const Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid 
 
                         </div>
 
-                        <br/>
-                        <hr/>
-                        <br/>
-
-                        <div className="columns is-multiline is-mobile">
-
-                            <div className="column is-2-desktop">
-                                <b className="tag is-large is-info is-light">
-                                    <i className="fas fa-ruler-combined"></i> &nbsp; 梳廢毛 &nbsp;
-                                </b>
-                            </div>
-
-                            <div className="column is-10-desktop">
-                                &nbsp; &nbsp; <input type="radio" value="輕"  {...register("comb_Fur")} /> 輕  &nbsp; &nbsp;
-                                &nbsp; &nbsp; <input type="radio" value="中"  {...register("comb_Fur")} /> 中  &nbsp; &nbsp;
-                                &nbsp; &nbsp; <input type="radio" value="重"  {...register("comb_Fur")} /> 重
-                            </div>
-
-                            <div className="column is-2-desktop">
-                                <b className="tag is-large is-info is-light">
-                                    <i className="fas fa-bug"></i> &nbsp; 跳蚤、壁蝨
-                                </b>
-                            </div>
-
-                            <div className="column is-10-desktop">
-                                &nbsp; &nbsp; <input type="radio" value="有"  {...register("comb_Flea")} /> 有
-                            </div>
-
-                        </div>
 
                     </>
 
@@ -117,4 +155,4 @@ const Bath_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid 
            </>
 } ;
 
-export default Bath_Form ;
+export default React.memo( Bath_Form , () => true ) ;

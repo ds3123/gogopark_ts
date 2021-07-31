@@ -2,7 +2,11 @@
 import React from "react";
 import { combineReducers } from "redux" ;
 import reducer_Global_Layout  from "store/reducers/reducer_Global_Layout"
+
 import reducer_Basic from "store/reducers/reducer_Basic";
+import reducer_Bath from "store/reducers/reducer_Bath";
+import reducer_Beauty from "store/reducers/reducer_Beauty";
+
 import reducer_Extra_Service_Fee from "store/reducers/reducer_Extra_Service_Fee";
 import reducer_Info from "store/reducers/reducer_Info"
 import reducer_Customer from "store/reducers/reducer_Customer";
@@ -15,6 +19,7 @@ import reducer_Plan from "store/reducers/reducer_Plan";
 import reducer_Care from "store/reducers/reducer_Care";
 import reducer_Management from "store/reducers/reducer_Management";
 import reducer_Signin from "store/reducers/reducer_Signin";
+import reducer_Form_Validator from "store/reducers/reducer_Form_Validator";
 
 
 
@@ -27,7 +32,9 @@ const root_Reducer = combineReducers({
                          "Index"      : reducer_Index ,
 
                          // @ 服務單資料
-                         "Basic"      : reducer_Basic ,             // 基礎單
+                         "Basic"      : reducer_Basic ,            // 基礎單
+                         "Bath"       : reducer_Bath ,             // 洗澡單
+                         "Beauty"     : reducer_Beauty ,           // 美容單
 
                          "Service"    : reducer_Service ,           // 洗美頁資料
 
@@ -58,6 +65,9 @@ const root_Reducer = combineReducers({
 
                          // @ 登入頁
                          "Signin"     : reducer_Signin ,
+
+                         // @ 表單 ( 自訂驗證 )
+                         "Form"       : reducer_Form_Validator ,
 
 
                      }) ;

@@ -6,6 +6,7 @@ interface IIndex {
 
     Index_isLoading : boolean ;  // 首頁資料 _ 是否下載中
     is_Detail_Mode  : boolean ;  // 首頁詳細模式 ( 展開所有統計資料 )
+
 }
 
 const initState = {

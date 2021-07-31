@@ -1,5 +1,5 @@
 
-import React, {useEffect, useState} from "react" ;
+import React, { useEffect , useState } from "react" ;
 
 import useMulti_NavOptions from "hooks/layout/useMulti_NavOptions";
 
@@ -16,23 +16,18 @@ import Bath_Price from "components/management/price/service_type/Bath_Price";
 import Beauty_Price from "components/management/price/service_type/Beauty_Price";
 import Care_Price from "components/management/price/service_type/Care_Price";
 import Lodge_Price from "components/management/price/service_type/Lodge_Price";
+import Extra_Item_Price from "components/management/price/service_type/Extra_Item_Price";
+import Extra_Beauty_Price from "components/management/price/service_type/Extra_Beauty_Price";
 
 import Employees from "components/management/employee/Employees";
+import Species_List from "components/management/setting/species/Species_List";
 
-import Species_List from "components/management/setting/species/Species_List"
-
-
-import {useDispatch, useSelector} from "react-redux";
-import { set_Current_Second_Tab } from 'store/actions/action_Management'
+import cookie from 'react-cookies'     // 匯入 cookie
 
 
 /* @ 管理頁面  */
 const Management = () => {
 
-    const dispatch = useDispatch() ;
-
-    // 目前須點選的第 2 層標籤
-    const _Current_Second_Tab = useSelector( ( state : any ) => state.Management.Current_Second_Tab ) ;
 
     // 取的 : 第 2、3 層選項相關資訊
     const { Second_Nav , Third_Nav , currentSecond , currentThird , click_Second , click_Third } = useMulti_NavOptions();
@@ -52,14 +47,17 @@ const Management = () => {
             case '線上支付' : return <Online_Pay/>   ; break ;
 
             // * 價格管理
-            case '品種價格' : return <Species_Price_List />  ; break ;
+            case '品種價格' : return <Species_Price_List/> ; break ;
+            // case '服務價格' : return <Service_Price/>      ; break ;  // 所有服務價格
 
-            case '服務價格' : return <Service_Price />  ; break ;
             case '基礎' : return <Basic_Price/>  ; break ;
             case '洗澡' : return <Bath_Price/>   ; break ;
             case '美容' : return <Beauty_Price/> ; break ;
             case '安親' : return <Care_Price/>   ; break ;
             case '住宿' : return <Lodge_Price/>  ; break ;
+
+            case '加價項目' : return <Extra_Item_Price/>    ; break ;
+            case '加價美容' : return <Extra_Beauty_Price/>  ; break ;
 
             // * 系統設定
             case '寵物品種' : return <Species_List />  ; break ;
@@ -70,23 +68,85 @@ const Management = () => {
 
     } ;
 
-    // 點選 _ 第二層頁籤
+    // 新增資料後，藉由 cookie，重導向至相對應的區塊頁面
     useEffect(( ) : any => {
 
-       click_Second('價格管理' ) ;
-       click_Third('服務價格') ;
+       // Cookie
+       const redirect = cookie.load('after_Created_Redirect') ;
 
-       // if( _Current_Second_Tab ){
-       //
-       //     click_Second( _Current_Second_Tab ) ;
-       //
-       // }else{
-       //
-       //     click_Second( '財務管理' ) ;
-       //
-       // }
+       // # 價格管理 :
 
-    } ,[ _Current_Second_Tab ] ) ;
+       // * 服務價格
+       if( redirect && redirect === '價格管理_品種價格' ){
+          click_Second('價格管理' ) ;
+          click_Third('品種價格') ;
+       }
+
+       // * 基礎
+       if( redirect && redirect === '價格管理_基礎' ){
+          click_Second('價格管理' ) ;
+          click_Third('基礎') ;
+       }
+
+       // * 洗澡
+       if( redirect && redirect === '價格管理_洗澡' ){
+            click_Second('價格管理' ) ;
+            click_Third('洗澡') ;
+       }
+
+       // * 美容
+       if( redirect && redirect === '價格管理_美容' ){
+            click_Second('價格管理' ) ;
+            click_Third('美容') ;
+       }
+
+       // * 安親
+       if( redirect && redirect === '價格管理_安親' ){
+            click_Second('價格管理' ) ;
+            click_Third('安親') ;
+       }
+
+       // * 住宿
+       if( redirect && redirect === '價格管理_住宿' ){
+            click_Second('價格管理' ) ;
+            click_Third('住宿') ;
+       }
+
+        // * 加價項目
+        if( redirect && redirect === '價格管理_加價項目' ){
+            click_Second('價格管理' ) ;
+            click_Third('加價項目') ;
+        }
+
+        // * 加價美容
+        if( redirect && redirect === '價格管理_加價美容' ){
+            click_Second('價格管理' ) ;
+            click_Third('加價美容') ;
+        }
+
+
+
+
+
+       // # 系統設定 :
+
+       // * 寵物品種
+       if( redirect && redirect === '系統設定_寵物品種' ){
+            click_Second('系統設定' ) ;
+            click_Third('寵物品種') ;
+       }
+
+       // --------------------------------------------------------------
+
+       // 暫時
+       if( !redirect ){
+          click_Second('價格管理' ) ;
+          click_Third('品種價格' ) ;
+       }
+
+    } ,[] ) ;
+
+
 
 
     return <>

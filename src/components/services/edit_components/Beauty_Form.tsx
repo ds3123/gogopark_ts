@@ -1,6 +1,7 @@
 import React, {FC} from "react" ;
 import { Edit_Form_Type } from "utils/Interface_Type"
 import useSection_Folding from "hooks/layout/useSection_Folding";
+import {useSelector} from "react-redux";
 
 
 
@@ -8,14 +9,33 @@ import useSection_Folding from "hooks/layout/useSection_Folding";
 /* 美容單選項 */
 const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
+    // 美容價格
+    const price = useSelector( ( state:any ) => state.Beauty.Beauty_Price ) ;
 
-   const { is_folding , Folding_Bt } = useSection_Folding( true ) ;  // 收折區塊
+    // 收折區塊
+    const { is_folding , Folding_Bt } = useSection_Folding( false ) ;
 
-   const padding = { paddingLeft : "70px" } as const ;
+
+    const padding = { paddingLeft : "70px" } as const ;
+
 
    return <>
 
-              <b className="tag is-large is-danger" > <i className="fas fa-cut"></i> &nbsp; 美 容 </b>
+              <b className="tag is-large is-danger" >
+
+                  <i className="fas fa-cut"></i> &nbsp; 美 容
+
+                  { /* 顯示 : 洗澡價格 */ }
+                  { price !== 0 &&
+
+                      <>
+                          &nbsp;&nbsp;
+                          <b className="tag is-rounded is-white" style={{ fontSize : "12pt" }} > 小計 : <span style={{color:"red"}}> &nbsp; { price } &nbsp; </span> 元 </b>
+                      </>
+
+                  }
+
+              </b>
 
               { /* 收折鈕 */ }
               <label className="label relative" style={{top:"-40px"}}> { Folding_Bt }  </label>
@@ -27,7 +47,8 @@ const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVali
 
                    <div className="columns is-multiline  is-mobile">
 
-                       <div className="column is-2-desktop" style={padding}><b className="tag is-white is-large relative "> 身 體 </b>
+                       <div className="column is-2-desktop" style={padding}>
+                           <b className="tag is-white is-large relative "> 身 體 </b>
                        </div>
 
                        <div className="column is-10-desktop">
@@ -45,7 +66,8 @@ const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVali
 
                        </div>
 
-                       <div className="column is-2-desktop" style={padding}><b className="tag is-white is-large relative"> 頭 臉 </b>
+                       <div className="column is-2-desktop" style={padding}>
+                           <b className="tag is-white is-large relative"> 頭 臉 </b>
                        </div>
 
                        <div className="column is-10-desktop">
@@ -59,7 +81,8 @@ const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVali
 
                        </div>
 
-                       <div className="column is-2-desktop" style={padding}><b className="tag is-white is-large relative"> 耳 朵 </b>
+                       <div className="column is-2-desktop" style={padding}>
+                           <b className="tag is-white is-large relative"> 耳 朵 </b>
                        </div>
 
                        <div className="column is-10-desktop">
@@ -73,7 +96,8 @@ const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVali
 
                        </div>
 
-                       <div className="column is-2-desktop" style={padding}><b className="tag is-white is-large relative"> 尾 巴 </b>
+                       <div className="column is-2-desktop" style={padding}>
+                           <b className="tag is-white is-large relative"> 尾 巴 </b>
                        </div>
 
                        <div className="column is-10-desktop">
@@ -85,7 +109,8 @@ const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVali
 
                        </div>
 
-                       <div className="column is-2-desktop" style={padding}><b className="tag is-white is-large relative"> 腳 </b>
+                       <div className="column is-2-desktop" style={padding}>
+                           <b className="tag is-white is-large relative"> 腳 </b>
                        </div>
 
                        <div className="column is-10-desktop">
@@ -98,15 +123,16 @@ const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVali
 
                        </div>
 
-                       <div className="column is-2-desktop" style={padding}><b className="tag is-white is-large relative"> 其 他 </b>
+                       <div className="column is-2-desktop" style={padding}>
+                           <b className="tag is-white is-large relative"> 其 他 </b>
                        </div>
 
                        <div className="column is-10-desktop">
 
                            <input type="radio"
-                                  value="頭、尾、腳、身體全光都不留"  {...register("beauty_Option_Foot")} /> 頭、尾、腳、身體全光都不留  &nbsp; &nbsp;
-                           <input type="radio" value="原造型縮短"  {...register("beauty_Option_Foot")} /> 原造型縮短  &nbsp; &nbsp;
-                           <input type="radio" value="手剪"  {...register("beauty_Option_Foot")} /> 手剪  &nbsp; &nbsp;
+                                  value="頭、尾、腳、身體全光都不留"  {...register("beauty_Option_Other")} /> 頭、尾、腳、身體全光都不留  &nbsp; &nbsp;
+                           <input type="radio" value="原造型縮短"  {...register("beauty_Option_Other")} /> 原造型縮短  &nbsp; &nbsp;
+                           <input type="radio" value="手剪"  {...register("beauty_Option_Other")} /> 手剪  &nbsp; &nbsp;
 
                        </div>
 
@@ -121,4 +147,4 @@ const Beauty_Form : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVali
 
 } ;
 
-export default Beauty_Form ;
+export default React.memo( Beauty_Form , () => true ) ;

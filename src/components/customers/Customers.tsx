@@ -16,7 +16,7 @@ const Customers = () => {
     const Customer_isLoading = useSelector( ( state:any ) => state.Customer.Customer_isLoading ) ;
 
     // 取得 _ 分頁資料
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/customers/show_customers_relatives_pets/' , 'customer' ) ;
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination('/customers/show_customers_relatives_pets/' , 'customer' ) ;
 
     const blue = { color : "rgb(0,0,170)" } ;
 
@@ -29,9 +29,9 @@ const Customers = () => {
                         <th> 客戶姓名 </th>
                         <th> 手機號碼 </th>
                         <th> 寵物資訊 </th>
-                        <th> <b style={blue}>預付</b>方案 </th>
-                        <th> <b style={blue}>優惠</b>方案 </th>
-                        <th> <b style={blue}>贈送</b>方案 </th>
+                        <th> <b style={ blue }>預付</b>方案 </th>
+                        <th> <b style={ blue }>優惠</b>方案 </th>
+                        <th> <b style={ blue }>贈送</b>方案 </th>
                         <th style={{ width:"100px" }}> 消費歷史 </th>
                         <th> 封 存    </th>
                     </tr>

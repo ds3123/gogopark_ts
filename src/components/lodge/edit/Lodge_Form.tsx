@@ -433,4 +433,4 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
 
 } ;
 
-export default Lodge_Form
+export default React.memo( Lodge_Form , () => true ) ;

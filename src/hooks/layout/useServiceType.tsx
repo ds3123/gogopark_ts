@@ -5,11 +5,11 @@ import { Service_Type } from "utils/Interface_Type"
 
 
 { /* 依據不同服務單，回傳相對應的 _ 標籤顏色、icon */ }
-const useServiceType = ( serviceType? : Service_Type | null , func? : boolean , size?:'large' | 'medium'  ) => {
+const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月美容' | null , func? : boolean , size?:'large' | 'medium'  ) => {
 
    // 回傳 : 函式
 
-   const get_ServiceType = ( _serviceType : Service_Type , is_Light? : boolean  ) => {
+   const get_ServiceType = ( _serviceType : Service_Type | '包月洗澡' | '包月美容' , is_Light? : boolean  ) => {
 
        let _obj = {} as any ;
 
@@ -18,12 +18,12 @@ const useServiceType = ( serviceType? : Service_Type | null , func? : boolean , 
            _obj.icon  = "far fa-list-alt"
        }
 
-       if( _serviceType === "洗澡" ){
+       if( _serviceType === "洗澡" || _serviceType === "包月洗澡" ){
            _obj.color = `tag ${ size ? 'is-'+size : '' } is-success ${ is_Light ? 'is-light' : '' } pointer` ;
            _obj.icon  = "fas fa-bath"
        }
 
-       if( _serviceType === "美容" ){
+       if( _serviceType === "美容" || _serviceType === "包月美容"  ){
            _obj.color = `tag ${ size ? 'is-'+size : '' } is-danger ${ is_Light ? 'is-light' : '' } pointer` ;
            _obj.icon  = "fas fa-cut"
        }
@@ -44,12 +44,12 @@ const useServiceType = ( serviceType? : Service_Type | null , func? : boolean , 
        obj.icon  = "far fa-list-alt"
    }
 
-    if( serviceType === "洗澡" ){
+    if( serviceType === "洗澡" || serviceType === "包月洗澡" ){
        obj.color = size ? `tag is-${ size } is-success is-light pointer` : 'tag is-large is-success is-light pointer' ;
        obj.icon  = "fas fa-bath"
     }
 
-    if( serviceType === "美容" ){
+    if( serviceType === "美容" || serviceType === "包月美容" ){
        obj.color = size ? `tag is-${ size } is-danger is-light pointer` : 'tag is-large is-danger is-light pointer' ;
        obj.icon  = "fas fa-cut"
     }

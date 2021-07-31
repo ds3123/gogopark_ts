@@ -28,14 +28,14 @@ const Service_Rows : FC<IService> = ( { data } ) => {
 
     const customer     = data['customer'] ;
     const pet          = data['pet'] ;
-    customer.customer_relation = [ data['customer_relative'] ? data['customer_relative'] : {} ] ;
+
 
     // 基礎、洗澡、美容 [ basic、bath、beauty ]
     const service_Type = data['service_type'] ;
     const q_Code       = data['q_code'] ;
 
     // 客戶 [ customer ]
-    const cus_Name     = customer ? customer['name'] : {} ;
+    const cus_Name     = customer ? customer['name'] : '' ;
 
     // 寵物 [ pet ]
     const pet_Name     = pet ? pet['name'] : '' ;
@@ -82,6 +82,7 @@ const Service_Rows : FC<IService> = ( { data } ) => {
                <span className="relative tag is-medium pointer f_11"  onClick={ click_Customer } >
 
                    { is_Detail_Mode &&  <span className="absolute" style={ rating }>  { rating_2 } </span> }
+
                    { cus_Name }
 
                </span>

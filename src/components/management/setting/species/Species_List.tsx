@@ -5,10 +5,13 @@ import {useDispatch} from "react-redux";
 import {set_Side_Panel} from "store/actions/action_Global_Layout";
 import Update_Species from "components/management/setting/species/edit/Update_Species";
 import { useDelete_Pet_Species } from "hooks/ajax_crud/useAjax_Delete"
-import axios from "utils/axios";
+
 import {columns_Covert_Pet_Species} from "hooks/ajax_crud/useAjax_Create";
 import {useHistory} from "react-router-dom";
 
+// Axios
+import axios from "utils/axios";
+import rateLimit from 'axios-rate-limit';
 
 
 /* 寵物品種清單  */
@@ -23,10 +26,10 @@ const Service_List = ( ) => {
     const [ species , set_Species ] = useState( [] ) ;
 
 
+    const [ timer , set_Timer ] = useState<any>() ;
+
     // 點選 _ 品種名稱
     const click_Species = ( species : any ) => dispatch( set_Side_Panel(true , <Update_Species /> , { preLoadData : species } ) ) ;
-
-
 
     // 刪除函式
     const delete_Pet_Species = useDelete_Pet_Species() ;
@@ -55,27 +58,45 @@ const Service_List = ( ) => {
             _obj['fur']       = data[i]['fur'] ;
             _obj['note']      = data[i]['note'] ;
 
-            obj[ x ]        = _obj ;
+            obj[ x ]          = _obj ;
 
             i ++ ;
 
         }) ;
 
 
+
+        // 限制 Axios 發送 Request
+        const http = rateLimit( axios , { maxRequests: 3 , perMilliseconds: 1000, maxRPS: 3 }) ;
+        //  http.getMaxRPS() ; // 2
+
+
         // 逐個更新 : 依照所取得資料庫 ID，逐步更新為 _ 目前前端資料順序
         for( let x in obj ){
-            axios.put( `/pet_species/${x}` , obj[x] ) ;
+
+            // 如果有前一次的執行( Timer ID ) --> 先清除( 該動作 )
+            if( timer ) clearTimeout( timer ) ;
+
+            // 延後 ( 300 ms ) 執行，並產生該執行的 Timer ID
+            const _timer  = setTimeout( ( ) => {
+
+                // axios.put(`/pet_species/${x}`, obj[x]) ;
+                http.put(`/pet_species/${x}`, obj[x]) ;
+
+            } , 300 ) ;
+
+            set_Timer( _timer ) ;
+
         }
+
+
 
     } ;
 
     // 點選 _ 向上排序
     const click_Up   = ( index : number ) => {
 
-        if( index === 0 ){
-            alert( '已為第一個項目' ) ;
-            return false ;
-        }
+        if( index === 0 ){ alert( '已為第一個項目' ) ; return false ; }
 
         // # 前端排序 --------------------------
 
@@ -97,8 +118,8 @@ const Service_List = ( ) => {
 
 
         // 重導向
-        history.push("/wrongpath");  // 錯誤路徑
-        history.push( '/management' );
+        // history.push("/wrongpath");  // 錯誤路徑
+        // history.push( '/management' );
 
 
     } ;
@@ -107,10 +128,7 @@ const Service_List = ( ) => {
     const click_Down = ( index : number ) => {
 
         const maxIndex = ( species.length ) - 1 ;
-        if( index === maxIndex ){
-            alert( '已為最後一個項目' ) ;
-            return false ;
-        }
+        if( index === maxIndex ){ alert( '已為最後一個項目' ) ; return false ; }
 
         // # 前端排序  --------------------------
 
@@ -130,10 +148,9 @@ const Service_List = ( ) => {
         set_Species( _species ) ;
 
 
-
         // 重導向
-        history.push("/wrongpath");  // 錯誤路徑
-        history.push( '/management' );
+        // history.push("/wrongpath");  // 錯誤路徑
+        // history.push( '/management' );
 
 
     } ;
@@ -142,7 +159,7 @@ const Service_List = ( ) => {
 
     useEffect( ( ) => {
 
-       set_Species( data );
+      if( data.length > 0 )  set_Species( data );
 
     } , [ data ] ) ;
 

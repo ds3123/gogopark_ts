@@ -12,12 +12,12 @@ const Services_Rows = ( props : any ) => {
 
     const { data } = props ;
 
-    // console.log( data ) ;
-
     const [ pet , set_Pet ] = useState<any>( {} ) ;
 
     const dispatch = useDispatch() ;
 
+    // 服務 ( 基礎、洗澡、美容 ) 費用
+    const [ service_Price , set_Service_Price ] = useState(0) ;
 
     // 服務單欄位 _ 顏色、Icon
     const { color , icon }  = useServiceType( data[ 'service_type' ] , false , 'medium' );
@@ -31,15 +31,24 @@ const Services_Rows = ( props : any ) => {
     // 點選 _ 消費歷史
     const click_History = () => dispatch( set_Side_Panel(true , <Service_History /> , { preLoadData : data } ) ) ;
 
-    useEffect( ( ) => {
 
-        if( data['pet'] ) set_Pet( data['pet'] ) ;   // 有些服務單，沒有寵物 ( null ) 2021.06.10 再確認查詢式
+    useEffect( () => {
+
+          // 有些服務單，沒有寵物 ( null ) 2021.06.10 再確認查詢式
+          if( data['pet'] ) set_Pet( data['pet'] ) ;
+
+
+          // 設定 _ 不同服務下，該次服務價則
+          if( data['service_type'] === '基礎' ) set_Service_Price( data['basic_fee'] ) ;
+          if( data['service_type'] === '洗澡' ) set_Service_Price( data['bath_fee'] ) ;
+          if( data['service_type'] === '美容' ) set_Service_Price( data['beauty_fee'] ) ;
+
 
     } , [] ) ;
 
     const t_L = { textAlign : "left" } as const ;
 
-   return <tr style={{ lineHeight : "40px" }}>
+   return <tr style = { { lineHeight : "40px" } } >
 
              <td>
                  <b className = { color+" pointer" } onClick={ click_Service }>
@@ -47,11 +56,11 @@ const Services_Rows = ( props : any ) => {
                  </b>
              </td>
              <td style = { t_L } >  { data['pet'] ? petButton : "" } </td>
-             <td>   </td>
-             <td> { data[ 'service_date' ].slice(5,10) } </td>
-             <td> <b> { data['q_code'] } </b>            </td>
-             <td> { data[ 'shop_status' ] }              </td>
-             <td> { data[ 'way_arrive' ] }               </td>
+             <td> { service_Price }                                  </td>
+             <td> { data['payment_method'] }                         </td>
+             <td> { data[ 'service_date' ].slice(5,10) }             </td>
+             <td> { data[ 'shop_status' ] }                          </td>
+             <td> { data[ 'way_arrive' ] }                           </td>
              <td> <b className="tag is-medium "> <i className="far fa-list-alt" onClick={ () => click_History() }></i> </b>  </td>
              <td> <b className="tag is-medium" > <i className="fas fa-download"></i> </b> </td>
 

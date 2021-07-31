@@ -23,24 +23,29 @@ body{
   .absolute{ position:absolute !important; }
 
   /* Margin */
-  .m_Right_5{ display:inline-block !important; margin-right:5px !important; }
-  .m_Right_10{ display:inline-block !important; margin-right:10px !important; }
-  .m_Right_15{ display:inline-block !important; margin-right:15px !important; }
-  .m_Right_20{ display:inline-block !important; margin-right:20px !important; }
+  .m_Right_5{  margin-right:5px  !important; }
+  .m_Right_10{ margin-right:10px !important; }
+  .m_Right_15{ margin-right:15px !important; }
+  .m_Right_20{ margin-right:20px !important; }
 
-  .m_Bottom_5{ display:inline-block !important; margin-bottom:5px !important; }
-  .m_Bottom_10{ display:inline-block !important; margin-bottom:10px !important; }
-  .m_Bottom_15{ display:inline-block !important; margin-bottom:15px !important; }
-  .m_Bottom_20{ display:inline-block !important; margin-bottom:20px !important; }
-  .m_Bottom_25{ display:inline-block !important; margin-bottom:25px !important; }
-  .m_Bottom_30{ display:inline-block !important; margin-bottom:30px !important; }
+  .m_Left_5{  margin-left:5px  !important; }
+  .m_Left_10{ margin-left:10px !important; }
+  .m_Left_15{ margin-left:15px !important; }
+  .m_Left_20{ margin-left:20px !important; }
 
-  .m_Top_5{ display:inline-block !important; margin-top:5px !important; }
-  .m_Top_10{ display:inline-block !important; margin-top:10px !important; }
-  .m_Top_15{ display:inline-block !important; margin-top:15px !important; }
-  .m_Top_20{ display:inline-block !important; margin-top:20px !important; }
-  .m_Top_25{ display:inline-block !important; margin-top:25px !important; }
-  .m_Top_30{ display:inline-block !important; margin-top:30px !important; }
+  .m_Bottom_5{  margin-bottom:5px  !important; }
+  .m_Bottom_10{ margin-bottom:10px !important; }
+  .m_Bottom_15{ margin-bottom:15px !important; }
+  .m_Bottom_20{ margin-bottom:20px !important; }
+  .m_Bottom_25{ margin-bottom:25px !important; }
+  .m_Bottom_30{ margin-bottom:30px !important; }
+
+  .m_Top_5{  margin-top:5px  !important; }
+  .m_Top_10{ margin-top:10px !important; }
+  .m_Top_15{ margin-top:15px !important; }
+  .m_Top_20{ margin-top:20px !important; }
+  .m_Top_25{ margin-top:25px !important; }
+  .m_Top_30{ margin-top:30px !important; }
 
 
   /* Padding */
@@ -111,7 +116,14 @@ body{
 
   .fBlue{
 
-    color:darkblue !important;
+    color:rgb(0,0,180) !important;
+    font-weight:bold !important;
+
+  }
+
+  .fDblue{
+
+    color: darkblue !important;
     font-weight:bold !important;
 
   }

@@ -6,13 +6,14 @@ import Basic_Form from "components/services/edit_components/Basic_Form";
 import Bath_Form from "components/services/edit_components/Bath_Form";
 import Beauty_Form from "components/services/edit_components/Beauty_Form";
 import Extra_Beauty from "components/services/edit_components/Extra_Beauty";
+import Extra_Item from "components/services/edit_components/Extra_Item";
 import Care_Form from "components/lodge/care/edit/Care_Form";
 import Lodge_Form from "components/lodge/edit/Lodge_Form";
 import Plan_Form from "components/plan/edit/Plan_Form";
 
 import { Edit_Form_Type } from "utils/Interface_Type"
 import Pickup_Fee from "components/services/edit_components/Pickup_Fee";
-import Fee_Summary from "components/services/edit_components/Fee_Summary";
+import Summary_Fee from "components/services/edit_components/summary_fee/Summary_Fee";
 
 import { useRating_Options } from "hooks/layout/useRating"
 
@@ -25,7 +26,7 @@ interface TS extends Edit_Form_Type {
 /* @ 新增 : 基礎單、洗澡單、美容單 */
 const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDirty , isValid , current } ) => {
 
-   const props = {
+    const props = {
 
         register : register ,
         setValue : setValue ,
@@ -36,7 +37,6 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
         current  : current
 
     } ;
-
 
     // 評分選項
     const rating_Options = useRating_Options('櫃台人員評分', 'rating', register ) ;
@@ -53,8 +53,14 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
              { /* 洗澡單項目 */ }
              { ( current === "洗澡" || current === "美容" ) && <Bath_Form { ...props } /> }
 
+
+             { /* 加價項目 :  */ }
+             { ( current === "洗澡" || current === "美容"  ) && <Extra_Item { ...props } /> }
+
+
              { /* 加價美容 */ }
              { current === "洗澡" && <Extra_Beauty { ...props } /> }
+
 
              { /* 美容單項目 */ }
              { current === "美容" && <Beauty_Form { ...props } /> }
@@ -77,7 +83,7 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
 
 
              { /* 費用結算 */ }
-             { ( current === "基礎" || current === "洗澡" || current === "美容" ||  current === "安親" || current === "住宿" || current === "方案" ) && <Fee_Summary { ...props } /> }
+             { ( current === "基礎" || current === "洗澡" || current === "美容" ||  current === "安親" || current === "住宿" || current === "方案" ) && <Summary_Fee { ...props } /> }
 
           </>
 

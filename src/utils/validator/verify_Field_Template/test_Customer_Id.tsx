@@ -8,7 +8,6 @@ import axios from "utils/axios";
 export default ( value : any ) => {
 
 
-
      if( !value ) return false ;  // 沒有任何值
 
      return axios.get(`/customers/show_by_param/id/${ value }`).then( res => {

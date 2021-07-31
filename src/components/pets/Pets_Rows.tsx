@@ -1,9 +1,9 @@
 
-import React , {useEffect, useState} from "react" ;
+import React , { useEffect , useState } from "react" ;
 import usePet_Button from "hooks/layout/usePet_Button";
-import {set_Side_Panel} from "store/actions/action_Global_Layout";
+import { set_Side_Panel } from "store/actions/action_Global_Layout";
 import Service_History from "components/services/Service_History";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import Update_Customer from "components/customers/edit/Update_Customer";
 
 
@@ -15,9 +15,9 @@ const Pets_Rows = ( props : any ) => {
 
     // * 寵物按鈕 ( 無 / 單隻 、多隻 )
     const petButton = usePet_Button([data]) ;
+    const customer  = data['customer'] ;
 
-    const customer = data['customer'] ;
-    customer.customer_relation = [ data['customer_relative'] ] ;
+    customer.customer_relation = [ data.customer_relative ] ;
 
 
     // 點選 _ 客戶 ( 先暫時取消，因涉及關係人，須改查詢 )
@@ -43,11 +43,13 @@ const Pets_Rows = ( props : any ) => {
                      // data['customer']['name']
 
                      <b className="tag is-medium pointer" onClick={ click_Customer }>
-                         { data['customer']['name'] }
+                         { customer ? customer['name'] : '' }
                      </b>
                  }
              </td>
-             <td style={ t_L }> { data['customer']['mobile_phone'] } </td>
+             <td style={ t_L }>
+                 { customer ? customer['mobile_phone'] : '' }
+             </td>
              <td>  </td>
              <td>  </td>
              <td>  </td>

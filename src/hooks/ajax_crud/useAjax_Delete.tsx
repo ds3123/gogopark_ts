@@ -4,6 +4,7 @@ import { Service_Type_Api } from 'utils/Interface_Type'
 import { useSelector } from "react-redux";
 import {toast} from "react-toastify";
 import {useHistory} from "react-router-dom";
+import cookie from "react-cookies";
 
 
 /* @ DELETE : 透過 Ajax _ 刪除資料 */
@@ -47,6 +48,10 @@ export const useDelete_Pet_Species = ( ) => {
 
            // 刪除 成功通知
            toast(`🦄 品種刪除成功 : `, { position: "top-left", autoClose: 1500 , hideProgressBar: false,} );
+
+
+           // 設定 cookie ( for 前往 : 系統設定 > 寵物品種 / 5 秒後銷毀 )
+           cookie.save( 'after_Created_Redirect' , '系統設定_寵物品種'  ,  { path : '/' , maxAge : 5 } ) ;
 
            history.push("/wrongpath");  // 錯誤路徑
            history.push( '/management' );

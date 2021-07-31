@@ -1,5 +1,5 @@
 
-import React, {useEffect, useState} from "react" ;
+import React, {useEffect, useState , FC , useMemo, useCallback} from "react" ;
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 import {Link, useHistory} from "react-router-dom";
@@ -31,6 +31,9 @@ interface IOptionObj {
 }
 
 
+
+
+
 // # 導覽列 _ 選項
 const Nav_Options = () => {
 
@@ -41,33 +44,41 @@ const Nav_Options = () => {
     const dispatch = useDispatch() ;
     let location   = useLocation() ;  // 取得 : 路徑資訊
 
-    // 頁面選項
-    const OptionArr : IOptionObj[] = [
 
-        { title : "首 頁"  , url : "/"           , color : "is-white"   , icon : "fas fa-home"  } ,
-        { title : "客 戶"  , url : "/customers"  , color : "is-warning" , icon : "fas fa-user"  } ,
-        { title : "寵 物"  , url : "/pets"       , color : "is-warning" , icon : "fas fa-dog"  } ,
-        { title : "洗 美"  , url : "/services"   , color : "is-success" , icon : "fas fa-bath"  } ,
-        { title : "住 宿"  , url : "/lodge"      , color : "is-success" , icon : "fas fa-home"  } ,
-        { title : "美容師" , url : "/beautician" , color : "is-danger"  , icon : "fas fa-cut"  } ,
-        { title : "管理區" , url : "/management" , color : ""           , icon : "fas fa-sliders-h"  } ,
+    // 根據 cookie 取得的 userType , 運算取得功能選項 ( 利用 useMemo 優化，再判斷是否有必要 2021.07.17 )
+    const get_OptionArr = useMemo( ( ) => {
 
-    ] ;
+        // 頁面選項
+        const OptionArr : IOptionObj[] = [
 
-    const filter_Manage = OptionArr ;
-    const filter_Test   = OptionArr ;
-    const filter_Admin  = OptionArr.filter( x => ( x['title'] !== '美容師' && x['title'] !== '管理區'  ) ) ;
-    const filter_Beauty = OptionArr.filter( x => ( x['title'] === '美容師' ) ) ;
-    const filter_Pickup = OptionArr.filter( x => ( x['title'] === '美容師' ) ) ;
+            { title : "首 頁"  , url : "/"           , color : "is-white"   , icon : "fas fa-home"  } ,
+            { title : "客 戶"  , url : "/customers"  , color : "is-warning" , icon : "fas fa-user"  } ,
+            { title : "寵 物"  , url : "/pets"       , color : "is-warning" , icon : "fas fa-dog"  } ,
+            { title : "洗 美"  , url : "/services"   , color : "is-success" , icon : "fas fa-bath"  } ,
+            { title : "住 宿"  , url : "/lodge"      , color : "is-success" , icon : "fas fa-home"  } ,
+            { title : "美容師" , url : "/beautician" , color : "is-danger"  , icon : "fas fa-cut"  } ,
+            { title : "管理區" , url : "/management" , color : ""           , icon : "fas fa-sliders-h"  } ,
 
-    let _OptionArr : any[] = [] ;
-    switch ( userType ) {
-        case '管理' : _OptionArr = filter_Manage ; break ;
-        case '測試' : _OptionArr = filter_Test ; break ;
-        case '櫃台' : _OptionArr = filter_Admin ; break ;
-        case '美容' : _OptionArr = filter_Beauty ; break ;
-        case '接送' : _OptionArr = filter_Pickup ; break ;
-    }
+        ] ;
+
+        const filter_Manage = OptionArr ;
+        const filter_Test   = OptionArr ;
+        const filter_Admin  = OptionArr.filter( x => ( x['title'] !== '美容師' && x['title'] !== '管理區'  ) ) ;
+        const filter_Beauty = OptionArr.filter( x => ( x['title'] === '美容師' ) ) ;
+        const filter_Pickup = OptionArr.filter( x => ( x['title'] === '美容師' ) ) ;
+
+        let _OptionArr : any[] = [] ;
+        switch ( userType ) {
+            case '管理' : _OptionArr = filter_Manage ; break ;
+            case '測試' : _OptionArr = filter_Test ; break ;
+            case '櫃台' : _OptionArr = filter_Admin ; break ;
+            case '美容' : _OptionArr = filter_Beauty ; break ;
+            case '接送' : _OptionArr = filter_Pickup ; break ;
+        }
+
+        return _OptionArr ;
+
+    } , [ userType ] ) ;
 
 
     // 點選 _ 登出鈕
@@ -75,6 +86,8 @@ const Nav_Options = () => {
 
         // 刪除 cookie
         cookie.remove( 'userInfo' ,{ path : '/' } );
+
+        cookie.remove( 'after_Created_Redirect' ,{ path : '/' } );
 
         // 通知
         toast(`🦄 登出成功`, { position: "top-left", autoClose: 1500 , hideProgressBar: false,});
@@ -85,10 +98,10 @@ const Nav_Options = () => {
     } ;
 
     // 顯示 _ Q code 面板
-    const show_Qcode = () => dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
+    const show_Qcode = () =>  dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '價格' , preLoadData : null } ) );
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '洗澡' , preLoadData : null } ) );
 
     useEffect(() => {
 
@@ -101,25 +114,14 @@ const Nav_Options = () => {
             set_UserType( _cookie['employee_type'] ) ;
 
             // 前往 _ 美容頁面
-            if( _cookie['employee_type']  === '美容' ) history.push('/beautician')
+            if( _cookie['employee_type'] === '美容' ) history.push('/beautician') ;
 
         }
 
-        // add_Data()
+        // add_Data() ;
         // show_Qcode() ;
 
     } ,[] ) ;
-
-    const number = {
-                     position   : "absolute" ,
-                     top        : "-7px" ,
-                     right      : "-7px" ,
-                     width      : "17px" ,
-                     height     : "17px" ,
-                     color      : "white" ,
-                     background : "red" ,
-                     fontSize   : ".8em"
-                   } as const ;
 
 
    return  <div id="navbarExampleTransparentExample" className="is-hidden-mobile">
@@ -127,7 +129,7 @@ const Nav_Options = () => {
                <div className="navbar-start relative" style={ { top:"34%" , left:"30px" } } >
 
                       {  /* 業務功能頁面 */
-                       _OptionArr.map( ( option , index ) => {
+                         get_OptionArr.map( ( option , index ) => {
 
                             const optionStyle = option.url === location.pathname ? { boxShadow : "1px 1px 5px 1px rgba(0,0,0,.6)" , borderRadius : "3px" } : {} ;
 
@@ -141,7 +143,7 @@ const Nav_Options = () => {
                                    </span>
 
                        })
-                   }
+                    }
 
                    {/* 功能按鈕 */}
                    <span style={{ marginLeft : '20px' }}>
@@ -177,5 +179,5 @@ const Nav_Options = () => {
 
 } ;
 
-export default Nav_Options ;
+export default Nav_Options  ;
 

@@ -7,20 +7,20 @@ import useSection_Folding from "hooks/layout/useSection_Folding";
 { /*  自備物品、主人交代、櫃台備註  */ }
 const Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isValid } ) => {
 
-   const { is_folding , Folding_Bt }          = useSection_Folding( true ) ;  // 收折區塊
+   const { is_folding , Folding_Bt }          = useSection_Folding( false ) ;  // 收折區塊
 
 
    return <>
+               <br/>
 
                { /* 標題 */ }
                <label className="label relative" style={{ fontSize : "1.3em"  }} >
 
-                   <i className="fas fa-edit"></i> &nbsp; 其他資料 &nbsp;
+                   <i className="fas fa-edit"></i> &nbsp; 客戶交代、物品 &nbsp;
 
                    { Folding_Bt } { /* 收折鈕 */ }
 
                </label> <br/>
-
 
                { /* 是否收折 : 客戶資料 */ }
                { is_folding ||
@@ -31,10 +31,12 @@ const Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVa
 
                        { /* 自備物品 */}
                        <div className="column is-2-desktop" style={{textAlign:'right'}}>
-                           <span className="tag is-large is-white p_Bottom_10"> 自備物品 : </span></div>
+                           <span className="tag is-large is-white p_Bottom_10"> 自備物品 : </span>
+                       </div>
+
                        <div className="column is-7-desktop">
                            <input type="checkbox" value="項圈_胸背"  {...register("customer_Object")} /> 項圈_胸背 &nbsp; &nbsp;
-                           <input type="checkbox" value="牽繩"       {...register("customer_Object")} /> 牽繩      &nbsp; &nbsp;
+                           <input type="checkbox" value="牽繩"       {...register("customer_Object")} /> 牽繩     &nbsp; &nbsp;
                            <input type="checkbox" value="提籠_提袋"  {...register("customer_Object")} /> 提籠_提袋 &nbsp; &nbsp;
                            <input type="checkbox" value="衣服"       {...register("customer_Object")} /> 衣服     &nbsp; &nbsp;
                            <input type="checkbox" value="口罩"       {...register("customer_Object")} /> 口罩     &nbsp; &nbsp;
@@ -67,12 +69,12 @@ const Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVa
                        </div>
 
                        <div className="column is-10-desktop">
-                           <input type="text" className="input" {...register("admin_Note")} />
+                           <input type="text" className="input" {...register("admin_Customer_Note")} />
                        </div>
 
                    </div>
 
-                    <br/>
+                   <br/>
 
                   </>
                }
@@ -83,5 +85,5 @@ const Customer_Note : FC<Edit_Form_Type> = ({ register , errors , isDirty , isVa
 } ;
 
 
-export default Customer_Note ;
+export default React.memo( Customer_Note , () => true ) ;
 

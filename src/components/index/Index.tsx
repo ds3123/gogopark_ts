@@ -18,13 +18,14 @@ const Index = ( ) => {
     const is_Detail_Mode = useSelector( ( state : any ) => state.Index.is_Detail_Mode ) ;
 
     // 取得資料 : 服務、客戶、寵物
-    const pet_Arr = useRead_Service_Cus_Pet(); // 之後加上篩選條件 : "今日"的到店服務 2021.06.15
+    const pet_Arr = useRead_Service_Cus_Pet() ;  // 之後加上篩選條件 : "今日"的到店服務 2021.06.15
 
     // 到店個階段，基礎、洗澡、美容數量
-    const numObj_1 = useShopStatus_Sum( "到店等候中"   , pet_Arr ) ;
-    const numObj_2 = useShopStatus_Sum( "到店美容中"   , pet_Arr ) ;
-    const numObj_3 = useShopStatus_Sum( "洗完等候中"   , pet_Arr ) ;
-    const numObj_4 = useShopStatus_Sum( "已回家( 房 )" , pet_Arr ) ;
+    const numObj_1 = useShopStatus_Sum("到店等候中"   , pet_Arr ) ;
+    const numObj_2 = useShopStatus_Sum("到店美容中"   , pet_Arr ) ;
+    const numObj_3 = useShopStatus_Sum("洗完等候中"   , pet_Arr ) ;
+    const numObj_4 = useShopStatus_Sum("已回家( 房 )" , pet_Arr ) ;
+
 
     // 點選 _ 詳細模式
     const click_Detail_Mode = ( ) => dispatch( set_Detail_Mode( !is_Detail_Mode ) );
@@ -38,6 +39,9 @@ const Index = ( ) => {
             boxShadow     : "0px 0px 4px 0px rgba(0,0,0,.1)" ,
             borderRadius  : "5px" ,
          } ;
+
+
+
 
     return <div className="is-hidden-mobile">
 

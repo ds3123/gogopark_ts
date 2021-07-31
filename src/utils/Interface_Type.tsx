@@ -17,15 +17,17 @@ export type Service_Type_Api = 'basics' | 'bathes' | 'beauties' ;
 
 
 // 右側 _ 編輯表單 ( 新增、更新 )
-export interface Edit_Form_Type  {
+export interface Edit_Form_Type {
 
     register? : any ;
     setValue? : any ;
     control?  : any ;
     errors?   : any ;
     isDirty?  : boolean ;
-    isValid? : boolean ;
-    current? : string ;
+    isValid?  : boolean ;
+    current?  : string ;
+
+    pet_Species_id? : any ; // 寵物資料表( pet_species ) id ( for 編輯 _ 寵物資料 )
 
 }
 
@@ -33,12 +35,111 @@ export interface Edit_Form_Type  {
 // ********* 主要表單欄位  **********
 
 
+// 所有服務共用 ?? ( for 新增 _ 服務單 Create_Data_Container.tsx --> 再確認 2021.07.21 )
+// 服務單表單欄位( Create_Service / Update_Service )
+export interface IService {
+
+    // # 基本資料 ( Service_Info )
+    shop_Q_Code     : string ; // 到店當天處理碼 ( Q )
+    service_Date    : string ; // 到店服務日期
+    service_Type    : string ; // 服務類型(基礎、洗澡、美容)
+    shop_Status     : string ; // 到店狀態 ( 到店等候中' | '到店美容中' | '洗完等候中' | '已回家( 房 )' )
+
+
+    expected_Arrive : string ; // 預計 _ 到店時間 ( 預約 )
+    expected_Leave  : string ; // 預計 _ 離店時間 ( 預約 )
+    actual_Arrive   : string ; // 實際 _ 到店時間
+
+
+    // # 客戶交代、物品 ( Customer_Note ) -------------------------------------------------
+    customer_Object       : string[] ;  // checkbox 選項
+    customer_Object_Other : string ;    // 其他輸入框
+    customer_Note         : string[] ;  // 主人交代
+    admin_Customer_Note   : string ;    // 櫃台備註
+
+    // # 基礎單資料 ( Basic_Form )
+    basic_Option          : string[] ;
+
+    // # 洗澡單資料 ( Bath_Form )
+    bath_Option_1         : string ;
+    bath_Option_2         : string ;
+    bath_Option_3         : string ;
+    bath_Option_4         : string ;
+    bath_Option_5         : string ;
+    bath_Option_6         : string ;
+
+    // # 美容單資料 ( Beauty_Form )
+    beauty_Option_Body  : string ;
+    beauty_Option_Head  : string ;
+    beauty_Option_Ear   : string ;
+    beauty_Option_Tail  : string ;
+    beauty_Option_Foot  : string ;
+    beauty_Option_Other : string ;
+
+    // # 加價項目
+    extra_Item          : string[] ;
+
+    // # 加價美容
+    extra_Beauty        : string[] ;
+
+    // # 接送費用
+    pickup_Fee          : number ;
+
+    // # 服務明細 ( Summary_Fee )
+
+    payment_Method : string ; // 付款方式
+
+    admin_User     : string ; // 櫃台行政人員
+    admin_Note     : string ; // 櫃台行政人員 _ 備註
+
+
+    // # 美容師相關
+
+    beauty_User    : string ; // 經手美容師
+    beauty_Note    : string ; // 美容師 _ 備註
+    beauty_Star    : string ; // 美容師 _ 評分
+
+
+
+    // # 到店、離店方式 ( Ex. 主人送來、接走 )
+    way_Arrive      : string ;
+    way_Leave       : string ;
+
+    // # 美容師處理完 _ 開始等待時間、等待方式( Ex. 進籠子等候 )
+    wait_Time       : string ;
+    wait_Way        : string ;
+
+
+
+
+
+
+}
+
+
+// 服務單 _ 基礎資訊
+export interface IInfo {
+
+    service_Status  : Service_Status ;  // 服務狀態 _ 類型 : 已到店、預約_今天、預約_未來
+    service_Date    : string ;          // 到店服務日期
+    shop_Q_Code     : string ;          // 到店當天處理碼 ( Q )
+
+    expected_Arrive : string ;          // 預計 _ 到店時間 ( 預約 )
+    actual_Arrive   : string ;          // 實際 _ 到店時間
+    expected_Leave  : string ;          // 預計 _ 離店時間 ( 預約 )
+
+    way_Arrive      : string ;          // 到店方式 Ex. 主人送來
+    way_Leave       : string ;          // 離店方式 Ex. 主人接走
+
+}
+
+
 // 客戶表單欄位( Create_Customer / Update_Customer )
 export interface ICustomer {
 
     customer_Id                 : string ;
     customer_Name               : string ;
-    customer_Cellphone          : string ;
+    customer_Cellphone          : number ;
     customer_Telephone          : string ;
     customer_Line               : string ;
     customer_Email              : string ;
@@ -84,38 +185,7 @@ export interface IPet {
 
 }
 
-// 服務單表單欄位( Create_Service / Update_Service )
-export interface IService {
 
-    // # 服務單資料
-    Q_code          : string ; // Q 碼
-    service_Date    : string ; // 到店服務日期
-    service_Type    : string ; // 服務類型(基礎、洗澡、美容)
-    shop_Status     : string ; // 到店狀態 ( 到店等候中' | '到店美容中' | '洗完等候中' | '已回家( 房 )' )
-
-    // # 工作人員
-    beauty_User     : string ; // 經手美容師
-    beauty_Note     : string ; // 美容師 _ 備註
-    beauty_Star     : string ; // 美容師 _ 評分
-
-    admin_User      : string ; // 櫃台行政人員
-    admin_Note      : string ; // 櫃台行政人員 _ 備註
-
-    // # ( 預計 ) 到店時間
-    expected_Arrive : string ; // 預計 _ 到店時間 ( 預約 )
-    expected_Leave  : string ; // 預計 _ 離店時間 ( 預約 )
-
-    actual_Arrive   : string ; // 實際 _ 到店時間
-
-    // # 到店、離店方式 ( Ex. 主人送來、接走 )
-    way_Arrive      : string ;
-    way_Leave       : string ;
-
-    // # 美容師處理完 _ 開始等待時間、等待方式( Ex. 進籠子等候 )
-    wait_Time       : string ;
-    wait_Way        : string ;
-
-}
 
 
 
@@ -154,7 +224,6 @@ export interface ILodge_Data {
 export type room_Type = '大房' | '中房' | '小房' | '大籠' | '中籠' | '小籠'  ;
 
 
-
 // 價格 ( 各項服務 )
 export interface IService_Price{
 
@@ -181,8 +250,6 @@ export interface ISpecies {
     species_Note      : string ,
 
 }
-
-
 
 
 // 員工資料

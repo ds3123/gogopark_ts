@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback , useMemo} from 'react';
 import { BrowserRouter , Switch , Route } from "react-router-dom";
 
 import Container from 'containers/Container'
@@ -18,11 +18,7 @@ import Sign_In from 'components/account/Sign_In';
 function App(){
 
   // 利用 Children API，組合 : <Container/> 與 各個路徑下的頁面元件
-  const make_Component = useCallback (( element : JSX.Element ) => {
-
-                                        return <Container> { element } </Container> ;
-
-                                      } , [] ) ;
+  const make_Component = ( element : JSX.Element ) => ( <Container> { element } </Container> ) ;
 
 
   return <BrowserRouter>

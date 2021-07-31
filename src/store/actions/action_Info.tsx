@@ -17,3 +17,16 @@ export const set_Info_Column = ( column : string , value : string | number ) => 
 
 } ;
 
+
+// # 設定 _ 目前所選擇的 Q code
+export const set_Current_Q_Code = ( qCode : string ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({ type : "SET_CURRENT_Q_CODE" , data : qCode }) ;
+
+    } ;
+
+} ;
+
+

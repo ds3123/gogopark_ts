@@ -13,6 +13,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import { SidePanelContext } from "templates/panel/Side_Panel";
 
 import Pet_Form from "components/pets/edit/Pet_Form";
+import {useRead_Species} from "hooks/ajax_crud/useAjax_Read";
 
 
 
@@ -22,6 +23,13 @@ const Update_Pet = ( ) => {
     const value = useContext( SidePanelContext ) ;  // 取得 context 值
     const pet   = value.preLoadData ? value.preLoadData : { } ;
 
+
+    // 取得 _ 所有寵物品種資料
+    const petSpecies = useRead_Species() ;
+
+    // 將 "寵物品種名稱" ，改為 : "寵物品種 pet_species 資料表 id"
+    const _pet = petSpecies.filter( x => x['name'] === pet['species'] )[0] ;
+
     // React Hook Form
     const { register , setValue , handleSubmit , formState: { errors , isDirty , isValid } } =
         useForm<IPet>({
@@ -29,10 +37,12 @@ const Update_Pet = ( ) => {
             resolver      : yupResolver( schema_Customer ) ,
             defaultValues : {
 
+                                // # NOTE "品種" ( pet_Species ) 預設值，於 Pet_Form 設定 ( 因其由 Ajax 取得資料 )
+
                                 // # 寵物資料
                                 pet_Serial         : pet.serial ,
                                 pet_Name           : pet.name ,
-                                pet_Species        : pet.species ,
+                                // pet_Species     : _pet ? _pet['id'] : '' ,
                                 pet_Sex            : pet.sex ,
                                 pet_Color          : pet.color ,
                                 pet_Weight         : pet.weight ,
@@ -64,6 +74,8 @@ const Update_Pet = ( ) => {
         register : register ,
         setValue : setValue ,
         errors   : errors ,
+
+        pet_Species_id : _pet ? _pet['id'] : ''   // 寵物資料表( pet_species ) id
 
     } ;
 

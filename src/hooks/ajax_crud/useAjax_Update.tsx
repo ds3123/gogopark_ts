@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback} from "react" ;
+
 import axios from "utils/axios" ;
 import { Service_Type_Api } from 'utils/Interface_Type'
 import {useDispatch, useSelector} from "react-redux";
@@ -7,14 +8,11 @@ import {toast} from "react-toastify";
 import {set_Side_Panel} from "store/actions/action_Global_Layout";
 
 import { columns_Covert_Customer , columns_Covert_Pet_Species , columns_Covert_Employee , columns_Covert_Service_Prices  } from "hooks/ajax_crud/useAjax_Create"
-
-import {set_Current_Second_Tab} from "store/actions/action_Management";
+import cookie from "react-cookies";
 
 
 
 /* @ PUT : 透過 Ajax _ 更新資料 */
-
-
 export const useUpdate_Data = ( ) => {
 
     const history  = useHistory() ;
@@ -28,7 +26,6 @@ export const useUpdate_Data = ( ) => {
 
         // 客戶
         if( api === '/customers' )  submitData = columns_Covert_Customer( data ) ;
-
 
         // 價格 ( 各項服務 )
         if( api === '/service_prices' ) submitData = columns_Covert_Service_Prices( data ) ;
@@ -69,10 +66,12 @@ export const useUpdate_Data = ( ) => {
             dispatch( set_Side_Panel(false , null ,{} ) ) ;
 
 
-            // for 新增後，跳回 /management ，並點選 '員工管理' 頁籤
-            if( api === '/employees' ){
-               dispatch( set_Current_Second_Tab('員工管理') ) ;
-            }
+            // 設定 cookie ( for 前往 : 系統設定 > 寵物品種 / 5 秒後銷毀 )
+            let _redirect = '' ;
+            if( api === '/pet_species' ) _redirect = '系統設定_寵物品種' ;
+
+            cookie.save( 'after_Created_Redirect' , _redirect  ,  { path : '/' , maxAge : 5 } ) ;
+
 
             // 前往相對應頁面
             // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )

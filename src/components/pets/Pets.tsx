@@ -17,7 +17,9 @@ const Pets = () => {
     const Pet_isLoading = useSelector( ( state:any ) => state.Pet.Pet_isLoading ) ;
 
     // 取得 _ 分頁資料
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination( '/pets/show_pets_customers_relatives/' , 'pet' ) ;
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination('/pets/show_pets_customers_relatives/' , 'pet' ) ;
+
+
 
 
   return <>

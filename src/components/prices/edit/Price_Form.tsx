@@ -1,8 +1,8 @@
 
-import React, {FC , useState , useEffect } from "react"
-import {Edit_Form_Type} from "utils/Interface_Type";
-import {Input} from "templates/form/Input";
-import {useRead_Species} from "hooks/ajax_crud/useAjax_Read";
+import React, { FC , useState , useEffect } from "react"
+import { Edit_Form_Type } from "utils/Interface_Type";
+import { Input } from "templates/form/Input";
+import { useRead_Species , useRead_Service_Prices } from "hooks/ajax_crud/useAjax_Read";
 
 
 type species = {
@@ -17,22 +17,29 @@ type Price = Edit_Form_Type & species ;
 { /* 價格表單欄位  */ }
 const Price_Form : FC<Price> = ( { register  , errors , setValue , current , species_Id } ) => {
 
-   // 取得 _ 所有寵物品種資料
-    const petSpecies = useRead_Species() ;
+    // 取得 _ 所有寵物品種
+    const petSpecies                      = useRead_Species() ;
 
+    //  取得 _ 所有服務價格
+    const servicePrices                   = useRead_Service_Prices() ;
+
+    // 新增方式
     const [ create_Way , set_Create_Way ] = useState<'寵物品種'|'個別項目'>( '寵物品種' ) ;
 
 
     // 點選 _ 新增方式
-    const click_Way = ( way : '寵物品種'|'個別項目' ) => set_Create_Way( way ) ;
+    const click_Way = ( way : '寵物品種'|'個別項目' ) => {
 
+        set_Create_Way( way ) ;
+        setValue( 'service_Price_Create_Way' , way ) ; // 設定 hidden Input ( 辨別何種新增方式 )
 
+    } ;
 
     useEffect(( ) => {
 
       /*
-         # for 編輯價格時 _ 設定 : " 指定品種 " 下拉選項( Ajax 取得 )
-           * 因 Price_Form 載入時，Ajax 資料尚未取得( 已 React Hook Form 的 defaultValues，無法成功設定預設值 )
+         # for 編輯 _ 價格時 ， 設定 : "指定品種" 下拉選項( Ajax 取得 )
+           * 因 Price_Form 載入時，Ajax 資料尚未取得( 若以 React Hook Form 的 defaultValues，無法成功設定 _ 預設值 )
            * 需取得資料後，再以 setValue() 單獨設定預設值
       */
       if( !current && species_Id  && petSpecies.length > 0 ){
@@ -43,32 +50,59 @@ const Price_Form : FC<Price> = ( { register  , errors , setValue , current , spe
 
     } ,[ petSpecies ]) ;
 
+
+    // 初始設定 hidden Input ( for 辨別何種 "新增方式" )
+    useEffect(( ) => {
+
+       setValue( 'service_Price_Create_Way' , '寵物品種' ) ;
+
+    } ,[] ) ;
+
+
+    // 區分 _ 新增 or 編輯 ( 編輯時，僅顯示 "個別項目" )
+    useEffect(( ) => {
+
+       if( !current ) set_Create_Way('個別項目')
+
+    } ,[ current ] ) ;
+
+
+
+
    return <>
 
+            { /* 新增時服務價格時，作為區分何種新增方式 */ }
+            <input type="hidden"  {...register("service_Price_Create_Way")} />
 
             { /* 新增選項 */ }
-            <div className="columns is-multiline  is-mobile">
+            { current &&
 
-              <div className="column is-12-desktop">
+               <div className="columns is-multiline  is-mobile">
 
-                <span className="relative" style={{ left:"-12px" }} >
+                   <div className="column is-12-desktop">
 
-                 <b className="tag is-medium is-white"> 新增價格方式 :</b> &nbsp;&nbsp;
+                            <span className="relative" style={{left: "-12px"}}>
 
-                 <b className={ `tag pointer is-medium is-success ${ create_Way === '寵物品種' ? '' : 'is-light' }` } onClick = { () => click_Way('寵物品種') } >
-                     <i className="fas fa-cat"></i> &nbsp; 寵物品種
-                 </b> &nbsp;&nbsp;&nbsp;&nbsp;
+                             <b className="tag is-medium is-white"> 新增價格方式 :</b> &nbsp;&nbsp;
 
-                 <b className={ `tag pointer is-medium is-success ${ create_Way === '個別項目' ? '' : 'is-light' }` } onClick = { () => click_Way('個別項目') }>
-                     <i className="fas fa-list"></i> &nbsp; 個別項目
-                 </b>
+                                <b className={`tag pointer is-medium is-success ${create_Way === '寵物品種' ? '' : 'is-light'}`}
+                                   onClick={() => click_Way('寵物品種')}>
+                                 <i className="fas fa-cat"></i> &nbsp; 寵物品種
+                             </b> &nbsp;&nbsp;&nbsp;&nbsp;
 
-                </span>
+                                <b className={`tag pointer is-medium is-success ${create_Way === '個別項目' ? '' : 'is-light'}`}
+                                   onClick={() => click_Way('個別項目')}>
+                                 <i className="fas fa-list"></i> &nbsp; 個別項目
+                             </b>
+
+                            </span>
 
 
-              </div>
+                   </div>
 
-            </div>
+               </div>
+
+            }
 
             <br/>
 
@@ -90,10 +124,25 @@ const Price_Form : FC<Price> = ( { register  , errors , setValue , current , spe
 
                                       petSpecies.map((x:any, y:any) => {
 
-                                          return <option value = {x['id']}
-                                                         key   = {y} >
-                                              {x['serial']} _ { x['name'] }  { x['character'] ? `( ${ x['character'] } )` : '' }
-                                          </option> ;
+                                          /* @ 判斷是否要顯示品種選項 ( 以避免同一品種，重複新增價格 )  */
+                                          const p_Id = x['id'] ;
+
+                                          let is_Created = false ;
+                                          let num        = 0 ;
+                                          const nArr     = [ '初次洗澡優惠價格' , '單次洗澡價格' , '包月洗澡價格' , '單次美容價格' , '包月美容價格' ] ;
+
+                                          servicePrices.forEach( _x => {
+
+                                              if( p_Id === _x['species_id'] && nArr.indexOf( _x['service_name']  ) !== -1 )  num += 1 ;
+
+                                              if( num === 5 ) is_Created = true ;   // 目前規則 : 累計 5 次，即視為已利用 "寵物品種" 方式新增過 ( 再確認 2021.07.16 )
+
+                                          }) ;
+
+
+                                          return is_Created ? '' : <option value = { p_Id }  key   = { y } >
+                                                                       {x['serial']} _ { x['name'] }  { x['character'] ? `( ${ x['character'] } )` : '' }
+                                                                   </option> ;
 
                                       })
 
@@ -152,6 +201,8 @@ const Price_Form : FC<Price> = ( { register  , errors , setValue , current , spe
                                    <option value="安親">安 親</option>
                                    <option value="住宿">住 宿</option>
                                    <option value="接送">接 送</option>
+                                   <option value="加價項目">加價項目</option>
+                                   <option value="加價美容">加價美容</option>
                                 </select>
                             </div>
 

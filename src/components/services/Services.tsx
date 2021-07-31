@@ -1,10 +1,13 @@
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import usePagination from "hooks/layout/usePagination";
 import Services_Rows from "components/services/Services_Rows";
 import Pagination from "utils/Pagination";
-import Plans from "components/services/plans/Plans";
+import Plans from "components/plan/Plans";
 import {useSelector} from "react-redux";
+
+
+import cookie from 'react-cookies'     // 匯入 cookie
 
 
 const serviceArr = [
@@ -29,6 +32,22 @@ const Services = () => {
 
     // 點選 _ 第 2 層選項
     const click_Second = ( title : string ) => set_CurrentSecond( title ) ;
+
+
+
+    useEffect(( ) => {
+
+        // Cookie
+        const redirect = cookie.load( 'after_Created_Plan' ) ;
+
+        // * 服務價格
+        if( redirect && redirect === '洗美_方案' ){
+            click_Second('方 案' ) ;
+        }
+
+        // click_Second( '方 案' ) ;
+
+    } , [] ) ;
 
 
     return <>
@@ -61,12 +80,12 @@ const Services = () => {
                               <tr>
                                 <th> 消費類別                          </th>
                                 <th> 寵物資訊                          </th>
-                                <th style={{ width:"80px" }}> 價 格    </th>
-                                <th > 來店日期 </th>
-                                <th style={{ width:"80px" }}> Q 碼     </th>
+                                <th > 服務價格                         </th>
+                                <th > 付款方式                         </th>
+                                <th > 來店日期                          </th>
                                 <th style={{ width:"150px" }}> 到店狀態 </th>
                                 <th style={{ width:"110px" }}> 來店方式 </th>
-                                <th> 消費歷史                          </th>
+                                <th> 消費歷史                           </th>
                                 <th>  封 存  </th>
                             </tr>
                             </thead>

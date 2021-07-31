@@ -5,7 +5,6 @@ import Date_Picker from "templates/form/Date_Picker";
 import {Input} from "templates/form/Input";
 import {get_Today} from "utils/time/date";
 import {get_RandomInt} from "utils/number/number";
-import {set_IsExisting_Pet} from "store/actions/action_Pet";
 
 
 // 品牌、分店資料
@@ -353,4 +352,4 @@ const Create_Employee : FC<Edit_Form_Type>    = ({ register  , control  , setVal
 
 } ;
 
-export default Create_Employee
+export default React.memo( Create_Employee , () => true )

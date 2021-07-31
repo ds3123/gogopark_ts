@@ -27,17 +27,20 @@ const Update_Price = ( ) => {
             mode          : "all" ,
             resolver      : yupResolver( schema_Price ) ,
             defaultValues : {
-                               // NOTE "指定品種" 預設值，於 Price_Form 設定
-                               price_Type       : data['service_type'] ,
-                               price_Plan       : data['service_plan'] ,
-                               price_Item       : data['service_name'] ,
-                               price_Amount     : data['service_price'] ,
-                               price_Note       : data['note'] ,
+
+                               // # NOTE "指定品種" ( price_Species_Id ) 預設值，於 Price_Form 設定 ( 因其由 Ajax 取得資料 )
+                               price_Type   : data['service_type'] ,
+                               price_Plan   : data['service_plan'] ,
+                               price_Item   : data['service_name'] ,
+                               price_Amount : data['service_price'] ,
+                               price_Note   : data['note'] ,
+
                             }
 
         }) ;
 
     const props = {
+
                     register : register ,
                     setValue : setValue ,
                     errors   : errors ,

@@ -21,4 +21,4 @@ const Create_Species : FC<Edit_Form_Type> = ( { register , setValue , errors , i
 
 } ;
 
-export default Create_Species
+export default React.memo( Create_Species , () => true )

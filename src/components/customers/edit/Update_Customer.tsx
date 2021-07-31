@@ -25,6 +25,8 @@ const Update_Customer = ( ) => {
     const relative = value.preLoadData ? value.preLoadData.customer_relation : { customer_relation : [] } ;
 
 
+
+
     // React Hook Form
     const { register , setValue , handleSubmit , formState: { errors , isDirty , isValid } } =
                     useForm<ICustomer>({
@@ -41,11 +43,11 @@ const Update_Customer = ( ) => {
                                            customer_Address            : customer.address ,
 
                                            // 客戶關係人
-                                           customer_Relative_Name      : relative.length === 1 ? relative[0]['name'] : "" ,
-                                           customer_Relative_Type      : relative.length === 1 ? relative[0]['type'] : "" ,
-                                           customer_Relative_Family    : relative.length === 1 ? relative[0]['tag'] : "" ,
-                                           customer_Relative_Cellphone : relative.length === 1 ? relative[0]['mobile_phone'] : "" ,
-                                           customer_Relative_Telephone : relative.length === 1 ? relative[0]['tel_phone'] : "" ,
+                                           customer_Relative_Name      : relative && relative.length === 1 ? relative[0]['name'] : "" ,
+                                           customer_Relative_Type      : relative && relative.length === 1 ? relative[0]['type'] : "" ,
+                                           customer_Relative_Family    : relative && relative.length === 1 ? relative[0]['tag'] : "" ,
+                                           customer_Relative_Cellphone : relative && relative.length === 1 ? relative[0]['mobile_phone'] : "" ,
+                                           customer_Relative_Telephone : relative && relative.length === 1 ? relative[0]['tel_phone'] : "" ,
 
                                          }
                     }) ;
@@ -76,9 +78,11 @@ const Update_Customer = ( ) => {
 
              { /* 提交按鈕 */ }
              <div className="has-text-centered" >
-                    <button disabled={ !isValid } type="submit" className="button is-primary relative is-medium" style={{top: "-10px"}} >
-                        提交表單
-                    </button>
+
+                <button disabled={ !isValid } type="submit" className="button is-primary relative is-medium" style={{top: "-10px"}} >
+                    提交表單
+                </button>
+
              </div> <br/><br/>
 
            </form>

@@ -13,7 +13,7 @@ interface ISecond_Nav {
 const Second_Nav : ISecond_Nav[] = [
 
     { title : "財務管理" , icon : "fas fa-dollar-sign" , third_nav : ["日報表","現金帳","線上支付"] } ,
-    { title : "價格管理" , icon : "fas fa-ruble-sign" , third_nav : ["品種價格","服務價格","基礎","洗澡","美容","安親","住宿"] } ,
+    { title : "價格管理" , icon : "fas fa-ruble-sign" , third_nav : ["品種價格","基礎","洗澡","美容","安親","住宿","加價項目","加價美容"] } ,
     { title : "退費管理" , icon : "fas fa-undo-alt" , third_nav : [] } ,
 
     { title : "員工管理" , icon : "fas fa-user" , third_nav : [] } ,

@@ -341,4 +341,4 @@ const Care_Form : FC<Edit_Form_Type> = ({ register  , control , setValue , error
 
 } ;
 
-export default Care_Form
+export default React.memo( Care_Form , () => true )

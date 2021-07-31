@@ -20,7 +20,6 @@ export const set_current_plan_type = ( type : string ) => {
 
 } ;
 
-
 // # 設定 _ 包月洗澡價格
 export const set_month_bath_price = ( price : number | string ) => {
 
@@ -60,5 +59,82 @@ export const set_lodge_coupon_price = ( price : number | string ) => {
         }) ;
 
     } ;
+
+} ;
+
+
+// # 設定 _ 目前所選擇方案 : 價錢小計
+export const set_Current_Plan_Price = ( price : number | string ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type               : "SET_CURRENT_PLAN_PRICE" ,
+            current_Plan_Price : price
+        }) ;
+
+    } ;
+
+} ;
+
+
+// # 設定 _ 自訂 加 / 減 金額 ( for 包月洗澡、包月美容 )
+export const set_Self_Adjust_Amount = ( price : number ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+                dispatch({
+                    type               : "SET_SELF_ADJUST_AMOUNT" ,
+                    self_Adjust_Amount : price
+                }) ;
+
+           } ;
+
+} ;
+
+
+// # 設定 _ 接送費 ( for 包月洗澡、包月美容 )
+export const set_Service_Pickup_Fee = ( price : number ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type               : "SET_SERVICE_PICKUP_FEE" ,
+            service_Pickup_Fee : price
+        }) ;
+
+    } ;
+
+} ;
+
+
+
+// 設定 _ 是否已點選使用 : 包月洗澡
+export const set_Use_Plan_Month_Bath = ( bool : boolean ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type                : "SET_USE_PLAN_MONTH_BATH" ,
+            use_Plan_Month_Bath : bool
+        }) ;
+
+    } ;
+
+} ;
+
+
+
+// 設定 _ 目前選擇 : 方案資料表 ( plans ) id
+export const set_Current_Plan_Id = ( planId : number | string ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+                dispatch({
+                    type            : "SET_CURRENT_PLAN_ID" ,
+                    current_Plan_Id : planId
+                }) ;
+
+           } ;
 
 } ;

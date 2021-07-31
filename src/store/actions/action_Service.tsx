@@ -19,3 +19,20 @@ export const set_Service_isLoading = ( bool : boolean ) => {
            } ;
 
 } ;
+
+
+
+// # 設定 _ 目前新增 : 服務類別 ( Ex. 初次洗澡、單次洗澡、包月洗澡 ... )
+export const set_Current_Create_Service_Type = ( serviceType : string ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type        : "SET_CURRENT_CREATE_SERVICE_TYPE" ,
+            serviceType : serviceType
+        }) ;
+
+    } ;
+
+} ;
+

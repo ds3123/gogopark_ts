@@ -9,8 +9,11 @@ import { toast } from "react-toastify";
 // Redux
 import { useDispatch , useSelector } from "react-redux";
 import { set_Side_Panel } from "store/actions/action_Global_Layout";
-import { set_Current_Second_Tab } from "store/actions/action_Management"
+
 import moment from "moment";
+
+
+import cookie from 'react-cookies'
 
 
 /* @ POST : 透過 Ajax _ 新增資料 */
@@ -18,26 +21,37 @@ import moment from "moment";
 // 新增 _ 客戶
 const useCreate_Customer = ( history : any , dispatch : any ) => {
 
+    // 資料庫已有 : 該客戶紀錄
+    const IsExisting_Customer = useSelector(( state : any ) => state.Customer.IsExisting_Customer ) ;
+
     const create_Customer = ( api : string  , data  : any , msg? : string ) => {
 
         // 轉換欄位
         const obj_Customer= columns_Covert_Customer( data ) ;
 
         // 新增資料
-        axios.post( "/customers" , obj_Customer ).then( res => {
+        if( !IsExisting_Customer ){
 
-            // 新增成功通知
-            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+            axios.post( "/customers" , obj_Customer ).then( res => {
 
-            // 關掉右側面板
-            dispatch( set_Side_Panel(false , null ,{} ) ) ;
+                // 新增成功通知
+                if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
 
-            // 前往相對應頁面
-            // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )
-            history.push("/wrongpath");  // 錯誤路徑
-            history.push("/customers");  // 正確路徑
+                // 關掉右側面板
+                dispatch( set_Side_Panel(false , null ,{} ) ) ;
 
-        }) ;
+                // 前往相對應頁面
+                // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )
+                history.push("/wrongpath");  // 錯誤路徑
+                history.push("/customers");  // 正確路徑
+
+            })
+
+        }else{
+
+            alert('資料庫已有該客戶資料') ;
+
+        }
 
     } ;
 
@@ -48,6 +62,11 @@ const useCreate_Customer = ( history : any , dispatch : any ) => {
 // 新增 _ 寵物
 const useCreate_Pet = ( history : any , dispatch : any ) => {
 
+    // 資料庫已有 : 該客戶、寵物紀錄
+    const IsExisting_Customer = useSelector(( state : any ) => state.Customer.IsExisting_Customer ) ;
+    const IsExisting_Pet      = useSelector(( state : any ) => state.Pet.IsExisting_Pet ) ;
+
+
     const create_Pet = ( api : string  , data  : any , msg? : string ) => {
 
         // 轉換欄位
@@ -55,21 +74,30 @@ const useCreate_Pet = ( history : any , dispatch : any ) => {
         const obj_Pet      = columns_Covert_Pet( data ) ;
 
         // 新增資料
-        axios.post( "/customers" , obj_Customer ) ;
-        axios.post( "/pets" , obj_Pet ).then( res => {
+        if( !IsExisting_Customer )  axios.post( "/customers" , obj_Customer ) ;
 
-            // 新增成功通知
-            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+        if( !IsExisting_Pet ){
 
-            // 關掉右側面板
-            dispatch( set_Side_Panel(false , null ,{} ) ) ;
+            axios.post( "/pets" , obj_Pet ).then( res => {
 
-            // 前往相對應頁面
-            // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )
-            history.push("/wrongpath" ) ;  // 錯誤路徑
-            history.push("/pets" ) ;       // 正確路徑
+                // 新增成功通知
+                if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
 
-        }) ;
+                // 關掉右側面板
+                dispatch( set_Side_Panel(false , null ,{} ) ) ;
+
+                // 前往相對應頁面
+                // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )
+                history.push("/wrongpath" ) ;  // 錯誤路徑
+                history.push("/pets" ) ;       // 正確路徑
+
+            }) ;
+
+        }else{
+
+            alert('資料庫已有該寵物資料') ;
+
+        }
 
     } ;
 
@@ -93,15 +121,16 @@ const useCreate_Basic = ( history : any , dispatch : any ) => {
         const obj_Pet       = dataArr[1] ;        // 寵物
         const obj_Basic     = dataArr[2] ;        // 基礎單
 
+        // # 新增資料
+        if( !IsExisting_Customer ) axios.post( "/customers" , obj_Customer );  // 新增 _ 客戶 ( 檢查是否已存在 )
 
-        // 新增資料
-        if( !IsExisting_Customer ) axios.post( "/customers" , obj_Customer );
-        if( !IsExisting_Pet )      axios.post( "/pets" , obj_Pet ) ;
+        if( !IsExisting_Pet )      axios.post( "/pets" , obj_Pet ) ;           // 新增 _ 寵物 ( 檢查是否已存在 )
 
+        // 新增 _ 基礎單
         axios.post( "/basics" , obj_Basic ).then(res => {
 
             // 新增成功通知
-            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+            if( msg ){ toast(`🦄 已新增 : ${ msg }` , { position: "top-left", autoClose: 1500 , hideProgressBar: false,});  }
 
             // 關掉右側面板
             dispatch( set_Side_Panel(false , null ,{} ) ) ;
@@ -122,6 +151,10 @@ const useCreate_Basic = ( history : any , dispatch : any ) => {
 // 新增 _ 洗澡單
 const useCreate_Bath = ( history : any , dispatch : any ) => {
 
+    // 資料庫已有 : 該客戶、寵物紀錄
+    const IsExisting_Customer = useSelector(( state : any ) => state.Customer.IsExisting_Customer ) ;
+    const IsExisting_Pet      = useSelector(( state : any ) => state.Pet.IsExisting_Pet ) ;
+
     const create_Bath = ( api : string  , data  : any , msg? : string ) => {
 
         const dataArr = columns_Covert_Bath( data ) ;
@@ -131,13 +164,33 @@ const useCreate_Bath = ( history : any , dispatch : any ) => {
         const obj_Pet       = dataArr[1] ;  // 寵物
         const obj_Bath      = dataArr[2] ;  // 洗澡單
 
+
         // 新增資料
-        axios.post( "/customers" , obj_Customer );
-        axios.post( "/pets" , obj_Pet );
+        if( !IsExisting_Customer ) axios.post( "/customers" , obj_Customer ) ;  // 新增 _ 客戶 ( 檢查是否已存在 )
+
+        if( !IsExisting_Pet ) axios.post( "/pets" , obj_Pet ) ;                  // 新增 _ 寵物 ( 檢查是否已存在 )
+
+        // 新增 _ 洗澡單
         axios.post( "/bathes" , obj_Bath ).then(res => {
 
+            // 新增 _ 方案 ( 包月洗澡 ) "使用紀錄"
+            if( data['payment_Method'] === '包月洗澡' ){
+
+                const obj_Plan = {
+                                   plan_type    : '包月洗澡' ,                                              // 方案類型
+                                   plan_id      : data['current_Plan_Id'] ? data['current_Plan_Id'] : '' , // 本次洗澡，所使用的方案資料表( plans ) id
+                                   customer_id  : data['customer_Id'] ? data['customer_Id'] : '' ,         // 客戶身分證字號
+                                   pet_serial   : data['pet_Serial'] ? data['pet_Serial'] : '' ,           // 寵物編號
+                                   service_id   : res.data ,                                               // 新增洗澡單後，回傳的該筆 _ 資料表 id
+                                   service_type : '洗澡'                                                   // 服務類型
+                                 } ;
+
+                axios.post( "/plan_records" , obj_Plan ) ;
+
+            }
+
             // 新增成功通知
-            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+            if( msg ){ toast(`🦄 已新增 : ${ msg }` , { position : "top-left", autoClose: 5000 , hideProgressBar: false , }); }
 
             // 關掉右側面板
             dispatch( set_Side_Panel(false , null ,{} ) ) ;
@@ -159,6 +212,10 @@ const useCreate_Bath = ( history : any , dispatch : any ) => {
 // 新增 _ 美容單
 const useCreate_Beauty = ( history : any , dispatch : any ) => {
 
+    // 資料庫已有 : 該客戶、寵物紀錄
+    const IsExisting_Customer = useSelector(( state : any ) => state.Customer.IsExisting_Customer ) ;
+    const IsExisting_Pet      = useSelector(( state : any ) => state.Pet.IsExisting_Pet ) ;
+
     const create_Beauty = ( api : string  , data  : any , msg? : string ) => {
 
         const dataArr = columns_Covert_Beauty( data ) ;
@@ -166,12 +223,19 @@ const useCreate_Beauty = ( history : any , dispatch : any ) => {
         // 轉換欄位
         const obj_Customer  = dataArr[0] ;  // 客戶
         const obj_Pet       = dataArr[1] ;  // 寵物
-        const obj_Beauty      = dataArr[2] ;  // 洗澡單
+        const obj_Beauty    = dataArr[2] ;  // 洗澡單
 
         // 新增資料
-        axios.post( "/customers" , obj_Customer );
-        axios.post( "/pets" , obj_Pet );
+        if( !IsExisting_Customer )  axios.post( "/customers" , obj_Customer );  // 新增 _ 客戶 ( 檢查是否已存在 )
+
+        if( !IsExisting_Pet ) axios.post( "/pets" , obj_Pet );                  // 新增 _ 寵物 ( 檢查是否已存在 )
+
+        // 新增 _ 美容單
         axios.post( "/beauties" , obj_Beauty ).then(res => {
+
+            console.log( `回傳美容 id : ${ res.data }` ) ;
+
+            return false ;
 
             // 新增成功通知
             if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
@@ -208,9 +272,6 @@ const useCreate_Employee = ( history : any , dispatch : any ) => {
             // 關掉右側面板
             dispatch( set_Side_Panel(false , null ,{} ) ) ;
 
-            // for 新增後，跳回 /management ，並點選 '員工管理' 頁籤
-            dispatch( set_Current_Second_Tab('員工管理') ) ;
-
             history.push("/wrongpath");  // 錯誤路徑
             history.push("/management");  // 正確路徑
 
@@ -222,38 +283,80 @@ const useCreate_Employee = ( history : any , dispatch : any ) => {
 
 } ;
 
-
 // 新增 _ 服務價格
 const useCreate_Service_Price = ( history : any , dispatch : any ) => {
 
     const create_Service_Price = ( api : string  , data  : any , msg? : string ) => {
 
-        
+        // # 價格新增方式為 -> 寵物品種 ( 多次新增 : 初次洗澡、單次洗澡、包月洗澡、單次美容、包月美容 )
+        if( data['service_Price_Create_Way'] === '寵物品種' ){
+
+            // 轉換資料表欄位
+            const objArr = columns_Covert_Service_Prices_SPECIES( data ) ;
+
+            // 逐一新增資料
+            objArr.forEach( x => {  axios.post( "/service_prices" , x ) ;  }) ;
+
+            // 延遲 1 秒，再重導向 ( 等待以上資料，Ajax 新增完畢 )
+            setTimeout( ( ) => {
+
+                // 新增成功通知
+                if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+
+                // 關掉右側面板
+                dispatch( set_Side_Panel(false , null ,{} ) ) ;
+
+                // 設定 cookie ( for 前往 : 價格管理 > 服務價格 / 5 秒後銷毀 )
+                cookie.save( 'after_Created_Redirect' , '價格管理_品種價格'  ,  { path : '/' , maxAge : 5 } ) ;
+
+                history.push("/wrongpath");  // 錯誤路徑
+                history.push("/management");  // 正確路徑
+
+            } , 1000 )
 
 
-        // 轉換資料表欄位
-        const obj = columns_Covert_Service_Prices( data ) ;
+        }
 
-        // 新增資料
-        axios.post( "/service_prices" , obj ).then( res => {
+        // # 價格新增方式為 -> 個別項目
+        if( data['service_Price_Create_Way'] === '個別項目' ){
 
-            // 新增成功通知
-            if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
+            // 轉換資料表欄位
+            const obj = columns_Covert_Service_Prices( data ) ;
 
-            // 關掉右側面板
-            dispatch( set_Side_Panel(false , null ,{} ) ) ;
+            // 新增資料
+            axios.post( "/service_prices" , obj ).then( res => {
 
-            history.push("/wrongpath");  // 錯誤路徑
-            history.push("/management");  // 正確路徑
+                // 新增成功通知
+                if( msg ){ toast(`🦄 已新增 : ${ msg }`, { position: "top-left", autoClose: 5000 , hideProgressBar: false,}); }
 
-        }) ;
+                // 關掉右側面板
+                dispatch( set_Side_Panel(false , null ,{} ) ) ;
+
+                // 設定 cookie ( for 前往 : 價格管理 > ... / 5 秒後銷毀 )
+                let redirect = '' ;                                  // 依照新增服務類別，決定重導向後的位置
+                const s_Type = obj['service_type'] ;
+                if( s_Type === '基礎' )     redirect = '價格管理_基礎' ;
+                if( s_Type === '洗澡' )     redirect = '價格管理_洗澡' ;
+                if( s_Type === '美容' )     redirect = '價格管理_美容' ;
+                if( s_Type === '安親' )     redirect = '價格管理_安親' ;
+                if( s_Type === '住宿' )     redirect = '價格管理_住宿' ;
+                if( s_Type === '加價項目' ) redirect = '價格管理_加價項目' ;
+                if( s_Type === '加價美容' ) redirect = '價格管理_加價美容' ;
+
+                cookie.save( 'after_Created_Redirect' , redirect  ,  { path : '/' , maxAge : 5 } ) ;
+
+                history.push("/wrongpath");  // 錯誤路徑
+                history.push("/management");  // 正確路徑
+
+            }) ;
+
+        }
 
     } ;
 
     return create_Service_Price ;
 
 } ;
-
 
 // 新增 _ 品種
 const useCreate_Pet_Species = ( history : any , dispatch : any ) => {
@@ -272,6 +375,11 @@ const useCreate_Pet_Species = ( history : any , dispatch : any ) => {
             // 關掉右側面板
             dispatch( set_Side_Panel(false , null ,{} ) ) ;
 
+
+            // 設定 cookie ( for 前往 : 系統設定 > 寵物品種 / 5 秒後銷毀 )
+            cookie.save( 'after_Created_Redirect' , '系統設定_寵物品種'  ,  { path : '/' , maxAge : 5 } ) ;
+
+
             history.push("/wrongpath");   // 錯誤路徑
             history.push("/management");  // 正確路徑
 
@@ -282,7 +390,6 @@ const useCreate_Pet_Species = ( history : any , dispatch : any ) => {
     return create_Pet_Species ;
 
 } ;
-
 
 // 新增 _ 時間按鈕紀錄 ( 美容區中，美容師點選 _ 時間按鈕 )
 export const useCreate_TimeRecord = ( ) => {
@@ -313,6 +420,49 @@ export const useCreate_TimeRecord = ( ) => {
 
 } ;
 
+// 新增 _ 方案 ( 包月洗澡、包月美容、住宿券 )
+export const useCreate_Plan = ( history : any , dispatch : any ) => {
+
+    // 資料庫已有 : 該客戶、寵物紀錄
+    const IsExisting_Customer = useSelector(( state : any ) => state.Customer.IsExisting_Customer ) ;
+
+    const create_Plan = ( api : string  , data  : any , msg? : string ) => {
+
+        const dataArr = columns_Covert_Service_Plans( data ) ;
+
+        // 轉換欄位
+        const obj_Customer = dataArr[0] as any ; // 客戶
+        const obj_Plan     = dataArr[1] ;        // 方案
+
+        // # 新增資料
+        // 新增 _ 客戶 ( 檢查是否已存在 )
+        if( !IsExisting_Customer ) axios.post( "/customers" , obj_Customer );
+
+        // 新增 _ 方案
+        axios.post( "/plans" , obj_Plan ).then(res => {
+
+            // 新增成功通知
+            toast(`🦄 已新增 : ` ,{ position : "top-left" , autoClose : 1500 , hideProgressBar : false } );
+
+            // 關掉右側面板
+            dispatch( set_Side_Panel(false , null ,{} ) ) ;
+
+            // 設定 cookie ( for 前往 : 洗美 > 方案 / 5 秒後銷毀 )
+            cookie.save( 'after_Created_Plan' , '洗美_方案' , { path : '/' , maxAge : 5 } ) ;
+
+
+            history.push("/wrongpath");  // 錯誤路徑
+            history.push("/services");   // 正確路徑
+
+        }) ;
+
+    } ;
+
+    return create_Plan ;
+
+} ;
+
+
 
 // @ 新增資料 ------------------------------------------------------------------------------
 
@@ -323,17 +473,17 @@ export const useCreate_Data = ( ) => {
     const dispatch = useDispatch() ;
 
     // * 依賴項目
-    const create_Customer = useCreate_Customer( history , dispatch ) ; // 客戶
-    const create_Pet      = useCreate_Pet( history , dispatch ) ;      // 寵物
-    const create_Basic    = useCreate_Basic( history , dispatch ) ;    // 基礎單
-    const create_Bath     = useCreate_Bath( history , dispatch ) ;     // 洗澡單
-    const create_Beauty   = useCreate_Beauty( history , dispatch ) ;   // 美容單
+    const create_Customer      = useCreate_Customer( history , dispatch ) ;      // 客戶
+    const create_Pet           = useCreate_Pet( history , dispatch ) ;           // 寵物
+    const create_Basic         = useCreate_Basic( history , dispatch ) ;         // 基礎單
+    const create_Bath          = useCreate_Bath( history , dispatch ) ;          // 洗澡單
+    const create_Beauty        = useCreate_Beauty( history , dispatch ) ;        // 美容單
 
-
+    const create_Service_Plan  = useCreate_Plan( history , dispatch ) ;          // 方案 ( Ex. 包月洗澡 )
     const create_Service_Price = useCreate_Service_Price( history , dispatch ) ; // 價格 ( 各項服務 )
     const create_Pet_Species   = useCreate_Pet_Species( history , dispatch ) ;   // 寵物品種
 
-    const create_Employee      = useCreate_Employee( history , dispatch ) ; // 員工
+    const create_Employee      = useCreate_Employee( history , dispatch ) ;      // 員工
 
 
     // * Controller / 表示層
@@ -354,6 +504,9 @@ export const useCreate_Data = ( ) => {
 
         // 美容
         if (api === "/beauties") create_Beauty(api, data, msg);
+
+        // 方案
+        if( api === "/plans") create_Service_Plan(api, data, msg);
 
         // 價格 ( 各項服務 )
         if (api === "/service_prices") create_Service_Price(api, data, msg);
@@ -399,7 +552,6 @@ export const useCreate_Customer_Relatives = ( ) => {
 } ;
 
 
-
 // @  轉換資料欄位 ---------------------------------------------------
 
 
@@ -424,35 +576,36 @@ export const columns_Covert_Customer = ( data : any ) => {
 // 寵物
 export const columns_Covert_Pet = ( data : any ) => {
 
+
     const obj = {
 
-        customer_id  : data['customer_Id'] ,
+                    customer_id  : data['customer_Id'] ,
 
-        serial       : data['pet_Serial'] ,
-        species      : data['pet_Species'] ,
-        name         : data['pet_Name'] ,
-        sex          : data['pet_Sex'] ,
-        color        : data['pet_Color'] ,
-        weight       : data['pet_Weight'] ,
-        age          : data['pet_Age'] ,
+                    serial       : data['pet_Serial'] ,
+                    species      : data['pet_Species'] ,
+                    name         : data['pet_Name'] ,
+                    sex          : data['pet_Sex'] === '請選擇' ? '' : data['pet_Sex'] ,
+                    color        : data['pet_Color'] ,
+                    weight       : data['pet_Weight'] ,
+                    age          : data['pet_Age'] ,
 
-        injection    : data['injection'] ,
-        flea         : data['flea'] ,
-        ligate       : data['ligate'] ,
-        chip         : data['chip'] ,
-        infection    : data['infection'] ,
-        together     : data['together'] ,
-        drug         : data['drug'] ,
-        bite         : data['bite'] ,
+                    injection    : data['injection'] ,
+                    flea         : data['flea'] ,
+                    ligate       : data['ligate'] ,
+                    chip         : data['chip'] ,
+                    infection    : data['infection'] ,
+                    together     : data['together'] ,
+                    drug         : data['drug'] ,
+                    bite         : data['bite'] ,
 
-        health       : data['health'] ? data['health'].join(',') : "" ,
-        feed         : data['feed'] ? data['feed'].join(',') : "" ,
-        toilet       : data['toilet'] ? data['toilet'].join(',') : "" ,
-        ownerProvide : data['ownerProvide'] ? data['ownerProvide'].join(',') : "" ,
+                    health       : data['health'] ? data['health'].join(',') : "" ,
+                    feed         : data['feed'] ? data['feed'].join(',') : "" ,
+                    toilet       : data['toilet'] ? data['toilet'].join(',') : "" ,
+                    ownerProvide : data['ownerProvide'] ? data['ownerProvide'].join(',') : "" ,
 
-        note         : data['pet_Note'] ,
+                    note         : data['pet_Note'] ,
 
-    } ;
+                  } ;
 
     return obj
 
@@ -470,52 +623,68 @@ export const columns_Covert_Basic = ( data : any ) => {
     // 基礎單
     const obj_Basic    = {
 
-                            // * 基本資訊欄位
+                            // * 基本資訊欄位 ( 9 個 )
                             service_status        : data['service_Status'] ,                                                                   // 服務性質 ( 已到店、預約_今天、預約_明天 )
-                            service_date          : data['service_Date'] ? moment( data['service_Date'] ).format('YYYY-MM-DD' ) : "" ,  // 到店服務日期
-                            q_code                : data['shop_Q_Code'] === "" ? "01" : data['shop_Q_Code'] ,                                  // 到店處理碼 ( Q )
 
-                            actual_arrive         : data['actual_Arrive'] ,                                                  // 實際到店時間
-                            expected_arrive       : data['expected_Arrive'] ? data['expected_Arrive'] : "" ,                 // 預計到店時間
-                            expected_leave        : data['expected_Leave'] ,                                                 // 預計離店時間
+                            shop_status           : data['service_Status'] === '已到店' ? '到店等候中' : data['service_Status'] ,                // 到店狀態 ( 到店等候中、到店美容中 ... )
+
+                            service_date          : data['service_Date'] ? moment( data['service_Date'] ).format('YYYY-MM-DD' ) : "" ,  // 到店服務日期
+                            q_code                : data['shop_Q_Code']  ,                                                                     // 到店處理碼 ( Q )
+
+                            actual_arrive         : data['actual_Arrive'] ,                                                  // 實際 _ 到店時間
+                            expected_arrive       : data['expected_Arrive'] ? data['expected_Arrive'] : "" ,                 // 預計 _ 到店時間
+                            expected_leave        : data['expected_Leave'] ,                                                 // 預計 _ 離店時間
 
                             way_arrive            : data['way_Arrive'] ,                                                     // 到店方式
                             way_leave             : data['way_Leave'] ,                                                      // 離店方式
 
-                            // * 客戶資料
+                            // * 客戶資料 ( 1 個 )
                             customer_id           : data['customer_Id'] ,                                                    // 身分證字號
 
-                            // * 寵物資料
+                            // * 寵物資料 ( 1 個 )
                             pet_id                : data['pet_Serial'] ,                                                     // 寵物編號
 
-                            // * 基礎單欄位
+
+                            // * 主人自備物品、交代 ( 4 個 )
                             customer_object       : data['customer_Object'] ? data['customer_Object'].join(',') : '' ,       // 自備物品 ( 可複選選項 )
                             customer_object_other : data['customer_Object_Other'] ,                                          // 自備物品 ( 其他 )
                             customer_note         : data['customer_Note'] ? data['customer_Note'].join(',') : '' ,           // 主人交代 ( 可複選選項 )
-                            admin_note            : data['admin_Note'] ,                                                     // 櫃代備註
-
-                            basic_data            : data['basic_Option'] ? data['basic_Option'].join(',') : '' ,              // 基礎資料( 可複選選項 )
-                            basic_foot            : data['basic_Option_Foot'] === '請選擇' ? '' : data['basic_Option_Foot'] , // 修腳緣 ( 下拉 )
+                            admin_customer_note   : data['admin_Customer_Note'] ,                                                     // 櫃代備註
 
 
-                            // * 費用欄位
-                            basic_fee             : '' ,                                                                      // 本次基礎單消費價格小計
+                            // * 資料欄位 ( 1 個 ) --------------------------------------------------------
+
+                            basic_data            : data['basic_Option'] ? data['basic_Option'].join(',') : '' ,
+
+
+                            //  * 費用欄位 ( 2 個 ) --------------------------------------------------------
+
+                            basic_fee             : data['basic_Fee'] ,                                                       // 本次基礎單消費價格小計
                             pickup_fee            : data['pickup_Fee'] ,                                                      // 接送費
 
-                            admin_user            : '櫃台行政' ,                                                               // 經手人 / 櫃台行政( 再改為工作人員  )
 
-                            shop_status           : data['service_Status'] === '已到店' ? '到店等候中' : '' ,                  // 到店狀態 ( 到店等候中、到店美容中、洗完等候中、已回家( 房 ) )
+                            // * 行政、明細 ( 6 個 ) --------------------------------------------------------
 
-                            // * 美容師欄位 ( 美容師處理時，才會填寫 )
-                            beautician            : '' ,                                                                      // 負責美容師
-                            report                : '' ,                                                                      // 處理結果
+                            amount_payable        : parseInt( data['basic_Fee'] ) + parseInt( data['pickup_Fee'] ),           // 應收金額
+                            amount_paid           : data['amount_Paid'] ,                                                     // 實收金額
+                            amount_discount       : data['amount_Discount'] ? data['amount_Discount'] : 0 ,                   // 優惠金額
+
+                            payment_method        : data['payment_Method'] ,                                                  // 付款方式 ( Ex. 現金、贈送 ... )
+
+                            admin_user            : data['admin_User'] === '請選擇' ? '' : data['admin_User'] ,                // 櫃台人員
+                            admin_service_note    : data['admin_Service_Note'] ,                                               // 櫃台人員備註
+
+
+                            // * 美容師欄位 ( 6 個 ) ( NOTE : 美容師處理時，才會填寫 ) -------------------------
+
+                            beautician_name       : '' ,                                                                      // 負責美容師
+                            beautician_report     : '' ,                                                                      // 處理結果
                             wait_way              : '' ,                                                                      // 等候方式 ( Ex. 進籠子等候 )
                             wait_time             : '' ,                                                                      // 開始等候時間
                             beautician_star       : '' ,                                                                      // 評分
                             beautician_note       : '' ,                                                                      // 備註
 
                          } ;
-
 
     return [ obj_Customer , obj_Pet , obj_Basic ] ;
 
@@ -533,35 +702,80 @@ export const columns_Covert_Bath = ( data : any ) => {
     // 洗澡單
     const obj_Bath     = {
 
-                            // * 基本資訊欄位
+                            // * 基本資訊欄位 ( 9 個 )
                             service_status        : data['service_Status'] ,                                                                   // 服務性質 ( 已到店、預約_今天、預約_明天 )
-                            service_date          : data['service_Date'] ? moment( data['service_Date'] ).format('YYYY-MM-DD' ) : "" ,  // 到店服務日期
-                            q_code                : data['shop_Q_Code'] === "" ? "01" : data['shop_Q_Code'] ,                                  // 到店處理碼 ( Q )
 
-                            actual_arrive         : data['actual_Arrive'] ,                                                  // 實際到店時間
-                            expected_arrive       : data['expected_Arrive'] ? data['expected_Arrive'] : "" ,                 // 預計到店時間
-                            expected_leave        : data['expected_Leave'] ,                                                 // 預計離店時間
+                            shop_status           : data['service_Status'] === '已到店' ? '到店等候中' : data['service_Status'] ,                // 到店狀態 ( 到店等候中、到店美容中 ... )
+
+                            service_date          : data['service_Date'] ? moment( data['service_Date'] ).format('YYYY-MM-DD' ) : "" ,  // 到店服務日期
+                            q_code                : data['shop_Q_Code']  ,                                                                      // 到店處理碼 ( Q )
+
+                            actual_arrive         : data['actual_Arrive'] ,                                                  // 實際 _ 到店時間
+                            expected_arrive       : data['expected_Arrive'] ? data['expected_Arrive'] : "" ,                 // 預計 _ 到店時間
+                            expected_leave        : data['expected_Leave'] ,                                                 // 預計 _ 離店時間
 
                             way_arrive            : data['way_Arrive'] ,                                                     // 到店方式
                             way_leave             : data['way_Leave'] ,                                                      // 離店方式
 
-                            // * 客戶資料
+
+                            // * 客戶資料 ( 1 個 )
                             customer_id           : data['customer_Id'] ,                                                    // 身分證字號
 
-                            // * 寵物資料
+                            // * 寵物資料 ( 1 個 )
                             pet_id                : data['pet_Serial'] ,                                                     // 寵物編號
 
-                            customer_object : '' ,
 
-                            customer_object_other : '' ,
+                            // * 主人自備物品、交代 ( 4 個 )
+                            customer_object       : data['customer_Object'] ? data['customer_Object'].join(',') : '' ,       // 自備物品 ( 可複選選項 )
+                            customer_object_other : data['customer_Object_Other'] ,                                          // 自備物品 ( 其他 )
+                            customer_note         : data['customer_Note'] ? data['customer_Note'].join(',') : '' ,           // 主人交代 ( 可複選選項 )
+                            admin_customer_note   : data['admin_Customer_Note'] ,                                            // 櫃代備註
 
-                            customer_note : '' ,
+                            // * 資料欄位 ( 9 個 ) --------------------------------------------------------
 
+                            basic_data            : data['basic_Option'] ? data['basic_Option'].join(',') : '' ,             // 基礎資料
 
-                            shop_status           : data['service_Status'] === '已到店' ? '到店等候中' : '' ,                  // 到店狀態 ( 到店等候中、到店美容中、洗完等候中、已回家( 房 ) )
+                            // 洗澡資料欄位
+                            bath_1                : data['bath_Option_1'] ,
+                            bath_2                : data['bath_Option_2'] ,
+                            bath_3                : data['bath_Option_3'] ,
+                            bath_4                : data['bath_Option_4'] ,
+                            bath_5                : data['bath_Option_5'] ,
+                            bath_6                : data['bath_Option_6'] ,
 
+                            extra_service         : data['extra_Item'] ? data['extra_Item'].join(',') : '' ,                // 加價項目 _ 資料 ( Ex. 梳廢毛、跳蚤/壁蝨 )
+                            extra_beauty          : data['extra_Beauty'] ? data['extra_Beauty'].join(',') : '' ,            // 加價美容 _ 資料
 
-    } ;
+                            //  * 費用欄位 ( 4 個 ) --------------------------------------------------------
+
+                            bath_fee              : data['bath_Fee'] ,                                                       // 洗澡費用
+
+                            extra_service_fee     : data['extra_Service_Fee'] ,                                              // 加價項目 _ 費用
+                            extra_beauty_fee      : data['extra_Beauty_Fee'] ,                                               // 加價美容 _ 費用
+
+                            pickup_fee            : data['pickup_Fee'] ,                                                     // 接送費用
+
+                            // * 行政、明細 ( 6 個 ) --------------------------------------------------------
+
+                            amount_payable        : parseInt( data['bath_Fee'] ) + data['extra_Service_Fee'] + data['extra_Beauty_Fee'] + parseInt( data['pickup_Fee'] ),   // 應收金額
+                            amount_paid           : data['amount_Paid'] ,                                                    // 實收金額
+                            amount_discount       : data['amount_Discount'] ? data['amount_Discount'] : 0 ,                  // 優惠金額
+
+                            payment_method        : data['payment_Method'] ,                                                 // 付款方式 ( Ex. 現金、贈送 ... )
+
+                            admin_user            : data['admin_User'] === '請選擇' ? '' : data['admin_User'] ,               // 櫃台人員
+                            admin_service_note    : data['admin_Service_Note'] ,                                              // 櫃台人員備註
+
+                            // * 美容師欄位 ( 6 個 ) ( NOTE : 美容師處理時，才會填寫 ) ------------------------
+
+                            beautician_name       : '' ,                                                                      // 負責美容師
+                            beautician_report     : '' ,                                                                      // 處理結果
+                            wait_way              : '' ,                                                                      // 等候方式 ( Ex. 進籠子等候 )
+                            wait_time             : '' ,                                                                      // 開始等候時間
+                            beautician_star       : '' ,                                                                      // 評分
+                            beautician_note       : '' ,                                                                      // 備註
+
+                        } ;
 
 
     return [ obj_Customer , obj_Pet , obj_Bath ] ;
@@ -580,25 +794,84 @@ export const columns_Covert_Beauty = ( data : any ) => {
     // 美容單
     const obj_Beauty   = {
 
-                            // * 基本資訊欄位
-                            service_status  : data['service_Status'] ,                                                                   // 服務性質 ( 已到店、預約_今天、預約_明天 )
-                            service_date    : data['service_Date'] ? moment( data['service_Date'] ).format('YYYY-MM-DD' ) : "" ,  // 到店服務日期
-                            q_code          : data['shop_Q_Code'] === "" ? "01" : data['shop_Q_Code'] ,                                  // 到店處理碼 ( Q )
+                            // * 基本資訊欄位 ( 9 個 )
+                            service_status        : data['service_Status'] ,                                                                   // 服務性質 ( 已到店、預約_今天、預約_明天 )
 
-                            actual_arrive   : data['actual_Arrive'] ,                                                  // 實際到店時間
-                            expected_arrive : data['expected_Arrive'] ? data['expected_Arrive'] : "" ,                 // 預計到店時間
-                            expected_leave  : data['expected_Leave'] ,                                                 // 預計離店時間
+                            shop_status           : data['service_Status'] === '已到店' ? '到店等候中' : data['service_Status'] ,                // 到店狀態 ( 到店等候中、到店美容中 ... )
 
-                            way_arrive      : data['way_Arrive'] ,                                                     // 到店方式
-                            way_leave       : data['way_Leave'] ,                                                      // 離店方式
+                            service_date          : data['service_Date'] ? moment( data['service_Date'] ).format('YYYY-MM-DD' ) : "" ,  // 到店服務日期
+                            q_code                : data['shop_Q_Code']  ,                                                                     // 到店處理碼 ( Q )
 
-                            // * 客戶資料
-                            customer_id     : data['customer_Id'] ,                                                    // 身分證字號
+                            actual_arrive         : data['actual_Arrive'] ,                                                  // 實際 _ 到店時間
+                            expected_arrive       : data['expected_Arrive'] ? data['expected_Arrive'] : "" ,                 // 預計 _ 到店時間
+                            expected_leave        : data['expected_Leave'] ,                                                 // 預計 _ 離店時間
 
-                            // * 寵物資料
-                            pet_id          : data['pet_Serial'] ,                                                     // 寵物編號
+                            way_arrive            : data['way_Arrive'] ,                                                     // 到店方式
+                            way_leave             : data['way_Leave'] ,                                                      // 離店方式
 
-                            shop_status     : data['service_Status'] === '已到店' ? '到店等候中' : '' ,                  // 到店狀態 ( 到店等候中、到店美容中、洗完等候中、已回家( 房 ) )
+
+                            // * 客戶資料 ( 1 個 )
+                            customer_id           : data['customer_Id'] ,                                                    // 身分證字號
+
+                            // * 寵物資料 ( 1 個 )
+                            pet_id                : data['pet_Serial'] ,                                                     // 寵物編號
+
+
+                            // * 主人自備物品、交代 ( 4 個 )
+
+                            customer_object       : data['customer_Object'] ? data['customer_Object'].join(',') : '' ,       // 自備物品 ( 可複選選項 )
+                            customer_object_other : data['customer_Object_Other'] ,                                          // 自備物品 ( 其他 )
+                            customer_note         : data['customer_Note'] ? data['customer_Note'].join(',') : '' ,           // 主人交代 ( 可複選選項 )
+                            admin_customer_note   : data['admin_Customer_Note'] ,                                                     // 櫃代備註
+
+                            // * 資料欄位 ( 14 個 ) --------------------------------------------------------
+
+                            basic_data            : data['basic_Option'] ? data['basic_Option'].join(',') : '' ,             // 基礎資料
+
+                            // 洗澡資料欄位
+                            bath_1                : data['bath_Option_1'] ,
+                            bath_2                : data['bath_Option_2'] ,
+                            bath_3                : data['bath_Option_3'] ,
+                            bath_4                : data['bath_Option_4'] ,
+                            bath_5                : data['bath_Option_5'] ,
+                            bath_6                : data['bath_Option_6'] ,
+
+                            extra_service         : data['extra_Item'] ? data['extra_Item'].join(',') : '' ,                // 加價項目 _ 資料 ( Ex. 梳廢毛、跳蚤/壁蝨 )
+
+                            // 美容資料欄位
+                            b_body                : data['beauty_Option_Body'] ,
+                            b_head                : data['beauty_Option_Head'] ,
+                            b_ear                 : data['beauty_Option_Ear'] ,
+                            b_tail                : data['beauty_Option_Tail'] ,
+                            b_foot                : data['beauty_Option_Foot'] ,
+                            b_other               : data['beauty_Option_Other'] ,
+
+                            //  * 費用欄位 ( 3 個 ) --------------------------------------------------------
+
+                            beauty_fee            : data['beauty_Fee'] ,                                                     // 美容費用
+
+                            extra_service_fee     : data['extra_Service_Fee'] ,                                              // 加價項目 _ 費用
+
+                            pickup_fee            : data['pickup_Fee'] ,                                                     // 接送費用
+
+                            // * 行政、明細 ( 6 個 ) --------------------------------------------------------
+                            amount_payable        : parseInt( data['beauty_Fee'] ) + data['extra_Service_Fee'] + parseInt( data['pickup_Fee'] ),           // 應收金額
+                            amount_paid           : data['amount_Paid'] ,                                                    // 實收金額
+                            amount_discount       : data['amount_Discount'] ? data['amount_Discount'] : 0 ,                  // 優惠金額
+
+                            payment_method        : data['payment_Method'] ,                                                 // 付款方式 ( Ex. 現金、贈送 ... )
+
+                            admin_user            : data['admin_User'] === '請選擇' ? '' : data['admin_User'] ,               // 櫃台人員
+                            admin_service_note    : data['admin_Service_Note'] ,                                             // 櫃台人員備註
+
+
+                            // * 美容師欄位 ( 6 個 ) ( NOTE : 美容師處理時，才會填寫 ) ------------------------
+                            beautician_name       : '' ,                                                                      // 負責美容師
+                            beautician_report     : '' ,                                                                      // 處理結果
+                            wait_way              : '' ,                                                                      // 等候方式 ( Ex. 進籠子等候 )
+                            wait_time             : '' ,                                                                      // 開始等候時間
+                            beautician_star       : '' ,                                                                      // 評分
+                            beautician_note       : '' ,                                                                      // 備註
 
                           } ;
 
@@ -606,7 +879,7 @@ export const columns_Covert_Beauty = ( data : any ) => {
 
 } ;
 
-// 價格( 各項服務 )
+// 價格( 各項服務 : for 依照 "個別項目" 新增 )
 export const columns_Covert_Service_Prices = ( data : any ) => {
 
     return {
@@ -623,6 +896,80 @@ export const columns_Covert_Service_Prices = ( data : any ) => {
 
 } ;
 
+// 價格( 各項服務 : for 依照 "寵物品種" 新增 )
+export const columns_Covert_Service_Prices_SPECIES = ( data : any ) => {
+
+    return [
+             // 初次洗澡優惠
+             {
+                service_type  : '洗澡' ,                    // 服務類型
+
+                service_plan  : '初次洗澡優惠' ,            // 指定方案
+                species_id    : data['price_Species_Id'] , // species 資料表 id ( 指定品種 )
+
+                service_name  : '初次洗澡優惠價格' ,         // 服務名稱
+                service_price : data['price_Fist_Bath'] ,   // 服務價格
+
+                note          : '' ,                        // 備註
+             } ,
+
+             // 單次洗澡
+             {
+                service_type  : '洗澡' ,
+
+                service_plan  : '' ,
+                species_id    : data['price_Species_Id'] ,
+
+                service_name  : '單次洗澡價格' ,
+                service_price : data['price_Single_Bath'] ,
+
+                note          : '' ,
+             } ,
+
+             // 包月洗澡
+             {
+                service_type  : '洗澡' ,
+
+                service_plan  : '包月洗澡' ,
+                species_id    : data['price_Species_Id'] ,
+
+                service_name  : '包月洗澡價格' ,
+                service_price : data['price_Month_Bath'] ,
+
+                note          : '' ,
+             } ,
+
+             // 單次美容
+             {
+                service_type  : '美容' ,
+
+                service_plan  : '' ,
+                species_id    : data['price_Species_Id'] ,
+
+                service_name  : '單次美容價格' ,
+                service_price : data['price_Single_Beauty'] ,
+
+                note          : '' ,
+             } ,
+
+             // 包月美容
+             {
+                service_type  : '美容' ,
+
+                service_plan  : '包月美容' ,
+                species_id    : data['price_Species_Id'] ,
+
+                service_name  : '包月美容價格' ,
+                service_price : data['price_Month_Beauty'] ,
+
+                note          : '' ,
+             } ,
+
+           ]
+
+} ;
+
+
 // 品種
 export const columns_Covert_Pet_Species = ( data : any ) => {
 
@@ -636,6 +983,7 @@ export const columns_Covert_Pet_Species = ( data : any ) => {
            } ;
 
 } ;
+
 
 // 員工
 export const columns_Covert_Employee = ( data : any ) => {
@@ -651,6 +999,52 @@ export const columns_Covert_Employee = ( data : any ) => {
               employee_mobile_phone : data['employee_MobilePhone'] ,  // 員工手機號碼
               employee_address      : data['employee_Address'] ,      // 員工通訊地址
            } ;
+
+} ;
+
+
+// 方案 ( 包月洗澡、包月美容、住宿券 )
+export const columns_Covert_Service_Plans = ( data : any ) => {
+
+    let  plan_basic_price = 0 ;   // 方案 _ 基本價格
+
+    if( data['plan_Type'] === '包月洗澡' ) plan_basic_price = data['month_Bath_Price'] ;
+    if( data['plan_Type'] === '包月美容' ) plan_basic_price = data['month_Beauty_Price'] ;
+
+    // 客戶
+    const obj_Customer = columns_Covert_Customer( data ) ;
+
+    // 方案
+    const obj_Plan = {
+
+                          // * 方案資料 ( 9 個 ) --------------------------------------------------------
+                          plan_type           : data['plan_Type'] ,                // 方案類性 ( Ex.包月洗澡、包月美容、住宿券 )
+                          customer_id         : data['customer_Id'] ,              // 客戶身分證字號
+                          pet_species_id      : data['plan_Pet_Species'] ,         // 寵物資料表 ( pet_species ) id
+
+                          plan_basic_price    : plan_basic_price ,                 // 方案 _ 基本價格
+
+                          plan_adjust_price   : data['plan_Adjust_Amount'] ,       // 自訂增 / 減 金額
+                          pickup_fee          : data['plan_Pickup_Fee'] ,          // 接送費
+
+                          plan_fee_total      : plan_basic_price + parseInt( data['plan_Adjust_Amount'] ) + parseInt( data['plan_Pickup_Fee'] ) ,  // 方案價格共計 ( 基本價格 + 自訂增 / 減 金額 + 接送費  )
+
+                          lodge_coupon_number : data['plan_Lodge_Coupon_Number'] ? data['plan_Lodge_Coupon_Number'] : null ,        // 住宿券本數
+                          lodge_coupon_price  : data['plan_Lodge_Coupon_Number'] ? data['plan_Lodge_Coupon_Number'] * 4000 : null , // 住宿金額
+
+
+                          // * 行政、明細 ( 5 個 ) --------------------------------------------------------
+                          amount_payable      : plan_basic_price + parseInt( data['plan_Adjust_Amount'] ) + parseInt( data['plan_Pickup_Fee'] ) ,  // 應收金額 ( 同以上 : 方案價格共計 )
+                          amount_paid         : data['amount_Paid'] ,                                        // 實收金額
+                          payment_method      : data['payment_Method'] ,                                     // 付款方式 ( Ex. 現金、贈送 ... )
+
+                          admin_user          : data['admin_User'] === '請選擇' ? '' : data['admin_User'] ,   // 櫃台人員
+                          admin_service_note  : data['admin_Service_Note'] ,                                 // 櫃台人員備註
+
+                      }  ;
+
+
+    return [ obj_Customer , obj_Plan ] ;
 
 } ;
 

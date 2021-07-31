@@ -8,12 +8,12 @@ export const set_Index_isLoading = ( bool : boolean ) => {
 
     return ( dispatch : Dispatch ) => {
 
-        dispatch({
-            type            : "SET_INDEX_ISLOADING" ,
-            Index_isLoading : bool
-        }) ;
+                dispatch({
+                    type            : "SET_INDEX_ISLOADING" ,
+                    Index_isLoading : bool
+                }) ;
 
-    } ;
+           } ;
 
 } ;
 
@@ -23,12 +23,12 @@ export const set_Detail_Mode = ( bool : boolean ) => {
 
     return ( dispatch : Dispatch ) => {
 
-        dispatch({
-            type           : "SET_DETAIL_MODE" ,
-            is_Detail_Mode : bool
-        }) ;
+                dispatch({
+                    type           : "SET_DETAIL_MODE" ,
+                    is_Detail_Mode : bool
+                }) ;
 
-    } ;
+           } ;
 
 } ;
 
