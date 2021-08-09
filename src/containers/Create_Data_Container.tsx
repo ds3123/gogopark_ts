@@ -31,6 +31,9 @@ import { useCreate_Data , useCreate_Customer_Relatives } from "hooks/ajax_crud/u
 import { useSelector } from "react-redux" ;
 import { useHelper_Prices } from "hooks/data/usePrice"
 import { useRead_Species } from "hooks/ajax_crud/useAjax_Read";
+import { useEmployee_Validator } from "hooks/data/useForm_Validator"
+
+
 
 
 /* @ 新增資料 */
@@ -54,11 +57,21 @@ const Create_Data_Container = () => {
     // 目前選擇 _ 方案資料表 ( plans ) id
     const current_Plan_Id    = useSelector(( state : any ) => state.Plan.current_Plan_Id ) ;
 
+    // 目前選擇 _ 方案備註 Ex. 包月洗澡第 1 次
+    const current_Plan_Note  = useSelector(( state : any ) => state.Plan.current_Plan_Note ) ;
+
 
     // # 自訂 _ 表單驗證邏輯 ( 因欲驗證值 / 邏輯，無法透過 RHF 表單欄位值表示 )
 
-    // 方案 : 包月洗澡 _ 條件不符
-    const invalid_To_Month_Bath = useSelector( ( state : any ) => state.Form.invalid_To_Month_Bath ) ;
+    // * 新增按鈕 _ 是否有效啟用
+    const [ disabled_Form , set_Disabled_Form ] = useState( true );
+
+    // 方案 : 包月洗澡 _ 條件不符 ( Redux )
+    const invalid_To_Plan     = useSelector( ( state : any ) => state.Form.invalid_To_Plan ) ;
+
+    // 員工 : 工作人員 _ 條件不符
+    const employee_Validator = useEmployee_Validator();
+
 
 
     // 取得 _ 所有寵物品種資料
@@ -68,12 +81,8 @@ const Create_Data_Container = () => {
     const [ current , set_Current ] = useState('' ) ;     // 目前點選標籤
 
 
-    const [ disabled_Form , set_Disabled_Form ] = useState( true );  //  新增按鈕 _ 是否有效啟用
-
-
     // 取得 _ 子元件目前所點選的標籤
-    const get_Current_Tab           = ( tab : string ) => set_Current( tab ) ;
-
+    const get_Current_Tab = ( tab : string ) => set_Current( tab ) ;
 
 
     // # 依照不同服務類型，切換 : 驗證條件
@@ -95,6 +104,9 @@ const Create_Data_Container = () => {
         case "員工" : validator = schema_Employee ; break ;
 
     }
+
+
+
 
     // React Hook Form
     const { register , setValue , handleSubmit , control , formState: { errors , isDirty , isValid } } =
@@ -127,10 +139,14 @@ const Create_Data_Container = () => {
 
         // 將 "寵物品種 pet_species 資料表 id" ， 改為 : "寵物品種名稱"
         if( data['pet_Species'] && data['pet_Species'] !== '請選擇' ){  // 有寵物區塊欄位
-
             const pet        = petSpecies.filter( x => x['id'] === parseInt( data['pet_Species'] ) )[0] ;
             data.pet_Species = pet['name'] ;
+        }
 
+        // 驗證 : 員工( 工作人員 )欄位
+        if( current === '員工' && data['employee_Type'] === '工作人員' ){
+            const bool = employee_Validator( data ) ;
+            if( !bool ) return false ;
         }
 
         switch( current ){
@@ -158,23 +174,25 @@ const Create_Data_Container = () => {
           case "洗澡" :
               api = "/bathes" ;
               msg = "洗澡" ;
-              data.shop_Q_Code       = current_Q_Code ;   // 目前所選擇 _ 到店處理碼 Q
+              data.shop_Q_Code       = current_Q_Code ;    // 目前所選擇 _ 到店處理碼 Q
               data.service_Status    = service_Status ;
-              data.bath_Fee          = bathSumPrice ;     // 洗澡費
-              data.extra_Service_Fee = extraItemFee ;     // 加價項目 _ 費用
-              data.extra_Beauty_Fee  = extraBeautyFee ;   // 加價美容 _ 費用
-              data.current_Plan_Id   = current_Plan_Id ;  // 目前選擇 _ 方案資料表 ( plans ) id
+              data.bath_Fee          = bathSumPrice ;      // 洗澡費
+              data.extra_Service_Fee = extraItemFee ;      // 加價項目 _ 費用
+              data.extra_Beauty_Fee  = extraBeautyFee ;    // 加價美容 _ 費用
+              data.current_Plan_Id   = current_Plan_Id ;   // 目前選擇 _ 方案資料表 ( plans ) id
+              data.current_Plan_Note = current_Plan_Note ; // 目前選擇 _ 方案備註 Ex. 包月洗澡第 1 次
 
               break ;
 
           case "美容" :
               api = "/beauties" ;
               msg = "美容" ;
-              data.shop_Q_Code       = current_Q_Code ;   // 目前所選擇 _ 到店處理碼 Q
+              data.shop_Q_Code       = current_Q_Code ;    // 目前所選擇 _ 到店處理碼 Q
               data.service_Status    = service_Status ;
-              data.beauty_Fee        = beautySumPrice ;   // 美容費
-              data.extra_Service_Fee = extraItemFee ;     // 加價項目 _ 費用
-              data.current_Plan_Id   = current_Plan_Id ;  // 目前選擇 _ 方案資料表 ( plans ) id
+              data.beauty_Fee        = beautySumPrice ;    // 美容費
+              data.extra_Service_Fee = extraItemFee ;      // 加價項目 _ 費用
+              data.current_Plan_Id   = current_Plan_Id ;   // 目前選擇 _ 方案資料表 ( plans ) id
+              data.current_Plan_Note = current_Plan_Note ; // 目前選擇 _ 方案備註 Ex. 包月洗澡第 1 次
 
               break ;
 
@@ -185,7 +203,6 @@ const Create_Data_Container = () => {
               data.month_Beauty_Price = month_Beauty_Price ; // 包月美容 費用
 
               break ;
-
 
           case "價格" :
               api = "/service_prices" ;
@@ -205,6 +222,7 @@ const Create_Data_Container = () => {
         }
 
 
+
         // # 新增資料
         create_Data( api , data , msg ) ;  // 所有資料
 
@@ -218,22 +236,19 @@ const Create_Data_Container = () => {
     } ;
 
 
-
-
-
     // 設定 _ 表單新增按鈕 : 驗證邏輯
     useEffect(( ) => {
 
       const is_RHF_Valid = isValid ;  // React Hook Form 驗證有效
 
       // 決定 _ 提交按鈕是否有作用的條件組合
-      const is_Disabled_Form = !is_RHF_Valid || invalid_To_Month_Bath ;
+      const is_Disabled_Form = !is_RHF_Valid || invalid_To_Plan  ;
 
 
       set_Disabled_Form(is_Disabled_Form ? true : false ) ;
 
 
-    } ,[ isValid , invalid_To_Month_Bath ] ) ;
+    } ,[ isValid , invalid_To_Plan ] ) ;
 
 
     return <>
@@ -282,7 +297,9 @@ const Create_Data_Container = () => {
                             type="submit" className="button is-primary relative is-medium" style={{ top: "-10px" }} >
                         新增{current}
                     </button>
-                 </div> <br/><br/>
+                 </div>
+
+                 <br/><br/>
 
              </form>
 

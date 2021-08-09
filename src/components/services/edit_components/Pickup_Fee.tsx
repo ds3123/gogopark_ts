@@ -10,7 +10,7 @@ import {Input} from "../../../templates/form/Input";
 
 interface IPickup extends Edit_Form_Type {
 
-    editType?    : string ;
+    editType? : string ;
 
 }
 

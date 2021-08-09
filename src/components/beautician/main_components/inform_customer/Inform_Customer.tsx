@@ -8,7 +8,7 @@ import { set_Side_Panel } from "store/actions/action_Global_Layout" ;
 
 
 
-{ /* 處理結果、主人確認 */ }
+{ /* 處理結果 / 主人確認 */ }
 const Inform_Customer = () => {
 
     const dispatch = useDispatch() ;

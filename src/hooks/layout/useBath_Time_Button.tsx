@@ -12,7 +12,7 @@ import axios from "utils/axios";
 
 /*  @ 美容區頁面 : 美容師點選 _ 洗澡時間按鈕 */
 
-const useBath_Time_Button = ( tag : string ) => {
+const useBath_Time_Button = ( tag : string , required? : boolean ) => {
 
 
     // 資料庫中，某服務單，已有的點選時間紀錄
@@ -41,7 +41,6 @@ const useBath_Time_Button = ( tag : string ) => {
     const click_Time = ( user : string ) => {
 
       let _user = user ? user : '測試員' ; // 若非美容師點選，資料表欄位 beautician 設為 '測試員'
-
 
       if( time === '00 : 00' ){  // 點選
 
@@ -89,7 +88,7 @@ const useBath_Time_Button = ( tag : string ) => {
 
         // * 設定 _ 是否已有點選時間紀錄 ----------------------
 
-        // 取得、設定 _ 已點選時間紀錄
+        // 取得、設定 _ 先前已點選時間紀錄
         const is_Exist = Existing_Time_Records.filter( ( x:any ) => ( x['button_name'] === tag && x['service_table_id'] === current_Service_Id.toString() ) )[0] ;
 
         if( is_Exist ){
@@ -103,17 +102,22 @@ const useBath_Time_Button = ( tag : string ) => {
 
     } ,[ current_Service , Existing_Time_Records ] ) ;
 
+    const tagStyle = { marginBottom : "15px" , position : "relative"  } as any ;
+
+    const time_Tag = <span style   = { tagStyle }
+                         className = { `tag relative is-large pointer ${ ( time !== '00 : 00'  ) ? 'is-link is-light' : 'hover' }` }
+                         onClick   = { () => click_Time( current_Beautician ) } >
+
+                         <b className = 'absolute f_10' style = { name } > { user } </b>  { /* 點選者 */ }
+
+                         { required &&  <b className = 'absolute fRed' style = {{ left:"-13px" , top:"-13px" }} > * </b> }  { /* 必點選星號 */ }
+
+                         { time }
+
+                      </span> ;
 
 
-    return <span style     = { { marginBottom:"15px" , position : "relative" } }
-                 className = { `tag is-large pointer ${ ( time !== '00 : 00'  ) ? 'is-success' : 'hover' }` }
-                 onClick   = { () => click_Time( current_Beautician ) } >
-
-                 <b className = 'absolute f_10' style = { name } > { user } </b>
-
-                 { time }
-
-           </span> ;
+    return { time_Tag , time }
 
 } ;
 

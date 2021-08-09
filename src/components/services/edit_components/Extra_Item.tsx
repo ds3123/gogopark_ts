@@ -139,8 +139,9 @@ const Extra_Item : FC< IExtra_Item >  = ( { register , editType, serviceData } )
                                               }
 
                                               <input type="checkbox" value={ x['id'] }  {...register("extra_Item")}
-                                                     onChange={e => handle_Change(e.target.value)}/>
-                                              <b> {x['service_name']} </b>
+                                                     onChange={e => handle_Change(e.target.value)} />
+
+                                              <b> { x['service_name'] } </b>
 
                                          </div>
 

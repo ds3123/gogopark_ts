@@ -25,7 +25,7 @@ export const useRead_Service_Cus_Pet = ( serviceType? : Service_Type_Api ) => {
 
        let is_Mounted = true ;
 
-       axios.get( '/services/show_with_cus_relative_pet/' ).then( res => {
+       axios.get( '/services/show_with_cus_relative_pet/0' ).then( res => {
 
           if( is_Mounted ){
 

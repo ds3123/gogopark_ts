@@ -1,6 +1,6 @@
 
-import React, {FC, useEffect, useState} from "react"
-import {Input} from "templates/form/Input";
+import React , { FC , useEffect , useState } from "react"
+import { Input } from "templates/form/Input";
 import { Edit_Form_Type } from "utils/Interface_Type"
 import { useRead_Customer_By_Column } from "hooks/ajax_crud/useAjax_Read"
 
@@ -166,7 +166,7 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
     useEffect(( ) => {
 
        // 清除還原 _ 目前客戶所擁有寵物標籤 ( 顯示於 : 寵物資料標題列 )
-       dispatch( set_Current_Customer_Pets([] ) )
+       dispatch( set_Current_Customer_Pets([] ) ) ;
 
 
 

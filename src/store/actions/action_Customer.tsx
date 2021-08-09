@@ -21,8 +21,6 @@ export const set_IsExisting_Customer = ( bool : boolean ) => {
 
 } ;
 
-
-
 // # 設定 _ 是否正在輸入 _ 身分證字號欄位
 export const set_IsQuerying_Customer_ID = ( bool : boolean ) => {
 
@@ -36,8 +34,6 @@ export const set_IsQuerying_Customer_ID = ( bool : boolean ) => {
     } ;
 
 } ;
-
-
 
 // # 設定 _ 該客戶，是否有洗澡單紀錄 ( for 判斷是否為 "初次洗澡" )
 export const set_Has_Bath_Records = ( bool : boolean ) => {

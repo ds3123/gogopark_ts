@@ -28,8 +28,15 @@ const usePagination = ( api : string , type? : string ) => {
 
         axios.get( api ).then( res => {
 
+            // 排序資料
+            const resData = res.data.sort(( a : any , b:any ) : any => {
+
+                                return a['created_at'] < b['created_at'] ? 1 : -1
+
+                             }) ;
+
             // 設定 _ 回傳資料
-            set_filteredItems( res.data ) ;
+            set_filteredItems( resData ) ;
 
             // 設定 _ 下載完畢狀態
             if( type === 'customer' )  dispatch( set_Customer_isLoading(false ) ) ; // 客戶頁

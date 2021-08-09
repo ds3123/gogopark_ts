@@ -1,4 +1,4 @@
-import React from "react" ;
+import React , { FC } from "react" ;
 
 // 分頁套件、呼叫邏輯
 import usePagination from "hooks/layout/usePagination" ;
@@ -10,6 +10,8 @@ import {useSelector} from "react-redux";
 
 
 
+
+
 /* @ 寵物頁面 */
 const Pets = () => {
 
@@ -17,9 +19,7 @@ const Pets = () => {
     const Pet_isLoading = useSelector( ( state:any ) => state.Pet.Pet_isLoading ) ;
 
     // 取得 _ 分頁資料
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination('/pets/show_pets_customers_relatives/' , 'pet' ) ;
-
-
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination('/pets/show_pets_customers_relatives/0' , 'pet' ) ;
 
 
   return <>
@@ -49,7 +49,7 @@ const Pets = () => {
 
                     if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
 
-                    return <Pets_Rows key={ index } data={ item } /> ;
+                    return <Pets_Rows key={ index } data={ item } />
 
                   })
 
@@ -68,9 +68,6 @@ const Pets = () => {
                 </div>
 
             }
-
-
-
 
 
             { /* 分頁按鈕 */ }

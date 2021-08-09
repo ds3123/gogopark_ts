@@ -33,9 +33,6 @@ export const useDelete_Service_Price = ( ) => {
 
 } ;
 
-
-
-
 // 刪除 _ 寵物品種
 export const useDelete_Pet_Species = ( ) => {
 
@@ -48,7 +45,6 @@ export const useDelete_Pet_Species = ( ) => {
 
            // 刪除 成功通知
            toast(`🦄 品種刪除成功 : `, { position: "top-left", autoClose: 1500 , hideProgressBar: false,} );
-
 
            // 設定 cookie ( for 前往 : 系統設定 > 寵物品種 / 5 秒後銷毀 )
            cookie.save( 'after_Created_Redirect' , '系統設定_寵物品種'  ,  { path : '/' , maxAge : 5 } ) ;
@@ -64,8 +60,6 @@ export const useDelete_Pet_Species = ( ) => {
 
 } ;
 
-
-
 // 新增 _ 時間按鈕紀錄 ( 美容區中，美容師點選 _ 時間按鈕 )
 export const useDelete_TimeRecord = ( ) => {
 
@@ -74,8 +68,7 @@ export const useDelete_TimeRecord = ( ) => {
         // 刪除資料
         axios.delete(`/time_records/destroy_by_id_button/${ service_Id }/${ time_Button }` ).then(res => {
 
-            // 新增成功通知
-            toast(`🦄 已取消 : `, { position: "top-left", autoClose: 1500 , hideProgressBar: false,} );
+            toast(`🦄 已刪除 : `, { position: "top-left", autoClose: 1500 , hideProgressBar: false,} );
 
         }) ;
 

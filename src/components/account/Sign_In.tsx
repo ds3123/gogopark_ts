@@ -23,9 +23,6 @@ import * as yup from "yup"
 import {useRead_Employees} from "hooks/ajax_crud/useAjax_Read";
 import {useDispatch} from "react-redux";
 
-import { set_Signin_Data } from "store/actions/action_Signin"
-
-import moment from 'moment'
 
 
 // 員工資料
@@ -82,9 +79,6 @@ const Sign_In = () => {
                 // 帳號密碼 _ 正確
                 if( x['account'] === account && x['password'] === password ){
 
-                    // 設定 _ Redux
-                    dispatch( set_Signin_Data( x ) ) ;
-
                     // 設定 _ Cookie
                     cookie.save( 'userInfo' , x , { path : '/'  } ) ;
 
@@ -92,7 +86,7 @@ const Sign_In = () => {
                     toast(`🦄 登入成功`, { position: "top-left", autoClose: 1500 , hideProgressBar: false,});
 
                     // 跳轉頁面
-                    history.push('/') ;
+                    history.push('/index') ;
 
                     return false ;
 

@@ -16,9 +16,6 @@ import Nav_Qcode_List from "components/services/Nav_Qcode_List";
 // React-Toastify
 import { toast } from "react-toastify";
 
-
-
-
 // Redux
 import { set_Side_Panel } from "store/actions/action_Global_Layout" ;
 
@@ -32,26 +29,27 @@ interface IOptionObj {
 
 
 
-
-
 // # 導覽列 _ 選項
 const Nav_Options = () => {
 
     // 使用者類別 ( Ex. 櫃台、美容 .... )
-    const [ userType , set_UserType ] = useState( '' ) ;
+    const [ account , set_Account ] = useState({
+                                                            employee_Type : '' , // 帳號類型( Ex.管理帳號、測試帳號、工作人員 )
+                                                            position_Type : ''   // 職位類別( Ex. 櫃台、美容、接送 )
+                                                          }) ;
 
     const history  = useHistory();
     const dispatch = useDispatch() ;
     let location   = useLocation() ;  // 取得 : 路徑資訊
 
 
-    // 根據 cookie 取得的 userType , 運算取得功能選項 ( 利用 useMemo 優化，再判斷是否有必要 2021.07.17 )
+    // 根據 cookie 取得的 positionType , 運算取得功能選項 ( 利用 useMemo 優化，再判斷是否有必要 2021.07.17 )
     const get_OptionArr = useMemo( ( ) => {
 
         // 頁面選項
         const OptionArr : IOptionObj[] = [
 
-            { title : "首 頁"  , url : "/"           , color : "is-white"   , icon : "fas fa-home"  } ,
+            { title : "首 頁"  , url : "/index"           , color : "is-white"   , icon : "fas fa-home"  } ,
             { title : "客 戶"  , url : "/customers"  , color : "is-warning" , icon : "fas fa-user"  } ,
             { title : "寵 物"  , url : "/pets"       , color : "is-warning" , icon : "fas fa-dog"  } ,
             { title : "洗 美"  , url : "/services"   , color : "is-success" , icon : "fas fa-bath"  } ,
@@ -68,17 +66,32 @@ const Nav_Options = () => {
         const filter_Pickup = OptionArr.filter( x => ( x['title'] === '美容師' ) ) ;
 
         let _OptionArr : any[] = [] ;
-        switch ( userType ) {
-            case '管理' : _OptionArr = filter_Manage ; break ;
-            case '測試' : _OptionArr = filter_Test ; break ;
-            case '櫃台' : _OptionArr = filter_Admin ; break ;
-            case '美容' : _OptionArr = filter_Beauty ; break ;
-            case '接送' : _OptionArr = filter_Pickup ; break ;
+
+        const Employee = account['employee_Type'] ;
+        const Position = account['position_Type'] ;
+
+        switch ( true ) {
+
+            case Employee === '管理帳號' :
+                _OptionArr = filter_Manage ; break ;
+
+            case Employee === '測試帳號' :
+                _OptionArr = filter_Test ; break ;
+
+            case Position === '櫃台' || Position === '計時櫃台'  :
+                _OptionArr = filter_Admin ; break ;
+
+            case Position === '美容' || Position === '計時美容' :
+                _OptionArr = filter_Beauty ; break ;
+
+            case Position === '接送' || Position === '計時接送' :
+                _OptionArr = filter_Pickup ; break ;
+
         }
 
         return _OptionArr ;
 
-    } , [ userType ] ) ;
+    } , [ account ] ) ;
 
 
     // 點選 _ 登出鈕
@@ -93,28 +106,30 @@ const Nav_Options = () => {
         toast(`🦄 登出成功`, { position: "top-left", autoClose: 1500 , hideProgressBar: false,});
 
         // 轉址
-        history.push('/signin');
+        history.push('/');
 
     } ;
 
     // 顯示 _ Q code 面板
-    const show_Qcode = () =>  dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
+    const show_Qcode = () => dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '洗澡' , preLoadData : null } ) );
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '洗澡' , preLoadData : null } ) ) ;
 
     useEffect(() => {
 
         // 設定 _ 使用者類別
-        const _cookie = cookie.load( 'userInfo' ) ;
+        const _cookie = cookie.load('userInfo') ;
 
-        // 需確認 cookie 是否存在 ( 首頁網址 ( '/' )，需設為登入頁 Signin )
         if( _cookie ){
 
-            set_UserType( _cookie['employee_type'] ) ;
+            set_Account({ ...account ,
+                                  employee_Type : _cookie['employee_type'] ,
+                                  position_Type : _cookie['position_type'] ,
+                              }) ;
 
-            // 前往 _ 美容頁面
-            if( _cookie['employee_type'] === '美容' ) history.push('/beautician') ;
+            // "美容"、"計時美容"，前往 : 【 美容頁面 ( ~ /beautician ) 】
+            if( _cookie['position_type'] === '美容' || _cookie['position_type'] === '計時美容' ) history.push('/beautician') ;
 
         }
 
@@ -126,29 +141,37 @@ const Nav_Options = () => {
 
    return  <div id="navbarExampleTransparentExample" className="is-hidden-mobile">
 
-               <div className="navbar-start relative" style={ { top:"34%" , left:"30px" } } >
+               <b className="absolute"> { account['employee_Type'] } _ { account['position_Type'] } </b>
 
-                      {  /* 業務功能頁面 */
-                         get_OptionArr.map( ( option , index ) => {
+               <div className="navbar-start relative" style={{ top:"34%" , left:"30px" }} >
 
-                            const optionStyle = option.url === location.pathname ? { boxShadow : "1px 1px 5px 1px rgba(0,0,0,.6)" , borderRadius : "3px" } : {} ;
+                   {
+                     /* 業務功能頁面 */
+                     get_OptionArr.map( ( option , index ) => {
 
-                            return <span key={ index }>
-                                     <Link to={ option.url }>
-                                       <span style     = { optionStyle }
-                                             className = { "tag is-medium is-rounded relative pointer "+option.color } >
-                                             <i className={ option.icon }></i> &nbsp; { option.title }
-                                       </span> &nbsp; &nbsp;
-                                     </Link>
-                                   </span>
+                        const optionStyle = option.url === location.pathname ? { boxShadow : "1px 1px 5px 1px rgba(0,0,0,.6)" , borderRadius : "3px" } : {} ;
 
-                       })
-                    }
+                        return <span key={ index }>
+                                 <Link to={ option.url }>
+                                   <span style     = { optionStyle }
+                                         className = { "tag is-medium is-rounded relative pointer "+option.color } >
+                                         <i className={ option.icon }></i> &nbsp; { option.title }
+                                   </span> &nbsp; &nbsp;
+                                 </Link>
+                               </span>
+
+
+                     })
+
+                   }
 
                    {/* 功能按鈕 */}
                    <span style={{ marginLeft : '20px' }}>
 
-                      { ( userType === '管理' || userType === '測試' || userType === '櫃台' ) &&
+                      {  ( account['employee_Type'] === '管理帳號' ||
+                           account['employee_Type'] === '測試帳號' ||
+                           account['position_Type'] === '櫃台' ||
+                           account['position_Type'] === '計時櫃台' )  &&
 
                            <>
 
@@ -164,12 +187,10 @@ const Nav_Options = () => {
                       }
 
                        { /*  登出鈕  */ }
-                       <b className="tag is-medium is-rounded pointer relative" style={{ right : '-120px' }} onClick={ click_SignOut }>
-
+                       <b className="tag is-medium is-rounded pointer relative" style={{ right : '-30px' }} onClick={ click_SignOut }>
                            <i className="fas fa-sign-out-alt"></i>
                        </b>
 
-                       {/*<b className="tag"><i className="fas fa-bars"></i></b>*/}
 
                    </span>
 

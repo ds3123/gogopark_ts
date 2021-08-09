@@ -5,7 +5,7 @@ import { Service_Type } from "utils/Interface_Type"
 
 
 { /* 依據不同服務單，回傳相對應的 _ 標籤顏色、icon */ }
-const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月美容' | null , func? : boolean , size?:'large' | 'medium'  ) => {
+const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月美容' | null , func? : boolean , size?:'large' | 'medium' , light? : boolean  ) => {
 
    // 回傳 : 函式
 
@@ -40,17 +40,17 @@ const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月�
    let obj = {} as any ;
 
    if( serviceType === "基礎" ){
-       obj.color =  size ? `tag is-${ size } is-warning is-light pointer` : 'tag is-large is-warning is-light pointer' ;
+       obj.color =  size ? `tag is-${ size } is-warning ${ !light ? 'is-light' : '' } pointer` : 'tag is-large is-warning  pointer' ;
        obj.icon  = "far fa-list-alt"
    }
 
     if( serviceType === "洗澡" || serviceType === "包月洗澡" ){
-       obj.color = size ? `tag is-${ size } is-success is-light pointer` : 'tag is-large is-success is-light pointer' ;
+       obj.color = size ? `tag is-${ size } is-success ${ !light ? 'is-light' : '' } pointer` : 'tag is-large is-success is-light pointer' ;
        obj.icon  = "fas fa-bath"
     }
 
     if( serviceType === "美容" || serviceType === "包月美容" ){
-       obj.color = size ? `tag is-${ size } is-danger is-light pointer` : 'tag is-large is-danger is-light pointer' ;
+       obj.color = size ? `tag is-${ size } is-danger ${ !light ? 'is-light' : '' } pointer` : 'tag is-large is-danger is-light pointer' ;
        obj.icon  = "fas fa-cut"
     }
 

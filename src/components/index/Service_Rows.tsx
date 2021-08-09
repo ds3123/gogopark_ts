@@ -10,6 +10,7 @@ import { useRating_Sign }  from "hooks/layout/useRating";
 
 
 import { Service_Type } from "utils/Interface_Type"
+import {toast} from "react-toastify";
 
 
 interface IService {
@@ -26,7 +27,18 @@ const Service_Rows : FC<IService> = ( { data } ) => {
     const rating_1 = useRating_Sign( 5  , 5 ) ;
     const rating_2 = useRating_Sign( 1  , 10 ) ;
 
-    const customer     = data['customer'] ;
+    const customer             = data['customer'] ;
+
+    try{
+
+         customer.customer_relation = [ data['customer_relative'] ] ;  // 配合 <Update_Customer />，關係人屬性名稱，改為 'customer_relation'
+
+    }catch(e){
+
+       console.log( '客戶關係人發生錯誤' )
+
+    }
+
     const pet          = data['pet'] ;
 
 
@@ -75,7 +87,7 @@ const Service_Rows : FC<IService> = ( { data } ) => {
 
                  { is_Detail_Mode &&  <span className="absolute" style={ rating }>  { rating_1 } </span> }
 
-                 { pet_Name } ( { string_Short( pet_Species ) } )
+                   { string_Short( pet_Name ) }  ( { string_Short( pet_Species ) } )
 
                </span> &nbsp; &nbsp;
 

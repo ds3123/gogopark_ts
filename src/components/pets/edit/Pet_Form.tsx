@@ -7,8 +7,6 @@ import { get_Today } from "utils/time/date";
 import { get_RandomInt } from "utils/number/number";
 
 import useSection_Folding from "hooks/layout/useSection_Folding" ;
-
-
 import axios from "utils/axios" ;
 
 // Redux
@@ -17,9 +15,6 @@ import { set_IsExisting_Pet , set_Current_Species_Select_Id } from "store/action
 import { set_Bath_Price } from "store/actions/action_Bath"
 import { set_Beauty_Price } from "store/actions/action_Beauty"
 import { set_Current_Create_Service_Type } from "store/actions/action_Service"
-
-
-
 
 
 { /* 寵物表單欄位  */ }
@@ -53,7 +48,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                                                                           month_Bath    : 0 , // 包月洗澡
                                                                                           single_Beauty : 0 , // 單次美容
                                                                                           month_Beauty  : 0 , // 包月美容
-                                                                                       }) ;
+                                                                                        }) ;
 
     // 目前服務類別
     const [ current_Service , set_Current_Service ] = useState({
@@ -61,6 +56,71 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                                                             is_Single_Bath   : false ,
                                                                             is_Single_Beauty : false ,
                                                                          }) ;
+
+
+
+
+    // 取得 _ 所選擇品種，相對應的各種服務價格
+    const get_Current_Species_Prices = ( species_Id : string ) => {
+
+        axios.get( `/service_prices/show_specie_id_prices/${ species_Id }` ).then( res => {
+
+            const _data = res.data ;
+
+            let priceArr : any = {
+                                    first_Bath    : 0 ,
+                                    single_Bath   : 0 ,
+                                    month_Bath    : 0 ,
+                                    single_Beauty : 0 ,
+                                    month_Beauty  : 0
+                                 } ;
+
+            // 有資料
+            if( _data.length > 0 ){
+
+                _data.forEach( ( x : any ) => {
+
+                    const sName  = x['service_name'] ;
+                    const sPrice = x['service_price'] ;
+
+                    if( sName === '初次洗澡優惠價格' ) priceArr['first_Bath']    = sPrice ;
+                    if( sName === '單次洗澡價格' )     priceArr['single_Bath']   = sPrice ;
+                    if( sName === '包月洗澡價格' )     priceArr['month_Bath']    = sPrice ;
+                    if( sName === '單次美容價格' )     priceArr['single_Beauty'] = sPrice ;
+                    if( sName === '包月美容價格' )     priceArr['month_Beauty']  = sPrice ;
+
+                }) ;
+
+                // # 設定 State
+                set_Current_Species_Prices({ ...current_Species_Prices ,
+                                                    first_Bath    : priceArr['first_Bath'] ,
+                                                    single_Bath   : priceArr['single_Bath'] ,
+                                                    month_Bath    : priceArr['month_Bath'] ,
+                                                    single_Beauty : priceArr['single_Beauty'] ,
+                                                    month_Beauty  : priceArr['month_Beauty'] ,
+                                                 }) ;
+
+                return false
+
+            }
+
+            // 沒有資料 ( 回復預設值 )
+            set_Current_Species_Prices({ ...current_Species_Prices ,
+                                                first_Bath    : 0 ,
+                                                single_Bath   : 0 ,
+                                                month_Bath    : 0 ,
+                                                single_Beauty : 0 ,
+                                                month_Beauty  : 0 ,
+            }) ;
+
+
+        })
+
+
+
+    } ;
+
+
 
     // 變動處理 _ 品種下拉選單
     const get_Species_Id = ( species_Id : string ) => {
@@ -72,58 +132,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
         if( species_Id === '請選擇' ) return false ;
 
         // 取得 _ 所選擇品種，相對應的各種服務價格
-        axios.get( `/service_prices/show_specie_id_prices/${ species_Id }` ).then( res => {
-
-           const _data = res.data ;
-
-           let priceArr : any = {
-                                   first_Bath    : 0 ,
-                                   single_Bath   : 0 ,
-                                   month_Bath    : 0 ,
-                                   single_Beauty : 0 ,
-                                   month_Beauty  : 0
-                                } ;
-
-           // 有資料
-           if( _data.length > 0 ){
-
-               _data.forEach( ( x : any ) => {
-
-                      const sName  = x['service_name'] ;
-                      const sPrice = x['service_price'] ;
-
-                      if( sName === '初次洗澡優惠價格' ) priceArr['first_Bath'] = sPrice ;
-                      if( sName === '單次洗澡價格' )     priceArr['single_Bath'] = sPrice ;
-                      if( sName === '包月洗澡價格' )     priceArr['month_Bath'] = sPrice ;
-                      if( sName === '單次美容價格' )     priceArr['single_Beauty'] = sPrice ;
-                      if( sName === '包月美容價格' )     priceArr['month_Beauty'] = sPrice ;
-
-               }) ;
-
-               // # 設定 State
-               set_Current_Species_Prices({ ...current_Species_Prices ,
-                                                     first_Bath    : priceArr['first_Bath'] ,
-                                                     single_Bath   : priceArr['single_Bath'] ,
-                                                     month_Bath    : priceArr['month_Bath'] ,
-                                                     single_Beauty : priceArr['single_Beauty'] ,
-                                                     month_Beauty  : priceArr['month_Beauty'] ,
-                                                 }) ;
-
-               return false
-
-           }
-
-            // 沒有資料 ( 回復預設值 )
-            set_Current_Species_Prices({ ...current_Species_Prices ,
-                                                 first_Bath    : 0 ,
-                                                 single_Bath   : 0 ,
-                                                 month_Bath    : 0 ,
-                                                 single_Beauty : 0 ,
-                                                 month_Beauty  : 0 ,
-                                              }) ;
-
-
-        })
+        get_Current_Species_Prices( species_Id ) ;
 
     } ;
 
@@ -140,6 +149,27 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
               // for Summary_Fee 付款方式為包月洗澡、美容時，設定所選擇品種
               dispatch( set_Current_Species_Select_Id( _pet['id'] ) ) ;  // Redux
+
+
+              // # 帶入資料時，設定提示 : 初次洗澡 / 單次洗澡 / 單次美容
+
+              // 初次洗澡
+              const is_First_Bath  = current === '洗澡' && !Has_Bath_Records && ( _pet['id'] && _pet['id'] !== '請選擇' ) as boolean ;
+
+              // 單次洗澡
+              const is_Single_Bath = current === '洗澡' && Has_Bath_Records && ( _pet['id'] && _pet['id'] !== '請選擇' ) as boolean ;
+
+
+              set_Current_Service({ ...current_Service ,
+                                           is_First_Bath    : is_First_Bath ,
+                                           is_Single_Bath   : is_Single_Bath ,
+                                        }) ;
+
+              // 取得 _ 所選擇品種，相對應的各種服務價格
+              get_Current_Species_Prices( _pet['id'] ) ;
+
+
+              // ----------------------------------------------------------------
 
               // 基本資料
               setValue( "pet_Serial"   , pet['serial']  , { shouldValidate: true } ) ;

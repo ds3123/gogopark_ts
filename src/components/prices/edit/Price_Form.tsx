@@ -81,22 +81,21 @@ const Price_Form : FC<Price> = ( { register  , errors , setValue , current , spe
 
                    <div className="column is-12-desktop">
 
-                            <span className="relative" style={{left: "-12px"}}>
+                        <span className="relative" style={{left: "-12px"}}>
 
                              <b className="tag is-medium is-white"> 新增價格方式 :</b> &nbsp;&nbsp;
 
-                                <b className={`tag pointer is-medium is-success ${create_Way === '寵物品種' ? '' : 'is-light'}`}
+                              <b className={`tag pointer is-medium is-success ${create_Way === '寵物品種' ? '' : 'is-light'}`}
                                    onClick={() => click_Way('寵物品種')}>
-                                 <i className="fas fa-cat"></i> &nbsp; 寵物品種
+                                   <i className="fas fa-cat"></i> &nbsp; 寵物品種
                              </b> &nbsp;&nbsp;&nbsp;&nbsp;
 
-                                <b className={`tag pointer is-medium is-success ${create_Way === '個別項目' ? '' : 'is-light'}`}
+                             <b className={`tag pointer is-medium is-success ${create_Way === '個別項目' ? '' : 'is-light'}`}
                                    onClick={() => click_Way('個別項目')}>
-                                 <i className="fas fa-list"></i> &nbsp; 個別項目
+                                   <i className="fas fa-list"></i> &nbsp; 個別項目
                              </b>
 
-                            </span>
-
+                        </span>
 
                    </div>
 

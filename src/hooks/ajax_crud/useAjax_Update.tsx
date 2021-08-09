@@ -25,7 +25,7 @@ export const useUpdate_Data = ( ) => {
         let submitData = data ;
 
         // 客戶
-        if( api === '/customers' )  submitData = columns_Covert_Customer( data ) ;
+        if( api === '/customers' ) submitData = columns_Covert_Customer( data ) ;
 
         // 價格 ( 各項服務 )
         if( api === '/service_prices' ) submitData = columns_Covert_Service_Prices( data ) ;
@@ -55,10 +55,9 @@ export const useUpdate_Data = ( ) => {
                 // 更新成功通知 ( 完整自訂訊息 )
                 toast(`🦄 ${ fullMsg }`, {
                     position: "top-left",
-                    autoClose: 5000,
+                    autoClose: 1500,
                     hideProgressBar: false,
                     closeOnClick: true,
-                    draggable: true,
                 });
             }
 
@@ -70,8 +69,7 @@ export const useUpdate_Data = ( ) => {
             let _redirect = '' ;
             if( api === '/pet_species' ) _redirect = '系統設定_寵物品種' ;
 
-            cookie.save( 'after_Created_Redirect' , _redirect  ,  { path : '/' , maxAge : 5 } ) ;
-
+            cookie.save( 'after_Created_Redirect' , _redirect , { path : '/' , maxAge : 5 } ) ;
 
             // 前往相對應頁面
             // NOTE : 為避免在相同屬性頁面下新增資料，而導致沒有渲染頁面 --> 先前往任一錯誤路徑，再前往正確路徑 ( 2021.06.12 再看看是否有更好解決方式 )
@@ -111,8 +109,6 @@ export const useUpdate_Customer_Relatives = ( ) => {
     } ;
 
     return create_Cus_Relatives
-
-
 
 } ;
 

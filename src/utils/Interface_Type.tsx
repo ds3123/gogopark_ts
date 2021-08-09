@@ -255,15 +255,51 @@ export interface ISpecies {
 // 員工資料
 export interface IEmployee {
 
-    employee_Type        : string ;   // 員工類型( Ex. 管理員、美容師 ...  )
-    employee_Account     : string ;   // 帳號
-    employee_Password    : string ;   // 密碼
-    employee_Nickname    : string ;   // 暱稱 / 別名
+    // # 共同欄位
+    employee_Type              : string ;   // 員工類型( Ex. 管理員、美容師 ...  )
+    employee_Account           : string ;   // 帳號
+    employee_Password          : string ;   // 密碼
+    employee_Nickname          : string ;   // 暱稱 / 別名
 
-    employee_Name        : string ;   // 員工姓名
-    employee_Id          : string ;   // 員工身分證字號
-    employee_MobilePhone : string ;   // 員工手機號碼
-    employee_Address     : string ;   // 員工通訊地址
+    // # 帳號類型 : 工作人員
+    employee_Serial            : string ;   // 員工編號
+    salary_Type                : string ;   // 計薪類別 ( Ex. 正職 / 計時 )
+    position_Type              : string ;   // 職位類別 ( Ex. 櫃台 / 美容 / 接送 )
+    position_Status            : string ;   // 職位現況 ( Ex. 在職 / 離職 )
+    Brand                      : string ;   // 所屬品牌 ( Ex. 狗狗公園 )
+    Shop                       : string ;   // 所屬店別 ( Ex. 淡水店 )
+
+    employee_Name              : string ;   // 員工姓名
+    employee_Sex               : string ;   // 員工性別
+    employee_Id                : string ;   // 員工身分證字號
+    employee_MobilePhone       : string ;   // 員工手機號碼
+    employee_TelPhone          : string ;   // 員工家用電話
+    employee_Birthday          : string ;   // 員工生日
+    employee_Line              : string ;   // 員工 LINE
+    employee_Email             : string ;   // 員工 Email
+    employee_Transportation    : string ;   // 員工 交通工具
+    employee_Address           : string ;   // 員工通訊地址
+    employee_Residence_Address : string ;   // 員工戶籍地址
+
+    // # 緊急聯絡人(1、2、3)
+    relative_Name_1            : string ;   // 姓名
+    relative_Family_1          : string ;   // 關係
+    relative_MobilePhone_1     : string ;   // 手機號碼
+    relative_TelPhone_1        : string ;   // 家用電話
+    relative_Address_1         : string ;   // 通訊地址
+
+    relative_Name_2            : string ;
+    relative_Family_2          : string ;
+    relative_MobilePhone_2     : string ;
+    relative_TelPhone_2        : string ;
+    relative_Address_2         : string ;
+
+    relative_Name_3            : string ;
+    relative_Family_3          : string ;
+    relative_MobilePhone_3     : string ;
+    relative_TelPhone_3        : string ;
+    relative_Address_3         : string ;
+
 
 }
 

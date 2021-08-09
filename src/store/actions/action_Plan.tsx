@@ -109,14 +109,14 @@ export const set_Service_Pickup_Fee = ( price : number ) => {
 
 
 
-// 設定 _ 是否已點選使用 : 包月洗澡
-export const set_Use_Plan_Month_Bath = ( bool : boolean ) => {
+// 設定 _ 是否已點選使用 : 包月洗澡 or 包月美容
+export const set_Use_Plan = ( bool : boolean ) => {
 
     return ( dispatch : Dispatch ) => {
 
         dispatch({
-            type                : "SET_USE_PLAN_MONTH_BATH" ,
-            use_Plan_Month_Bath : bool
+            type         : "SET_USE_PLAN" ,
+            is_Plan_Used : bool
         }) ;
 
     } ;
@@ -136,5 +136,35 @@ export const set_Current_Plan_Id = ( planId : number | string ) => {
                 }) ;
 
            } ;
+
+} ;
+
+
+// 設定 _ 目前選擇 : 方案備註 Ex. 包月洗澡第 1 次
+export const set_Current_Plan_Note = ( planNote : string ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type              : "SET_CURRENT_PLAN_NOTE" ,
+            current_Plan_Note : planNote
+        }) ;
+
+    } ;
+
+} ;
+
+
+// 設定 _ 目前點選使用的方案服務 _ 價格
+export const set_Current_Plan_Service_Price = ( price : number ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+        dispatch({
+            type                       : "SET_CURRENT_PLAN_SERVICE_PRICE" ,
+            current_Plan_Service_Price : price
+        }) ;
+
+    } ;
 
 } ;

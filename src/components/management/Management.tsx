@@ -22,6 +22,8 @@ import Extra_Beauty_Price from "components/management/price/service_type/Extra_B
 import Employees from "components/management/employee/Employees";
 import Species_List from "components/management/setting/species/Species_List";
 
+import Archive_List from "components/management/data/archive/Archive_List";
+
 import cookie from 'react-cookies'     // 匯入 cookie
 
 
@@ -38,29 +40,34 @@ const Management = () => {
         switch( title ) {
 
             // # 第二層
-            case '員工管理' : return <Employees/>    ; break ;
+            case '員工管理' : return <Employees/>    ;
 
             // # 第三層
             // * 財務管理
-            case '日報表'   : return <Daily_Report/> ; break ;
-            case '現金帳'   : return <Cash_Report/>  ; break ;
-            case '線上支付' : return <Online_Pay/>   ; break ;
+            case '日報表'   : return <Daily_Report/> ;
+            case '現金帳'   : return <Cash_Report/>  ;
+            case '線上支付' : return <Online_Pay/>   ;
 
             // * 價格管理
-            case '品種價格' : return <Species_Price_List/> ; break ;
+            case '品種價格' : return <Species_Price_List/> ;
             // case '服務價格' : return <Service_Price/>      ; break ;  // 所有服務價格
 
-            case '基礎' : return <Basic_Price/>  ; break ;
-            case '洗澡' : return <Bath_Price/>   ; break ;
-            case '美容' : return <Beauty_Price/> ; break ;
-            case '安親' : return <Care_Price/>   ; break ;
-            case '住宿' : return <Lodge_Price/>  ; break ;
+            case '基礎' : return <Basic_Price/>  ;
+            case '洗澡' : return <Bath_Price/>   ;
+            case '美容' : return <Beauty_Price/> ;
+            case '安親' : return <Care_Price/>   ;
+            case '住宿' : return <Lodge_Price/>  ;
 
-            case '加價項目' : return <Extra_Item_Price/>    ; break ;
-            case '加價美容' : return <Extra_Beauty_Price/>  ; break ;
+            case '加價項目' : return <Extra_Item_Price/>    ;
+            case '加價美容' : return <Extra_Beauty_Price/>  ;
+
+            // * 封存資料
+            case '封存資料' : return <Archive_List />
+
+
 
             // * 系統設定
-            case '寵物品種' : return <Species_List />  ; break ;
+            case '寵物品種' : return <Species_List />  ;
 
             default : return null ;
 
@@ -125,9 +132,6 @@ const Management = () => {
         }
 
 
-
-
-
        // # 系統設定 :
 
        // * 寵物品種
@@ -138,10 +142,10 @@ const Management = () => {
 
        // --------------------------------------------------------------
 
-       // 暫時
+       // 暫時、預先點選
        if( !redirect ){
-          click_Second('價格管理' ) ;
-          click_Third('品種價格' ) ;
+          click_Second('資料管理' ) ;
+          click_Third('封存資料' ) ;
        }
 
     } ,[] ) ;

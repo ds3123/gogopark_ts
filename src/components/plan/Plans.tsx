@@ -23,7 +23,7 @@ const Plans = ( ) => {
                       <th> 方案類型 </th>
                       <th> 客戶資訊 </th>
                       <th> 寵物品種 </th>
-                      <th> 方案價格 </th>
+                      <th> 價格小計 </th>
                       <th> <b className="fDred">收款</b>日期 </th>
                       <th> <b className="fDblue">開始</b>日期 </th>
                       <th> <b className="fDblue">結束</b>日期 </th>

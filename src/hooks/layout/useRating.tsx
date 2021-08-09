@@ -44,14 +44,17 @@ export const useRating_Sign = ( average_Rating : number , samples_Sum  : number 
          register : React Hook Form 的 useForm() 產生，用以註冊欄位
 
 */
-export const useRating_Options = ( title : string , colName : string , register : any ) => {
+export const useRating_Options = ( title : string , colName : string , register : any , setValue? : any ) => {
+
+
+    if( setValue ) setValue( colName , "3" ) ;  // 預設值
 
 
     return <div className="column is-12-desktop" >
 
                 <i className="far fa-star"></i>&nbsp;<b className="tag is-medium is-white"> { title } : </b> &nbsp; &nbsp;
 
-                <input type="radio" value = "拒接" { ...register( colName ) } /> <b style={{color:"rgb(200,0,0)"}}>拒接</b> &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
+                <input type="radio" value = "0"    { ...register( colName ) } /> <b style={{color:"rgb(200,0,0)"}}>拒接</b> &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
                 <input type="radio" value = "1"    { ...register( colName ) } /> 1    &nbsp; &nbsp; &nbsp; &nbsp;
                 <input type="radio" value = "2"    { ...register( colName ) } /> 2    &nbsp; &nbsp; &nbsp; &nbsp;
                 <input type="radio" value = "3"    { ...register( colName ) } /> 3    &nbsp; &nbsp; &nbsp; &nbsp;

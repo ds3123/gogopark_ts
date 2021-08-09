@@ -25,8 +25,11 @@ function App(){
 
             <Switch>
 
+                { /* 登入頁 */ }
+                <Route path="/" exact component = { Sign_In } />
+
                 { /* 首頁 */ }
-                <Route path="/" exact component = { () => make_Component( <Index/> ) } />
+                <Route path="/index" component = { () => make_Component( <Index/> ) } />
 
                 { /* 客戶 */ }
                 <Route path="/customers" component = { () => make_Component( <Customers /> ) } />
@@ -46,8 +49,7 @@ function App(){
                 { /* 管理區 */ }
                 <Route path="/management" component = { () => make_Component( <Management /> ) } />
 
-                { /* 登入頁 */ }
-                <Route path="/signin" component = { Sign_In } />
+
 
 
 

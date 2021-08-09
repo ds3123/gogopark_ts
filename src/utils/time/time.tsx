@@ -34,3 +34,30 @@ export const get_Cal_Hour_Time = ( date : string , hour : number )=>{
     return moment( time ).format('HH : mm') ;
 
 } ;
+
+
+// 取得 : 兩個時間( Ex. 15 : 07 ~ 16 : 30  ) 共幾分鐘
+export const time_Interval_Minutes = ( start : string , end : string )=>{
+
+    let sum_Minutes : number | string = '' ;
+
+    // 開始
+    const s_Hour   = start.slice( 0 , 2 ) ;  // 時
+    const s_Minute = start.slice( -2 ) ;     // 分
+
+    // 結束
+    const e_Hour   = end.slice( 0 , 2 ) ;
+    const e_Minute = end.slice( -2 ) ;
+
+    // 時 / 分 ，首個字元是否為 0
+    let s_H : any = ( s_Hour.slice( 0 , 1 ) === '0' ) ? s_Hour.slice( 0 , -1 ) :  s_Hour ;
+    let s_M : any = ( s_Minute.slice( 0 , 1 ) === '0' ) ? s_Minute.slice( 0 , -1 ) :  s_Minute ;
+
+    let e_H : any = ( e_Hour.slice( 0 , 1 ) === '0' ) ? e_Hour.slice( 0 , -1 ) :  e_Hour ;
+    let e_M : any = ( e_Minute.slice( 0 , 1 ) === '0' ) ? e_Minute.slice( 0 , -1 ) :  e_Minute ;
+
+    sum_Minutes = ( e_H - s_H ) * 60 + ( e_M - s_M ) ;
+
+    return sum_Minutes ;
+
+};

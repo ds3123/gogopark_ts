@@ -37,13 +37,13 @@ const Update_Service = ( ) => {
     const pet          = data.pet ? data.pet : {}  ;      // 寵物資料
     const Q_code       = data.q_code  ;
 
-   // console.log( data )
+    // console.log( data )
 
-    const { color , icon } = useServiceType( service_Type  ) ;
+    const { color , icon } = useServiceType( service_Type ) ;
 
     // React Hook Form
     const { register , setValue , control , handleSubmit , formState: { errors , isDirty , isValid } } =
-                useForm<IService>({
+                useForm< IService >({
 
                                      mode          : "all" ,
                                      resolver      : yupResolver( schema_Customer ) ,
@@ -95,7 +95,6 @@ const Update_Service = ( ) => {
 
                                                            // # 服務明細 ( Summary_Fee )
                                                            payment_Method : data.payment_method ,   // 付款方式
-
 
                                                      }
 
@@ -163,6 +162,23 @@ const Update_Service = ( ) => {
 
                 { /* 接送費 */ }
                 <Pickup_Fee { ...props } />
+
+                { /* 櫃台人員評分 */ }
+                <div className="columns is-multiline is-mobile relative"  style={{ left : "20px" }}>
+
+                    <div className="column is-12-desktop" >
+
+                        <i className="far fa-star f_14"></i>&nbsp;<b className="tag is-medium is-white f_14"> 櫃台人員評分 ( 客戶 ) : </b>
+                        { data['admin_star'] === '0' ?
+                            <b className="f_14" style={{ color:'red'}}> 拒 接 </b> :
+                            <b className="fDred f_14"> { data['admin_star'] } </b>
+                        }
+
+                    </div>
+
+                </div>
+
+                <hr/>
 
                 { /* 費用結算 */ }
                 { ( service_Type === "基礎" || service_Type === "洗澡" || service_Type === "美容" ) && <Summary_Fee { ...props } /> }

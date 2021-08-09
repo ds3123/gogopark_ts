@@ -9,26 +9,34 @@ import {useSelector} from "react-redux";
 const Pet_Info_Title = () => {
 
     // 目前所點選寵物
-    const Current_Pet = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
-    const pet         = Current_Pet['pet'] ;
-
-
-    const { color , icon }                    = useServiceType( Current_Pet['service_type'] );
+    const Current_Pet      = useSelector( ( state : any ) => state.Beautician.Current_Pet ) ;
+    const pet              = Current_Pet['pet'] ;
+    const { color , icon } = useServiceType( Current_Pet['service_type'] , false , 'large' , true );
 
 
     return  <b className = { color } >
 
-                <i className={ icon }></i> &nbsp; Q{ Current_Pet['q_code']  } &nbsp;&nbsp;{ pet['name'] } ( { pet['species'] } ) &nbsp;
+               { Current_Pet['service_type'] &&
 
-                <b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['sex'] } </b> &nbsp;
+                  <>
 
-                { pet['color'] &&
-                  <><b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['color'] } </b> &nbsp;</>
-                }
+                    <i className={ icon }></i> &nbsp; Q{ Current_Pet['q_code']  } &nbsp;&nbsp;{ pet['name'] } ( { pet['species'] } ) &nbsp; &nbsp;
 
-                { pet['age'] &&
-                  <><b className="tag is-white is-rounded" style = {{ fontSize : "12pt" }}> { pet['age'] } 歲 </b> </>
-                }
+                    { pet['sex']  &&
+                      <> <b className="tag is-white is-rounded f_11" > { pet['sex'] } </b> &nbsp; &nbsp; </>
+                    }
+
+                    { pet['color'] &&
+                      <> <b className="tag is-white is-rounded f_11" > { pet['color'] } </b> &nbsp; &nbsp;</>
+                    }
+
+                    { pet['age'] &&
+                      <> <b className="tag is-white is-rounded f_11" > { pet['age'] } 歲 </b> &nbsp; &nbsp; </>
+                    }
+
+                  </>
+
+               }
 
             </b>
 

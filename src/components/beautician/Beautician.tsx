@@ -12,13 +12,22 @@ import {useDispatch, useSelector} from "react-redux";
 import { set_Current_Beautician } from 'store/actions/action_Beautician'
 
 
+import axios from "utils/axios" ;
 import cookie from "react-cookies";
+
+
+import moment from "moment";
+
 
 
 /* @ 美容師頁面  */
 const Beautician = () => {
 
     const dispatch = useDispatch();
+
+    // 所有美容師資料
+    const [ beauticians , set_Beauticians ] = useState<any[]>([]) ;
+
 
     // 使用者類別 ( Ex. 櫃台、美容 .... )
     const [ userInfo , set_UserInfo ] = useState<any>( {} ) ;
@@ -32,9 +41,12 @@ const Beautician = () => {
     // 取得資料 : 服務、客戶、寵物
     const pet_Arr    = useRead_Service_Cus_Pet() ;
 
-    // 篩選出 _ 到店狀態( shop_status ) 為 : "到店等候中" ( 之後加上 "今天" 2021.06.15 )
-    const shop_Wait  = pet_Arr.filter( x => { return x['shop_status'] === '到店等候中' || x['shop_status'] === '到店美容中'  ;  } ) ;
+    // 今日
+    const today = moment( new Date() ).format('YYYY-MM-DD' ) ;
 
+
+    // 篩選出 _ 到店狀態( shop_status ) 為 : "到店等候中" ( 之後加上 "今天" 2021.06.15 )
+    const shop_Wait  = pet_Arr.filter( x => { return ( x['shop_status'] === '到店等候中' || x['shop_status'] === '到店美容中' ) && x['service_date'] === today  ;  } ) ;
 
     // 點選 _ 美容師姓名
     const click_Beautician = ( beautician : string ) => {
@@ -48,18 +60,19 @@ const Beautician = () => {
     } ;
 
 
+    // 設定 _ 判斷是否有點選寵物狀態
     useEffect(( ) => {
 
-        // 設定 _ 判斷是否有點選寵物狀態
         set_Has_PetData(Current_Pet['pet_id'] ? true : false ) ;
 
-    } ,[Current_Pet['pet_id']  ] ) ;
+    } ,[ Current_Pet['pet_id'] ] ) ;
 
 
+    // 設定 _ Cookie
     useEffect(( ) => {
 
+        const _cookie = cookie.load('userInfo') ;
 
-        const _cookie = cookie.load( 'userInfo' ) ;
         if( _cookie ){
 
             // 設定 _ 使用者資訊
@@ -70,8 +83,27 @@ const Beautician = () => {
 
         }
 
-    } , []) ;
+    } , [] ) ;
 
+
+    // 取得 _ 美容師資料
+    useEffect(( ) : any => {
+
+       let is_Mounted = true ;
+
+       axios.get( '/employees' ).then( res => {
+
+          // 篩選出 : 職位類型( position_type ) 為 "美容"、"計時美容"
+          if( is_Mounted && res.data.length > 0 ){
+             const beauticianArr = res.data.filter( ( x : any ) => x['position_type'] && ( x['position_type'] === '美容' || x['position_type'] === '計時美容' ) ) ;
+             set_Beauticians( beauticianArr ) ;
+          }
+
+       }) ;
+
+       return () => is_Mounted = false
+
+    } , [] ) ;
 
     return <div className="relative" style={{ top:"-40px" }}>
 
@@ -82,17 +114,19 @@ const Beautician = () => {
 
                         <b className="tag is-medium is-white"> <i className="fas fa-user"></i> &nbsp; 美容師列表 &nbsp; : &nbsp; &nbsp;
 
-                            <b className = { `tag pointer is-medium ${ userInfo['employee_name'] === '吳晨葳' ? 'is-success' : 'hover' }`}
-                               onClick   = { () => click_Beautician('吳晨葳' ) } >  吳晨葳
-                            </b> &nbsp; &nbsp; &nbsp;
+                            {
+                                beauticians.map( ( x , y) => {
 
-                            <b className = { `tag pointer is-medium ${ userInfo['employee_name'] === '曾馨慧' ? 'is-success' : 'hover' }`}
-                               onClick   = { () => click_Beautician('曾馨慧' ) } >  曾馨慧
-                            </b> &nbsp; &nbsp; &nbsp;
+                                    return <span key={y}>
 
-                            <b className = { `tag pointer is-medium ${ userInfo['employee_name'] === '吳宜芳' ? 'is-success' : 'hover' }`}
-                               onClick   = { () => click_Beautician('吳宜芳' ) } >  吳宜芳
-                            </b> &nbsp; &nbsp; &nbsp;
+                                              <b className = { `tag pointer is-medium ${ userInfo['employee_name'] === x['employee_name'] ? 'is-success' : 'hover' }`}
+                                                 onClick   = { () => click_Beautician( x['employee_name'] ) } >  { x['employee_name'] }
+                                              </b> &nbsp; &nbsp; &nbsp;
+
+                                           </span>
+
+                                })
+                            }
 
                         </b>
 

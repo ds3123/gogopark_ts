@@ -18,9 +18,7 @@ import reducer_Lodge from "store/reducers/reducer_Lodge";
 import reducer_Plan from "store/reducers/reducer_Plan";
 import reducer_Care from "store/reducers/reducer_Care";
 import reducer_Management from "store/reducers/reducer_Management";
-import reducer_Signin from "store/reducers/reducer_Signin";
 import reducer_Form_Validator from "store/reducers/reducer_Form_Validator";
-
 
 
 const root_Reducer = combineReducers({
@@ -63,8 +61,6 @@ const root_Reducer = combineReducers({
                          // @ 管理區
                          "Management" : reducer_Management ,
 
-                         // @ 登入頁
-                         "Signin"     : reducer_Signin ,
 
                          // @ 表單 ( 自訂驗證 )
                          "Form"       : reducer_Form_Validator ,

@@ -6,8 +6,6 @@ import React from "react"
 /* @ 美容師專區  */
 interface IBeautician {
 
-    is_Admin_Confirmed    : boolean ; // 是否交付櫃台確認
-
     Existing_Time_Records : any[] ;   // 資料庫中，某服務單，已有的點選時間紀錄
 
     Current_Beautician    : string ;  // 目前處理美容師姓名
@@ -17,8 +15,6 @@ interface IBeautician {
 
 const initState = {
 
-    is_Admin_Confirmed    : false ,
-
     Existing_Time_Records : [] ,
 
     Current_Beautician    : '' ,
@@ -27,7 +23,6 @@ const initState = {
 
                                 basic_data : '' ,
                                 basic_foot : '' ,
-
                                 pet        : {
                                                 name    : '' ,
                                                 serial  : '' ,
@@ -56,9 +51,6 @@ const reducer_Beautician = ( state : IBeautician = initState , action : any ) =>
 
         // # 設定 _ 資料庫中，某服務單，已有的點選時間紀錄
         case  "SET_EXISTING_TIME_RECORDS" : return { ...state , Existing_Time_Records : action.Existing_Time_Records } ;
-
-        // # 是否交付櫃台確認
-        case  "SET_IS_ADMIN_CONFIRMED" : return { ...state , is_Admin_Confirmed : action.is_Admin_Confirmed } ;
 
         default : return state ;
 

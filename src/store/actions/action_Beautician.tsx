@@ -36,8 +36,6 @@ export const set_Current_Beautician = ( beautician : string ) => {
 } ;
 
 
-
-
 // # 設定 _ 所點選 : 寵物 ( 左側 )
 export const set_Current_Pet = ( pet : any ) => {
 
@@ -52,18 +50,3 @@ export const set_Current_Pet = ( pet : any ) => {
 
 } ;
 
-
-
-// # 設定 _ 是否交付櫃台確認
-export const set_Is_Admin_Confirmed = ( bool : boolean ) => {
-
-    return ( dispatch : Dispatch ) => {
-
-        dispatch({
-            type               : "SET_IS_ADMIN_CONFIRMED" ,
-            is_Admin_Confirmed : bool
-        }) ;
-
-    } ;
-
-} ;

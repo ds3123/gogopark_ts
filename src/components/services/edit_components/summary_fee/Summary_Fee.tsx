@@ -8,13 +8,15 @@ import { useDispatch , useSelector } from "react-redux";
 
 import { FeeDetail_Basic , FeeDetail_Bath , FeeDetail_Beauty , FeeDetail_Plan_Bath , FeeDetail_Plan_Beauty } from "components/services/edit_components/summary_fee/Fee_Detail"
 
-import { usePlan_Month_Bath_Tag } from "hooks/layout/usePlans_Records"
-import { set_Invalid_To_Month_Bath } from "store/actions/action_Form_Validator"
+import { usePlan_Plan_Tag } from "hooks/layout/usePlans_Records"
+import { set_Invalid_To_Plan } from "store/actions/action_Form_Validator"
 
-import { useRead_Species_By_Column } from "hooks/ajax_crud/useAjax_Read"
-import axios from "../../../../utils/axios";
+import Customer_Plans from "components/services/edit_components/summary_fee/Customer_Plans";
 
 
+
+import axios from "utils/axios";
+import cookie from 'react-cookies'
 
 interface TS extends Edit_Form_Type {
 
@@ -24,22 +26,13 @@ interface TS extends Edit_Form_Type {
 
 }
 
-
 /* 服務費用 _ 結算明細 */
 const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editType, serviceData } ) => {
 
-          const dispatch = useDispatch() ;
+          // 所有櫃台人員( 正職、計時 )
+          const [ admin_Users , set_Admin_Users ] = useState([]) ;
 
-          // 目前品種下拉選項，所選擇的品種 Id
-          const current_Species_Id = useSelector(( state : any ) => state.Pet.current_Species_Id ) ;
-
-          // 客戶 _ 方案 ( Ex. 包月洗澡、美容 )、使用紀錄
-          const Customer_Plans_Records = useSelector(( state : any ) => state.Customer.Customer_Plans_Records ) ;
-
-          // 是否已點選 : ( 包月洗澡 ) 使用此方案
-          const use_Plan_Month_Bath = useSelector(( state : any ) => state.Plan.use_Plan_Month_Bath ) ;
-
-    // --------------------------------------------------------
+          // ---------------------------
 
           // 應收金額
           const [ receivable , set_Receivable ] = useState( 0 ) ;
@@ -47,30 +40,14 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
           // 付款方式
           const [ paymentMethod , set_PaymentMethod ]  = useState( '現金' ) ;
 
-          // --------------------------------------------------------
 
-
-          // 客戶所購買 _ 方案
-          const [ plans , set_Plans ] = useState({
-                                                              month_Bath   : []  , // 包月洗澡
-                                                              month_Beauty : []  , // 包月美容
-                                                           }) ;
-
-
-          // 目前品種下拉選項，所選擇的品種 Id 資料
-          const [ current_Species , set_Current_Species ] = useState( { name : '' } ) ;
-
-          // 方案使用紀錄標籤 : 包月洗澡
-          const plan_Month_Bath_Tag = usePlan_Month_Bath_Tag( plans);
-
-    // @ 各服務類型，所應提供資料 -------------------------------------------------------------------------
+          // @ 各服務類型，所應提供資料 ----------------------------------------------------
 
           // # 接送費、加價項目費、加價美容費 ------
           const { pickupFee , extraItemFee , extraBeautyFee } = usePrice_Extra() ;
 
           // 服務費用 : 基礎、洗澡、美容
           const { service_Price , receivable : service_Receivable } = usePrice_Service( current , pickupFee , paymentMethod , setValue );
-
 
           // # 安親 ------
           const { current_Care_Type , Care_Ordinary_Price , Care_Ahead_Price , Care_Postpone_Price } = usePrice_Care() ;
@@ -79,6 +56,19 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
           // # 方案 ------
           const { current_Plan_Type , receivable : plan_Receivable , pickupFee : plan_PickupFee , Month_Bath_Price , Month_Beauty_Price , Lodge_Coupon_Price , self_Adjust_Price } = usePrice_Plan( current , paymentMethod , setValue ) ;
+
+
+          // 欲傳給 <Customer_Plans /> 元件的 Props
+          const plan_Props = {
+
+              current       : current ,
+              paymentMethod : paymentMethod ,
+              register      : register ,
+              setValue      : setValue
+
+          } ;
+
+
 
 
           // @ 變動處理 --------------
@@ -112,6 +102,8 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
           } ;
 
+          // -------------------------------------------------------------------------------------------
+
           // 設定 _ 應收金額
           useEffect( ( ) => {
 
@@ -124,56 +116,31 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
           } ,[ current , service_Receivable , plan_Receivable ] ) ;
 
-          // 設定 _ 客戶所購買 : 方案
-          useEffect(( ) => {
+          // 設定 _ 櫃台人員 ( 正職、計時 )
+          useEffect( ( ) : any => {
 
-             if( Customer_Plans_Records.length ){
+              let is_Mounted = true ;
 
-                const month_Bath   = Customer_Plans_Records.filter( ( x : any ) => x['plan_type'] === '包月洗澡' ) ;
-                const month_Beauty = Customer_Plans_Records.filter( ( x : any ) => x['plan_type'] === '包月美容' ) ;
+              axios.get( '/employees' ).then( res => {
 
-                set_Plans({ ...plans , month_Bath : month_Bath , month_Beauty : month_Beauty } ) ;
+                  // 篩選出 : 職位類型( position_type ) 為 "櫃台"、"計時櫃台"
+                  if( is_Mounted && res.data.length > 0 ){
 
-             }else{
+                      // 設定所取得的櫃檯人員
+                      const adminArr = res.data.filter( ( x : any ) => x['position_type'] && ( x['position_type'] === '櫃台' || x['position_type'] === '計時櫃台' ) ) ;
+                      set_Admin_Users( adminArr ) ;
 
-                set_Plans({ ...plans , month_Bath : [] , month_Beauty : [] } ) ;
+                      // 利用 Cookie ，根據目前登入帳號，設定 _ 櫃台人員下拉選單 "預設值" ( 若沒有櫃台人員，Ex. 測試帳號 ，設定為"請選擇" )
+                      const current_User = cookie.load('userInfo') ;
+                      setValue( 'admin_User' , current_User['employee_name'] ? current_User['employee_name'] : '請選擇' ) ;
 
-             }
+                  }
 
-          } , [ Customer_Plans_Records ] ) ;
+              }) ;
 
-          // 設定 _　付款方式 驗證邏輯
-          useEffect(( ) => {
+              return () => is_Mounted = false
 
-             // 已選擇 "包月洗澡" ， 並點選 _ 套用方案 : 包月洗澡
-             if( current === '洗澡' && paymentMethod === '包月洗澡' && !use_Plan_Month_Bath ){
-                 dispatch( set_Invalid_To_Month_Bath(true ) );
-             }else{
-                 dispatch( set_Invalid_To_Month_Bath(false ) );
-             }
-
-          } , [ current , paymentMethod , use_Plan_Month_Bath ] ) ;
-
-
-          // 設定 _ 目前寵物區欄位，下拉品種 Id
-          useEffect(() => {
-
-             if( current_Species_Id ){
-
-                axios.get( `/pet_species/show_by_col_param/id/${ current_Species_Id }` ).then(res => {
-
-                   if( res.data.length > 0 ){
-                       set_Current_Species({ ...current_Species , name : res.data[0]['name'] } ) ;
-                   }else{
-                       set_Current_Species({ ...current_Species , name : '' } ) ;
-                   } ;
-
-                }) ;
-
-             }
-
-          } ,[ current_Species_Id ] ) ;
-
+          } , [] ) ;
 
     return <>
 
@@ -313,7 +280,7 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
                                 { editType !== '編輯' ||
 
                                     <b className="tag is-large is-white absolute" style={{ left : "-64px" , top:"12px" }} >
-                                        <b style={{ color:"red"}}> { serviceData.amount_paid } </b>&nbsp;元
+                                        <b style={{ color:"red" }}> { serviceData.amount_paid } </b>&nbsp;元
                                     </b>
 
                                 }
@@ -345,7 +312,7 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
                         <div className="column is-2-desktop relative">
 
-                            <div className="control has-icons-left" style={{left:"-60px"}}>
+                            <div className="control has-icons-left" style={{left:"-60px"}} >
 
                                 <input className="input relative"  type="number" min="0"
                                        { ...register( "amount_Discount" ) }
@@ -372,59 +339,16 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
                 }
 
-                { /* 包月洗澡 */ }
-                  { paymentMethod === '包月洗澡' &&
-
+                { /* 包月洗澡、包月美容 */ }
+                { ( paymentMethod === '包月洗澡' || paymentMethod === '包月美容' ) &&
 
                    <div className="column is-8-desktop">
 
-                       { plans['month_Bath'].length > 0 &&
-
-                           <>
-
-                               <span className="tag is-large is-white">
-
-                                  <b>
-                                      客戶 _ <span className="fDred"> { Customer_Plans_Records[0]['customer'] ? Customer_Plans_Records[0]['customer']['name'] : '' } </span>
-                                      / 選擇品種 _
-
-                                       { current_Species['name'] ?
-                                           <span className="fDred"> { current_Species['name'] } </span> :
-                                           <span className="fRed"> 尚未選擇品種                  </span>
-                                       } :
-                                  </b> <br/>
-
-                               </span>
-
-                               { plan_Month_Bath_Tag ? plan_Month_Bath_Tag : <b className="tag"> 沒有 </b> } { /* 方案使用紀錄標籤 : 包月洗澡 */ }
-
-                           </>
-
-                       }
-
-                       { plans['month_Bath'].length > 0 ||
-
-                          <span className="tag is-large is-danger m_Left_15">
-                              <b> 客戶並未購買任何 : 包月洗澡方案 </b>
-                          </span>
-
-                       }
+                        <Customer_Plans { ...plan_Props } />
 
                    </div>
 
-
-
-
-                  }
-
-
-
-
-                { /* 包月美容 */ }
-
-
-
-
+                }
 
               </div>
 
@@ -433,7 +357,9 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
                     { /* 櫃台人員  */ }
                     <div className="column is-4-desktop">
+
                          <span className="tag is-large is-white">
+
                              <b> 櫃台人員 : </b> &nbsp;
 
                              { /* for 新增  */ }
@@ -443,9 +369,10 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
                                      <div className="select is-small relative">
                                          <select  {...register("admin_User")}
                                                   style={{fontSize: "13pt", top: "-7px", fontWeight: "bold"}}>
+
                                              <option value="請選擇"> 請選擇</option>
-                                             <option value="陳宜芳"> 陳宜芳</option>
-                                             <option value="李馨慧"> 李馨慧</option>
+                                             { admin_Users.map( ( x,y ) => <option key={y} value={ x['employee_name'] }> { x['employee_name'] } </option> )  }
+
                                          </select>
                                      </div>
                                      <div className="icon is-medium is-left"><i className="fas fa-user"></i></div>
@@ -498,7 +425,7 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
                     <div className="column is-4-desktop">
                        <span className="tag is-large is-white">
                           <b> 建檔日期 : <span className="fDblue">
-                              { editType !== '編輯' && get_Today() }            { /* for 新增  */ }
+                              { editType !== '編輯' && get_Today() }                        { /* for 新增  */ }
                               { editType !== '編輯' || serviceData.created_at.slice(0,10) } { /* for 編輯 */ }
                           </span> </b>
                        </span>

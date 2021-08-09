@@ -16,7 +16,7 @@ const Customers = () => {
     const Customer_isLoading = useSelector( ( state:any ) => state.Customer.Customer_isLoading ) ;
 
     // 取得 _ 分頁資料
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination('/customers/show_customers_relatives_pets/' , 'customer' ) ;
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination('/customers/show_customers_relatives_pets/0' , 'customer' ) ;
 
     const blue = { color : "rgb(0,0,170)" } ;
 

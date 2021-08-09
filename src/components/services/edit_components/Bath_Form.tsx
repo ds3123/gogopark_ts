@@ -1,8 +1,7 @@
-import React, {FC, useEffect,useState} from "react" ;
+import React, { FC , useEffect , useState } from "react" ;
 import { Edit_Form_Type } from "utils/Interface_Type"
 import useSection_Folding from "hooks/layout/useSection_Folding";
-import {useSelector} from "react-redux";
-
+import { useSelector } from "react-redux";
 
 
 interface IBath extends Edit_Form_Type {
@@ -13,16 +12,14 @@ interface IBath extends Edit_Form_Type {
 }
 
 
-
 /* 洗澡單選項 */
 const Bath_Form : FC< IBath > = ( { register , errors  , current , editType, serviceData } ) => {
 
-
     // 洗澡價格
-    const price = useSelector( ( state:any ) => state.Bath.Bath_Price ) ;
+    const price = useSelector(( state:any ) => state.Bath.Bath_Price ) ;
 
     // 服務類型
-    const type  = useSelector( ( state:any ) => state.Service.current_Create_Service_Type ) ;
+    const type  = useSelector(( state:any ) => state.Service.current_Create_Service_Type ) ;
 
 
     const { is_folding , Folding_Bt } = useSection_Folding( false ) ;  // 收折區塊

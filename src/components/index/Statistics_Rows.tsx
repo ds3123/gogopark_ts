@@ -27,7 +27,8 @@ const Statistics_Rows = () => {
 
     return <>
 
-              <div className="columns is-mobile  is-multiline">
+              <div className="columns is-mobile  is-multiline relative" style={{ top:"10px" , left:"-5%" }}>
+
 
                   { /* 今日預約 */ }
                   <div className="column is-12-desktop">

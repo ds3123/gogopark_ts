@@ -39,13 +39,13 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
     } ;
 
     // 評分選項
-    const rating_Options = useRating_Options('櫃台人員評分', 'rating', register ) ;
-
+    const rating_Options = useRating_Options('櫃台人員評分' , 'admin_Rating', register , setValue ) ;
 
     return <>
 
              { /* 自備物品、主人交代、櫃台備註  */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿"  ) && <Customer_Note { ...props } /> }
+
 
              { /* 基礎單項目 */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" ) && <Basic_Form { ...props } /> }
@@ -53,14 +53,11 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
              { /* 洗澡單項目 */ }
              { ( current === "洗澡" || current === "美容" ) && <Bath_Form { ...props } /> }
 
-
              { /* 加價項目 :  */ }
              { ( current === "洗澡" || current === "美容"  ) && <Extra_Item { ...props } /> }
 
-
              { /* 加價美容 */ }
              { current === "洗澡" && <Extra_Beauty { ...props } /> }
-
 
              { /* 美容單項目 */ }
              { current === "美容" && <Beauty_Form { ...props } /> }
