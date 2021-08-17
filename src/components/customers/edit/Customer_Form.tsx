@@ -8,18 +8,22 @@ import useSection_Folding from "hooks/layout/useSection_Folding";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { get_Current_Customer_Pets , set_Current_Customer_Pets , set_IsExisting_Customer , set_Has_Bath_Records , set_IsQuerying_Customer_ID , set_Customer_Plans_Records  } from "store/actions/action_Customer";
+import { get_Current_Customer_Pets , set_Current_Customer_Pets , set_IsExisting_Customer ,
+         set_Has_Basic_Records , set_Has_Bath_Records , set_Has_Beauty_Records ,
+         set_IsQuerying_Customer_ID , set_Customer_Plans_Records
+       } from "store/actions/action_Customer";
 
 import { get_Today } from "utils/time/date";
 import { get_RandomInt } from "utils/number/number";
 
-
 // Axios
 import axios from "utils/axios";
 
+import Customer_Services_Records from "components/customers/edit/info/Customer_Services_Records"
+import Customer_Types_Query from "components/customers/edit/info/Customer_Types_Query"
 
 
-{ /*  客戶表單欄位  */ }
+{ /*  客戶表單欄位  */}
 const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current } ) => {
 
     const dispatch = useDispatch() ;
@@ -28,7 +32,7 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
     //const { is_folding , Folding_Bt } = useSection_Folding(current === '客戶' ? false : true ) ;
     const { is_folding , Folding_Bt } = useSection_Folding(false ) ;
 
-    // 是否已開始查詢 : 身分證字號、姓名、手機號碼
+    // 是否已開始查詢 : 身分證字號、手機號碼
     const [ isQuerying , set_IsQuerying ] = useState( false ) ;
 
     // 查詢 _ 欄位
@@ -39,8 +43,12 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
                                                      }) ;
 
 
-    // 客戶 _ 過去洗澡紀錄
-    const [ cus_Bath_Records , set_Cus_Bath_Records ] = useState( [] ) ;
+    // 客戶 _ 過去各種服務 : 消費紀錄
+    const [ cus_Records , set_Cus_Records ] = useState({
+                                                                   basic  : [] , // 基礎
+                                                                   bath   : [] , // 洗澡
+                                                                   beauty : []   // 美容
+                                                                 }) ;
 
 
     // # 以特定欄位，查詢 _ 客戶資料表 ( 確認是否有該客戶 )
@@ -48,24 +56,61 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
     const { data : query_Result_CellPhone } = useRead_Customer_By_Column('mobile_phone' , query['customer_Cellphone'] ) ; // 手機號碼
 
 
-    // 以 "身分證字號"，查詢客戶是否有 _ 【 洗澡紀錄 】
-    const query_Customer_Bath_Records = ( customer_ID : string ) => {
+    // 以 "身分證字號"，查詢客戶是否有 :【 基礎單紀錄 ( 資料表 : basic ) 】
+    const query_Customer_Basic_Records = ( customer_ID : string ) => {
 
-        axios.get( `/bathes/show_customer_id/${ customer_ID }` ).then( res => {
+        axios.get( `/basics/show_customer_id/${ customer_ID }` ).then( res => {
 
             if( res.data.length > 0 ){
-                dispatch( set_Has_Bath_Records(true) ) ;
-                set_Cus_Bath_Records( res.data )
+                dispatch( set_Has_Basic_Records(true) ) ;
+                set_Cus_Records( { ...cus_Records , basic : res.data } ) ;
             }else{
-                dispatch( set_Has_Bath_Records(false) ) ;
-                set_Cus_Bath_Records( [] ) ;
+                dispatch( set_Has_Basic_Records(false) ) ;
+                set_Cus_Records( { ...cus_Records , basic : [] } ) ;
             }
 
         }) ;
 
     } ;
 
-    // 以 "身分證字號"，查詢客戶是否有 _【 方案紀錄 ( Ex. 包月洗澡 ... ) 】
+
+    // 以 "身分證字號"，查詢客戶是否有 :【 洗澡單紀錄 ( 資料表 : bath ) 】
+    const query_Customer_Bath_Records = ( customer_ID : string ) => {
+
+        axios.get( `/bathes/show_customer_id/${ customer_ID }` ).then( res => {
+
+            if( res.data.length > 0 ){
+                dispatch( set_Has_Bath_Records(true) ) ;
+                set_Cus_Records( { ...cus_Records , bath : res.data } ) ;
+            }else{
+                dispatch( set_Has_Bath_Records(false) ) ;
+                set_Cus_Records( { ...cus_Records , bath : [] } ) ;
+            }
+
+        }) ;
+
+    } ;
+
+
+    // 以 "身分證字號"，查詢客戶是否有 :【 美容單紀錄 ( 資料表 : beauty ) 】
+    const query_Customer_Beauty_Records = ( customer_ID : string ) => {
+
+        axios.get( `/beauties/show_customer_id/${ customer_ID }` ).then( res => {
+
+            if( res.data.length > 0 ){
+                dispatch( set_Has_Beauty_Records(true) ) ;  //
+                set_Cus_Records( { ...cus_Records , beauty : res.data } ) ;
+            }else{
+                dispatch( set_Has_Beauty_Records(false) ) ;
+                set_Cus_Records( { ...cus_Records , beauty : [] } ) ;
+            }
+
+        }) ;
+
+    } ;
+
+
+    // 以 "身分證字號"，查詢客戶是否有 :【 方案紀錄 ( Ex. 包月洗澡 ... ) 】
     const query_Customer_Plans_Records = ( customer_ID : string ) => {
 
         axios.get( `/plans/show_single_with_customer_species_records/${ customer_ID }` ).then( res => {
@@ -93,16 +138,30 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
           if( name === 'customer_Id' || name === 'customer_Name' || name === 'customer_Cellphone' ) set_IsQuerying(true ) ;
           if( name && !value ) set_IsQuerying(false ) ;
 
-          // # 查詢 _ 客戶相關紀錄 ---------------------
+          // @ 查詢 _ 客戶相關紀錄 ---------------------
 
           // 設定 _ 客戶單，目前所填入客戶 _ 所有寵物 ( for 寵物表單，查詢客戶寵物用 )
           if( name === 'customer_Id' && value )  dispatch( get_Current_Customer_Pets( value ) ) ;
 
-          // 在 "洗澡" 欄位下，以 "客戶身分證字號"，查詢洗澡單 ( 資料表 : bath )，判斷是否為 「初次洗澡」 ( 後續配合 "寵物品種"，以設定 : 【初次洗澡優惠價格】 )
-          if( current === '洗澡' && name === 'customer_Id' && value )  query_Customer_Bath_Records( value ) ;
+
+          // # 以 "客戶身分證字號"，查詢 _ 在各種服務資料表單 ( 基礎 : basic、洗澡 : bath 、 美容 : beauty ) 相關紀錄------------------------------------------
+
+          if( name !== 'customer_Id' || !value ) return false ;  // Early Return 不符合以下需要條件
+
+          // 【 基礎 】
+          if( current === '基礎' )  query_Customer_Basic_Records( value ) ;
+
+          // 【 洗澡 】 判斷是否為 「初次洗澡」 ( 後續配合 "寵物品種"，以設定 : 【初次洗澡優惠價格】 )
+          if( current === '洗澡' )  query_Customer_Bath_Records( value ) ;
+
+          // 【 美容 】
+          if( current === '美容' )  query_Customer_Beauty_Records( value ) ;
+
+
+          // # 方案  ------------------------------------------
 
           // 在 "洗澡" 或 "美容" 欄位下，以 "客戶身分證字號"，查詢方案單( 資料表 : plans )，取得其 _ 方案購買紀錄 ( 供結帳時，付款方式為 【包月洗澡】 / 【包月美容】 )
-          if( ( current === '洗澡' || current === '美容' ) && name === 'customer_Id' && value )  query_Customer_Plans_Records( value ) ;
+          if( current === '洗澡' || current === '美容' )  query_Customer_Plans_Records( value ) ;
 
     } ;
 
@@ -113,7 +172,12 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
         dispatch( get_Current_Customer_Pets( data['id']) ) ;
 
         // 帶入舊客戶資料時，若在 "洗澡" 欄位下，以 "客戶身分證字號"，查詢洗澡單( 資料表 : bath )，判斷是否為 "初次洗澡" ( 後續配合 "寵物品種"，以設定 : 初次洗澡優惠價格 )
+
+        if( current === '基礎' && data['id'] ) query_Customer_Basic_Records( data['id'] ) ;
         if( current === '洗澡' && data['id'] ) query_Customer_Bath_Records( data['id'] ) ;
+        if( current === '美容' && data['id'] ) query_Customer_Beauty_Records( data['id'] ) ;
+
+
 
         // 帶入舊客戶資料時，若在 "洗澡" 或 "美容" 欄位下，以 "客戶身分證字號"，查詢方案單( 資料表 : plans )，取得其 _ 方案購買紀錄 ( 供結帳時，付款方式為 【包月洗澡】 / 【包月美容】 )
         if( ( current === '洗澡' || current === '美容' ) && data['id'] ) query_Customer_Plans_Records( data['id'] ) ;
@@ -160,14 +224,12 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
           dispatch( set_IsExisting_Customer(false ) ) ;
       }
 
-    } , [ query_Result_Id  , query_Result_CellPhone ] ) ;
-
+    } , [ query_Result_Id , query_Result_CellPhone ] ) ;
 
     useEffect(( ) => {
 
        // 清除還原 _ 目前客戶所擁有寵物標籤 ( 顯示於 : 寵物資料標題列 )
        dispatch( set_Current_Customer_Pets([] ) ) ;
-
 
 
     } ,[] ) ;
@@ -182,57 +244,12 @@ const Customer_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , cu
 
                     { Folding_Bt } { /* 收折鈕 */ }
 
-                    { /* 過去洗澡紀錄  */ }
-                    { ( current === '洗澡' && cus_Bath_Records.length > 0 ) &&
+                    { /* 過去服務紀錄、資料數 ( 基礎、洗澡、美容 )  */ }
+                    <Customer_Services_Records current={ current } cus_Records={ cus_Records } />
 
-                        <div className="absolute"  style={{ top : "-38px", left:"140px" , width:"70%", height:"35px" }}>
-                            <b className="tag is-medium is-light is-success pointer" >
-                                <i className="fas fa-bath"></i> &nbsp; 過去洗澡紀錄 ( 共 { cus_Bath_Records.length } 筆 )
-                            </b>
-                        </div>
+                    { /* */ }
+                    <Customer_Types_Query isQuerying={ isQuerying } query_Result_Id={ query_Result_Id } query_Result_CellPhone={ query_Result_CellPhone } set_Cus_Data={ set_Cus_Data } />
 
-                    }
-
-
-                    { /* 有符合 _ 身分證字號  */ }
-                    <div className="absolute" style={{ width: "80%", height:"35px" ,left : "140px" , top:"0px" , overflowY:"hidden" }}>
-
-                        { /* 顯示查詢結果 _ 身分證字號 */ }
-                        {
-
-                            query_Result_Id.length > 0 &&
-
-                                query_Result_Id.map(( x , v) => {
-
-                                    return <span key={ v } >
-                                              <b className="tag is-medium hover is-light" onClick={ ( ) => set_Cus_Data( x ) }> { x['name'] } ( { x['mobile_phone'] } )  </b> &nbsp;
-                                           </span> ;
-
-                                })
-
-                        }
-
-
-                        { /* 顯示查詢結果 _ 手機號碼 */ }
-
-                        {
-                            query_Result_CellPhone.length > 0 &&
-
-                            query_Result_CellPhone.map(( x , v) => {
-
-                                return <span key={ v } >
-                                          <b className="tag is-medium hover is-light" onClick={ ( ) => set_Cus_Data( x ) }> { x['name'] } ( { x['mobile_phone'] } )  </b> &nbsp;
-                                       </span> ;
-
-                            })
-
-                        }
-
-
-                    </div>
-
-                    { /* 顯示 : 新客戶 */ }
-                    { ( isQuerying && query_Result_Id.length === 0  &&  query_Result_CellPhone.length === 0 ) && <b style={{color:"red"}}>新客戶</b> }
 
                 </label> <br/>
 

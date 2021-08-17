@@ -9,7 +9,7 @@ import Update_Service from "components/services/edit/Update_Service";
 import Update_Customer from "components/customers/edit/Update_Customer";
 import {useLocation} from "react-router";
 import {useHistory} from "react-router-dom";
-import axios from "../../utils/axios";
+import axios from "utils/axios";
 import {toast} from "react-toastify";
 import cookie from "react-cookies";
 
@@ -22,6 +22,9 @@ const Services_Rows = ( props : any ) => {
 
     const { data } = props ;
     const customer = data['customer'] ;
+
+    //console.log( data )
+
 
     const url      = useLocation().pathname;
     const history  = useHistory() ;
@@ -38,14 +41,17 @@ const Services_Rows = ( props : any ) => {
 
 
     const [ pet , set_Pet ] = useState<any>( {} ) ;
+    const dispatch          = useDispatch() ;
 
-    const dispatch = useDispatch() ;
-
-    // 服務 ( 基礎、洗澡、美容 ) : 基本費用、加價項目費用、加價美容費用、接送費
+    // 服務 ( 基礎、洗澡、美容 ) : 基本費用、加價項目費用、加價美容費用、使用方案( Ex. 包月洗澡、美容 )費用、接送費
     const [ price , set_Price ] = useState({
-                                                         service      : 0 ,
-                                                         extra_Item   : 0 ,
-                                                         extra_Beauty : 0 ,
+                                                         service      : 0 ,  // 基本費用
+
+                                                         extra_Item   : 0 ,  // 加價項目費用
+                                                         extra_Beauty : 0 ,  // 加價美容費用
+
+                                                         plan_Price   : 0 ,  // 使用方案( Ex. 包月洗澡、美容 )費用
+
                                                          pickup       : 0 ,
                                                       } ) ;
 
@@ -61,9 +67,6 @@ const Services_Rows = ( props : any ) => {
 
     // 點選 _ 客戶
     const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : customer } ) ) ;
-
-    // 點選 _ 消費歷史
-    const click_History  = () => dispatch( set_Side_Panel(true , <Service_History /> , { preLoadData : data } ) ) ;
 
 
     // 取得個服務單資料表 id
@@ -145,24 +148,27 @@ const Services_Rows = ( props : any ) => {
           // 有些服務單，沒有寵物 ( null ) 2021.06.10 再確認查詢式
           if( data['pet'] ) set_Pet( data['pet'] ) ;
 
-          // 設定 _ 不同服務下，該次服務價則
+          // 設定 _ 不同服務下，該次服務價格
           if( data['service_type'] === '基礎' ){
 
               set_Price({ ...price ,
                                    service : data['basic_fee'] ,
-                                   pickup : data['pickup_fee']
+                                   pickup  : data['pickup_fee']
                               })
 
           }
 
           if( data['service_type'] === '洗澡' ){
 
+              const plan_Price = data['plan'] ? data['plan']['service_price'] : 0 ;
+
               set_Price({ ...price ,
                                    service      : data['bath_fee'] ,
                                    extra_Item   : data['extra_service_fee'] ,
                                    extra_Beauty : data['extra_beauty_fee'] ,
+                                   plan_Price   : data['bath_month_fee'] ? data['bath_month_fee'] : 0 ,
                                    pickup       : data['pickup_fee']
-                               })
+                              })
 
           }
 
@@ -171,13 +177,13 @@ const Services_Rows = ( props : any ) => {
               set_Price({ ...price ,
                                    service    : data['beauty_fee'] ,
                                    extra_Item : data['extra_service_fee'] ,
+                                   plan_Price : data['beauty_month_fee'] ? data['beauty_month_fee'] : 0 ,
                                    pickup     : data['pickup_fee']
-                               })
+                              })
 
           }
 
-
-    } , [] ) ;
+    } , [ data ]  ) ;
 
     const t_L = { textAlign : "left" } as const ;
 
@@ -194,18 +200,48 @@ const Services_Rows = ( props : any ) => {
                     { data['customer'] ? data['customer']['name'] : '' }
                  </b>
              </td>
-             <td> <span className="fDblue">  { price['service'] } </span> </td>
+             <td> { data[ 'payment_method' ] }  </td>
+             <td> { data[ 'payment_type' ] }    </td>
+             <td>
+                 <span className="fDblue">
+
+                     { /*
+                           付款方式 :
+                            * 現金                -> 依品種，該項服務價格 price['service']
+                            * 包月洗澡 / 包月美容  -> 方案價格            data['plan']['service_price']
+                       */ }
+
+
+                     {
+                         (
+                           ( data['service_type'] === '洗澡' || data['service_type'] === '美容' )  &&
+                           ( data[ 'payment_method' ] === '包月洗澡' || data[ 'payment_method' ] === '包月美容' )
+                          ) ?
+                               price['plan_Price'] :
+                               price['service']
+                     }
+
+                 </span>
+             </td>
              <td> { price['extra_Item'] }                                 </td>
              <td> { price['extra_Beauty'] }                               </td>
-             <td> { price['pickup'] }                                     </td>
+             <td> { price['pickup'] ? price['pickup'] : 0  }              </td>
              <td>
                   <span className="fDred">
-                      { price['service'] + price['extra_Item'] + price['extra_Beauty'] + price['pickup'] }
+
+                      {
+
+                          (
+                              ( data['service_type'] === '洗澡' || data['service_type'] === '美容' )  &&
+                              ( data[ 'payment_method' ] === '包月洗澡' || data[ 'payment_method' ] === '包月美容' )
+                          ) ?
+                              price['plan_Price'] + price['extra_Item'] + price['extra_Beauty'] + price['pickup'] :
+                              price['service'] + price['extra_Item'] + price['extra_Beauty'] + price['pickup']
+
+                      }
                   </span>
              </td>
-             <td> { data[ 'payment_method' ] }                                     </td>
-             <td> { data[ 'service_date' ].slice(5,10) }                           </td>
-             <td> <b className="tag is-medium "> <i className="far fa-list-alt" onClick={ () => click_History() }></i> </b>  </td>
+             <td> { data[ 'service_date' ].slice(5,10) }                   </td>
 
              { /* 洗美頁面 : 封存 */ }
              { url === '/services' && <td>

@@ -27,8 +27,6 @@ const Customers_Rows = ( props : any ) => {
 
 
 
-
-
     // 點選 _ 客戶
     const click_Customer = () => dispatch( set_Side_Panel(true , <Update_Customer /> , { preLoadData : data } ) ) ;
 

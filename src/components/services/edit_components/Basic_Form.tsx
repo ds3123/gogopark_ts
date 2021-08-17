@@ -109,15 +109,15 @@ const Basic_Form : FC< IBasic > = ( { register , current, editType, serviceData 
 
                 }
 
-                 { /* for 編輯 ( 僅 "基礎" 顯示價格 ) */ }
-                 { ( editType === '編輯' && current === '基礎' ) &&
+                { /* for 編輯 ( 僅 "基礎" 顯示價格 ) */ }
+                { ( editType === '編輯' && current === '基礎' ) &&
 
                      <>
                          &nbsp;&nbsp;
                          <b className="tag is-rounded is-white" style={{ fontSize : "12pt" }} > 小計 : <span style={{color:"red"}}> &nbsp; { serviceData.basic_fee } &nbsp; </span> 元 </b>
                      </>
 
-                 }
+                }
 
              </b>
 
@@ -151,7 +151,6 @@ const Basic_Form : FC< IBasic > = ( { register , current, editType, serviceData 
                                })
 
                            }
-
 
                            {/*<div className="column is-7-desktop">*/}
 

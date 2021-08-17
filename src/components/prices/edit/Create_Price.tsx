@@ -23,4 +23,4 @@ const Create_Price : FC<Edit_Form_Type> = ( { register , setValue , errors , isD
 
 } ;
 
-export default React.memo( Create_Price , () => true )
+export default Create_Price

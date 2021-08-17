@@ -8,7 +8,6 @@ interface IForm {
    invalid_To_Plan     : boolean ;  //  因 : 方案 ( 包月洗澡、包月美容 )條件不符，導致表單無效
 
 
-
 }
 
 const initState = {

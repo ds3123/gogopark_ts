@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from "react"
 
 import { Edit_Form_Type } from "utils/Interface_Type"
 import { Input } from "templates/form/Input";
-import { useRead_Species } from "hooks/ajax_crud/useAjax_Read";
+import { useRead_Sort_Species } from "hooks/ajax_crud/useAjax_Read";
 import { get_Today } from "utils/time/date";
 import { get_RandomInt } from "utils/number/number";
 
@@ -16,15 +16,18 @@ import { set_Bath_Price } from "store/actions/action_Bath"
 import { set_Beauty_Price } from "store/actions/action_Beauty"
 import { set_Current_Create_Service_Type } from "store/actions/action_Service"
 
+import Pet_Service_Price from "components/pets/edit/info/Pet_Service_Price"
+import Customer_Pets from "components/pets/edit/info/Customer_Pets";
 
-{ /* 寵物表單欄位  */ }
-const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current, pet_Species_id } ) => {
 
-   const dispatch = useDispatch() ;
 
+{ /* 寵物表單欄位  */}
+const Pet_Form : FC< Edit_Form_Type > = ( { register , setValue , errors , current, pet_Species_id } ) => {
+
+   const dispatch   = useDispatch() ;
 
    // 取得 _ 所有寵物品種資料
-   const petSpecies = useRead_Species() ;
+   const petSpecies = useRead_Sort_Species() ;
 
    // 收折區塊
    const { is_folding , Folding_Bt } = useSection_Folding( false ) ;
@@ -32,14 +35,17 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
    // 客戶單，目前所填入客戶的所有寵物
    const current_Customer_Pets = useSelector(( state:any ) => state.Customer.Current_Customer_Pets ) ;
 
-   // 資料庫( 資料表 bath ) _ 該客戶有洗澡單紀錄( for 判斷是否為 "初次洗澡" )
-   const Has_Bath_Records = useSelector(( state:any ) => state.Customer.Has_Bath_Records ) ;
+   // 資料庫( 資料表 bath ) _ 該客戶有 : 洗澡單紀錄 ( for 判斷是否為 "初次洗澡" )
+   const Has_Bath_Records      = useSelector(( state:any ) => state.Customer.Has_Bath_Records ) ;
+
+   // 資料庫( 資料表 beauty ) _ 該客戶有 : 美容單紀錄
+   const Has_Beauty_Records    = useSelector(( state:any ) => state.Customer.Has_Beauty_Records ) ;
 
 
    //-------------------------------------------
 
     // 目前所選擇品種 _ species 資料表的 id
-    const [ current_Species_Id , set_Current_Species_Id ] = useState("") ;
+    const [ current_Species_Id , set_Current_Species_Id ] = useState( "" ) ;
 
     // 目前所選擇品種 _ service_prices 資料表的服務價格
     const [ current_Species_Prices , set_Current_Species_Prices ] = useState({
@@ -55,9 +61,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                                                             is_First_Bath    : false ,
                                                                             is_Single_Bath   : false ,
                                                                             is_Single_Beauty : false ,
-                                                                         }) ;
-
-
+                                                                          }) ;
 
 
     // 取得 _ 所選擇品種，相對應的各種服務價格
@@ -120,8 +124,6 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
     } ;
 
-
-
     // 變動處理 _ 品種下拉選單
     const get_Species_Id = ( species_Id : string ) => {
 
@@ -139,7 +141,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
     // 點選 _ 帶入舊寵物資料
     const set_Pet_Data = ( pet : any ) => {
 
-          // 取得 _ 該寵物 pet_species 資料表資料 ( 為取得品種 id )
+          // * 取得 _ 該寵物 pet_species 資料表資料 ( 為取得品種 id )
           const _pet = petSpecies.filter( x => x['name'] === pet['species'] )[0] ;
 
           try{
@@ -147,22 +149,24 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
               // 設定 store : 資料庫，有 _ 該寵物
               dispatch( set_IsExisting_Pet( true ) ) ;
 
-              // for Summary_Fee 付款方式為包月洗澡、美容時，設定所選擇品種
-              dispatch( set_Current_Species_Select_Id( _pet['id'] ) ) ;  // Redux
-
+              // for Summary_Fee 付款方式為 "包月洗澡"、"包月美容" 時，設定 _ 所選擇品種 ( 資料表 id )
+              dispatch( set_Current_Species_Select_Id( _pet['id'] ) ) ;
 
               // # 帶入資料時，設定提示 : 初次洗澡 / 單次洗澡 / 單次美容
 
               // 初次洗澡
-              const is_First_Bath  = current === '洗澡' && !Has_Bath_Records && ( _pet['id'] && _pet['id'] !== '請選擇' ) as boolean ;
+              const is_First_Bath    = current === '洗澡' && !Has_Bath_Records && ( _pet['id'] && _pet['id'] !== '請選擇' ) as boolean ;
 
               // 單次洗澡
-              const is_Single_Bath = current === '洗澡' && Has_Bath_Records && ( _pet['id'] && _pet['id'] !== '請選擇' ) as boolean ;
+              const is_Single_Bath   = current === '洗澡' && Has_Bath_Records && ( _pet['id'] && _pet['id'] !== '請選擇' ) as boolean ;
 
+              // 單次美容
+              const is_Single_Beauty = current === '美容' && ( _pet['id'] && _pet['id'] !== '請選擇' ) as boolean ;
 
               set_Current_Service({ ...current_Service ,
-                                           is_First_Bath    : is_First_Bath ,
-                                           is_Single_Bath   : is_Single_Bath ,
+                                             is_First_Bath    : is_First_Bath ,
+                                             is_Single_Bath   : is_Single_Bath ,
+                                             is_Single_Beauty : is_Single_Beauty
                                         }) ;
 
               // 取得 _ 所選擇品種，相對應的各種服務價格
@@ -204,7 +208,7 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
           }catch(error){
 
-              alert( "寵物品種資料，發生錯誤" )
+              console.log( "寵物品種資料，發生錯誤" )
 
           }
 
@@ -215,11 +219,9 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
     useEffect(( ) => {
 
         if( current ){
-
             const randomId = `P_${ get_Today() }_${ get_RandomInt(1000) }` ;
             dispatch( set_IsExisting_Pet( false ) ) ;    // 設定 store : 資料庫，沒有 _ 該寵物
             setValue( "pet_Serial" , randomId  ) ;            // 設定 input 欄位值
-
         }
 
     } , [] ) ;
@@ -301,60 +303,12 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
 
                    { Folding_Bt } { /* 收折鈕 */ }
 
-                   { /* # 目前服務狀態 ( 初次洗澡 | 單次洗澡 | 單次美容 ) ，相對應服務價格  ---------------------- */ }
-
-                       { /* 初次洗澡優惠價格 */ }
-                       { current_Service['is_First_Bath'] &&
-
-                           <div className="absolute"  style={{ top : "-38px", left:"150px" , width:"70%", height:"35px" }}>
-                               <b className="tag is-medium is-white" style={{color:'rgb(0,180,0)'}}>
-                                   <i className="fas fa-comment-dots"></i> &nbsp; 此客戶寵物為 _ <span style={{color:"rgb(180,0,0)"}}> &nbsp; 初次洗澡 </span>，優惠價格為 :&nbsp;
-                                     <span style={{color:"rgb(180,0,0)"}}> { current_Species_Prices['first_Bath'] } </span>&nbsp;元
-                               </b>
-                           </div>
-
-                       }
-
-                       { /* 單次洗澡價格 */ }
-                       { current_Service['is_Single_Bath'] &&
-
-                           <div className="absolute"  style={{ top : "-38px", left:"150px" , width:"70%", height:"35px" }}>
-                               <b className="tag is-medium is-white" style={{color:'rgb(0,180,0)'}} >
-                                   <i className="fas fa-comment-dots"></i> &nbsp; 此客戶寵物為 _ <span style={{color:"rgb(180,0,0)"}}> 單次洗澡 </span>，價格為 : &nbsp;
-                                   <span style={{color:"rgb(180,0,0)"}}> { current_Species_Prices['single_Bath'] } </span>&nbsp;元
-                               </b>
-                           </div>
-
-                       }
-
-                       { /* 單次美容價格 */ }
-                       { current_Service['is_Single_Beauty'] &&
-
-                           <div className="absolute"  style={{ top : "-38px", left:"150px" , width:"70%", height:"35px" }}>
-                               <b className="tag is-medium is-white" style={{color:'rgb(0,180,0)'}} >
-                                   <i className="fas fa-comment-dots"></i> &nbsp; 此客戶寵物為 _ <span style={{color:"rgb(180,0,0)"}}> 單次美容 </span>，價格為 : &nbsp;
-                                   <span style={{color:"rgb(180,0,0)"}}> { current_Species_Prices['single_Beauty'] }  </span>&nbsp;元
-                               </b>
-                           </div>
-
-                       }
-
-                   { /* ---------------------------------------------------------------------- */ }
+                   { /* # 目前服務狀態 ( 初次洗澡 | 單次洗澡 | 單次美容 ) ，相對應 : 服務價格  */ }
+                   <Pet_Service_Price current_Service={ current_Service } current_Species_Prices={ current_Species_Prices } />
 
                    { /* 客戶所有寵物 */ }
-                   {
+                   <Customer_Pets current={ current} current_Customer_Pets={ current_Customer_Pets } set_Pet_Data={ set_Pet_Data } />
 
-                     ( current && current_Customer_Pets.length > 0 ) &&
-
-                       current_Customer_Pets.map( ( x : any , y : any ) => {
-
-                           return <span key = { y } onClick = { () => set_Pet_Data( x ) } >
-                                     &nbsp; <b className="tag is-medium pointer m_Bottom_15" > { x['name'] } ( { x['species'] } ) </b> &nbsp; &nbsp;
-                                  </span>
-
-                       })
-
-                   }
 
                </label> <br/>
 
@@ -394,10 +348,9 @@ const Pet_Form : FC<Edit_Form_Type> = ( { register , setValue , errors , current
                                            {
                                                petSpecies.map((x, y) => {
 
-
                                                    return <option value = { x['id'] }
                                                                   key   = { y } >
-                                                                  {x['serial']} _ { x['name'] }  { x['character'] ? `( ${ x['character'] } )` : '' }
+                                                                  { x['serial'] } _ { x['name'] }  { x['character'] ? `( ${ x['character'] } )` : '' }
                                                           </option> ;
 
                                                })

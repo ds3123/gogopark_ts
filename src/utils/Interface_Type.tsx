@@ -10,7 +10,7 @@ export type Service_Status = '已到店' | '預約_今天' | '預約_未來' ;
 
 
 // 限制 : 主要服務 _ 類型
-export type Service_Type = '基礎' | '洗澡' | '美容' | '住宿' ;
+export type Service_Type = '基礎' | '洗澡' | '美容' | '安親' | '一般安親' | '住宿_提早抵達' | '住宿_延後帶走' | '住宿' ;
 
 // 限制 : 主要服務 _ 類型 ( for API )
 export type Service_Type_Api = 'basics' | 'bathes' | 'beauties' ;
@@ -81,6 +81,17 @@ export interface IService {
 
     // # 加價美容
     extra_Beauty        : string[] ;
+
+
+    // # 住宿單資料 ( Lodge_Form )
+    lodge_Room_Type     : string ;
+
+    lodge_CheckIn_Date  : any ;
+    lodge_CheckIn_Time  : string ;
+
+    lodge_CheckOut_Date : any ;
+    lodge_CheckOut_Time : string ;
+
 
     // # 接送費用
     pickup_Fee          : number ;
@@ -227,14 +238,19 @@ export type room_Type = '大房' | '中房' | '小房' | '大籠' | '中籠' | '
 // 價格 ( 各項服務 )
 export interface IService_Price{
 
+    price_Type       : string ;     // 服務類別
+    price_Plan       : string ;     // 指定方案
+    price_Species_Id : number ;     // 品種資料表 ( pet_species ) id
+    price_Item       : string ;     // 服務名稱
+    price_Amount     : number ;     // 服務價格
+    price_Note       : string ;     // 備註
 
-    price_Type       : string ;
-    price_Plan       : string ;
-    price_Species_Id : number ;
-    price_Item       : string ;
-    price_Amount     : number ;
-    price_Note       : string ;
+    price_Fist_Bath   : number ;    // 初次洗澡優惠
+    price_Single_Bath : number ;    // 單次洗澡
+    price_Month_Bath  : number ;    // 包月洗澡
 
+    price_Single_Beauty : number ;  // 單次美容
+    price_Month_Beauty  : number ;  // 包月美容
 
 }
 

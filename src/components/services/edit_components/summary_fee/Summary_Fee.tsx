@@ -3,13 +3,10 @@ import React, {FC, useEffect, useState} from "react"
 import {Edit_Form_Type} from "utils/Interface_Type";
 import {get_Today} from "utils/time/date";
 
-import { usePrice_Service , usePrice_Basic , usePrice_Bath , usePrice_Beauty  , usePrice_Care , usePrice_Lodge , usePrice_Plan , usePrice_Extra } from "hooks/data/usePrice"
-import { useDispatch , useSelector } from "react-redux";
+import { usePrice_Service , usePrice_Care , usePrice_Lodge , usePrice_Plan } from "hooks/data/usePrice"
 
-import { FeeDetail_Basic , FeeDetail_Bath , FeeDetail_Beauty , FeeDetail_Plan_Bath , FeeDetail_Plan_Beauty } from "components/services/edit_components/summary_fee/Fee_Detail"
+import { FeeDetail , FeeDetail_Basic , FeeDetail_Bath , FeeDetail_Beauty , FeeDetail_Plan_Bath , FeeDetail_Plan_Beauty } from "components/services/edit_components/summary_fee/Fee_Detail"
 
-import { usePlan_Plan_Tag } from "hooks/layout/usePlans_Records"
-import { set_Invalid_To_Plan } from "store/actions/action_Form_Validator"
 
 import Customer_Plans from "components/services/edit_components/summary_fee/Customer_Plans";
 
@@ -17,6 +14,7 @@ import Customer_Plans from "components/services/edit_components/summary_fee/Cust
 
 import axios from "utils/axios";
 import cookie from 'react-cookies'
+import {useSelector} from "react-redux";
 
 interface TS extends Edit_Form_Type {
 
@@ -43,35 +41,29 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
           // @ 各服務類型，所應提供資料 ----------------------------------------------------
 
-          // # 接送費、加價項目費、加價美容費 ------
-          const { pickupFee , extraItemFee , extraBeautyFee } = usePrice_Extra() ;
-
-          // 服務費用 : 基礎、洗澡、美容
-          const { service_Price , receivable : service_Receivable } = usePrice_Service( current , pickupFee , paymentMethod , setValue );
+          // # 基礎、洗澡、美容
+          const { receivable : service_Receivable } = usePrice_Service( current , paymentMethod , setValue );
 
           // # 安親 ------
-          const { current_Care_Type , Care_Ordinary_Price , Care_Ahead_Price , Care_Postpone_Price } = usePrice_Care() ;
+          const { current_Care_Type , receivable : care_Receivable } = usePrice_Care( current , paymentMethod , setValue ) ;
 
           // # 住宿 ------
+          const { receivable : lodge_Receivable } = usePrice_Lodge( current , paymentMethod , setValue );
+
 
           // # 方案 ------
-          const { current_Plan_Type , receivable : plan_Receivable , pickupFee : plan_PickupFee , Month_Bath_Price , Month_Beauty_Price , Lodge_Coupon_Price , self_Adjust_Price } = usePrice_Plan( current , paymentMethod , setValue ) ;
+          const { current_Plan_Type , receivable : plan_Receivable  } = usePrice_Plan( current , paymentMethod , setValue ) ;
 
 
           // 欲傳給 <Customer_Plans /> 元件的 Props
           const plan_Props = {
-
               current       : current ,
               paymentMethod : paymentMethod ,
               register      : register ,
               setValue      : setValue
-
           } ;
 
-
-
-
-          // @ 變動處理 --------------
+          // # 變動處理 --------------
 
           // 實收金額
           const handle_ActualPayment = ( value : any ) => {
@@ -104,17 +96,22 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
 
           // -------------------------------------------------------------------------------------------
 
-          // 設定 _ 應收金額
+          // 設定 _ 應收金額 ( receivable )
           useEffect( ( ) => {
 
              // 主要服務( 基礎、洗澡、美容 )
              if( current === '基礎' || current === '洗澡' || current === '美容' ) set_Receivable( service_Receivable ) ;
 
+             // 住宿
+             if( current === '住宿' ) set_Receivable( lodge_Receivable ) ;
+
+             // 安親
+             if( current === '安親' ) set_Receivable( care_Receivable ) ;
+
              // 方案( 包月洗澡、包月美容、住宿券 )
              if( current === '方案' ) set_Receivable( plan_Receivable ) ;
 
-
-          } ,[ current , service_Receivable , plan_Receivable ] ) ;
+          } ,[ current , service_Receivable , lodge_Receivable , care_Receivable , plan_Receivable ] ) ;
 
           // 設定 _ 櫃台人員 ( 正職、計時 )
           useEffect( ( ) : any => {
@@ -147,7 +144,7 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
               <br/>
 
               { /* 費用明細 */ }
-              <div className="columns is-multiline  is-mobile">
+              <div className="columns is-multiline is-mobile">
 
                 { /* 服務項目 */ }
                 <div className="column is-4-desktop">
@@ -168,27 +165,27 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
                 { /* 應收金額 */ }
                 <div className="column is-8-desktop">
 
-                    <span className="tag is-large is-white">
-                      <b> 應收金額 :&nbsp;
-                          <span style={{ color:"red" }} >
-                             { editType !== '編輯' && receivable }                 { /* for 新增 */ }
-                             { editType !== '編輯' || serviceData.amount_payable } { /* for 編輯 */ }
-                          </span> 元
-                      </b>
-                    </span>
+                  { ( paymentMethod === '包月洗澡' || paymentMethod === '包月洗澡' ) ||
 
-                    { /* 消費明細 */ }
-                    { current === '基礎' && editType !== '編輯' &&  <FeeDetail_Basic  servicePrice = { service_Price }  pickupFee = { pickupFee } /> }
-                    { current === '洗澡' && editType !== '編輯' &&  <FeeDetail_Bath   servicePrice = { service_Price }  pickupFee = { pickupFee }  extraItem  = { extraItemFee } extraBeauty = { extraBeautyFee } /> }
-                    { current === '美容' && editType !== '編輯' &&  <FeeDetail_Beauty servicePrice = { service_Price }  pickupFee = { pickupFee }  extraItem  = { extraItemFee } /> }
-                    { ( current === '方案' && editType !== '編輯' && current_Plan_Type === '包月洗澡' ) &&
-                        <FeeDetail_Plan_Bath  servicePrice = { Month_Bath_Price } adjustAmount = { self_Adjust_Price } pickupFee = { plan_PickupFee } />
-                    }
+                    <>
 
-                    { ( current === '方案' && editType !== '編輯' && current_Plan_Type === '包月美容' ) &&
-                       <FeeDetail_Plan_Beauty  servicePrice = { Month_Beauty_Price } adjustAmount = { self_Adjust_Price } pickupFee = { plan_PickupFee } />
-                    }
+                        <span className="tag is-large is-white">
 
+                          <b> 應收金額 :&nbsp;
+                              <span style={{ color:"red" }} >
+                                 { editType !== '編輯' && receivable }                 { /* for 新增 */ }
+                                 { editType !== '編輯' || serviceData.amount_payable } { /* for 編輯 */ }
+                              </span> 元
+                          </b>
+
+                        </span>
+
+                        { /* 消費明細 */ }
+                        <FeeDetail current = { current } editType = { editType }  />
+
+                    </>
+
+                  }
 
                 </div>
 
@@ -247,7 +244,7 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
                 </div>
 
                 { /* 實收金額 */ }
-                { ( paymentMethod === '現金' || paymentMethod === '贈送'  ) &&
+                { ( paymentMethod === '現金' || paymentMethod === '贈送' ) &&
 
                     <>
 
@@ -366,16 +363,21 @@ const Summary_Fee : FC<TS> = ( { register , setValue , errors  , current, editTy
                              { editType !== '編輯' &&
 
                                  <div className="control has-icons-left">
-                                     <div className="select is-small relative">
-                                         <select  {...register("admin_User")}
-                                                  style={{fontSize: "13pt", top: "-7px", fontWeight: "bold"}}>
 
-                                             <option value="請選擇"> 請選擇</option>
-                                             { admin_Users.map( ( x,y ) => <option key={y} value={ x['employee_name'] }> { x['employee_name'] } </option> )  }
+                                     <div className="select is-small relative">
+
+                                         <select  { ...register("admin_User") }  style={ { fontSize: "13pt", top: "-7px", fontWeight: "bold" } }>
+
+                                             <option value="請選擇"> 請選擇 </option>
+
+                                             { admin_Users.map( ( x , y) => <option key={y} value={ x['employee_name'] }> { x['employee_name'] } </option> )  }
 
                                          </select>
+
                                      </div>
-                                     <div className="icon is-medium is-left"><i className="fas fa-user"></i></div>
+
+                                     <div className="icon is-medium is-left"> <i className="fas fa-user"></i> </div>
+
                                  </div>
 
                              }

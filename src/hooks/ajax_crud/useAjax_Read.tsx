@@ -68,7 +68,7 @@ export const useRead_Qcode_Service_Date = (  type_Url? : 'basics' | 'bathes' | '
 
 } ;
 
-// * 取得 : 特定日期，所有服務
+// * 取得 : 特定日期，所有服務 ( 包含 : 客人、客人關係人、寵物 )
 export const useRead_Date_Services = ( date : string ) => {
 
     const [ data , set_Data ] = useState( [] ) ;
@@ -227,6 +227,26 @@ export const useRead_Species = ( ) => {
     return species ;
 
 } ;
+
+
+// 所有品種資料 : 品種資料表 ( pet_species ) + 排序資料表( species_sort )
+export const useRead_Sort_Species = ( ) => {
+
+    const [ species , set_Species ] = useState([]);
+
+    useEffect(( ) => {
+
+       // axios.get( '/species_sorts/show_sort_data' ).then( res => { set_Species( res.data ) ; } );
+        axios.get( '/pet_species/show_sort_data' ).then( res => { set_Species( res.data ) ; } );
+
+    } , [] ) ;
+
+    return species ;
+
+} ;
+
+
+
 
 // 所有品種，其資料 + 服務價格
 export const useRead_All_Species_With_Service_Prices = ( ) => {

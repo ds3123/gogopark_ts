@@ -58,13 +58,11 @@ const Management = () => {
             case '安親' : return <Care_Price/>   ;
             case '住宿' : return <Lodge_Price/>  ;
 
-            case '加價項目' : return <Extra_Item_Price/>    ;
+            case '加價項目' : return <Extra_Item_Price/>  ;
             case '加價美容' : return <Extra_Beauty_Price/>  ;
 
             // * 封存資料
             case '封存資料' : return <Archive_List />
-
-
 
             // * 系統設定
             case '寵物品種' : return <Species_List />  ;
@@ -75,10 +73,10 @@ const Management = () => {
 
     } ;
 
-    // 新增資料後，藉由 cookie，重導向至相對應的區塊頁面
+    // 【 新增】 資料後，藉由 cookie，重導向至相對應的區塊頁面
     useEffect(( ) : any => {
 
-       // Cookie
+       // @ Cookie
        const redirect = cookie.load('after_Created_Redirect') ;
 
        // # 價格管理 :
@@ -132,6 +130,12 @@ const Management = () => {
         }
 
 
+       // # 員工管理
+       if( redirect && redirect === '員工管理' ){
+            click_Second('員工管理' ) ;
+        }
+
+
        // # 系統設定 :
 
        // * 寵物品種
@@ -144,13 +148,41 @@ const Management = () => {
 
        // 暫時、預先點選
        if( !redirect ){
-          click_Second('資料管理' ) ;
-          click_Third('封存資料' ) ;
+         // click_Second('價格管理' ) ;
+         // click_Third('封存資料' ) ;
        }
 
     } ,[] ) ;
 
 
+    // 【 更新 】 資料後，藉由 cookie，重導向至相對應的區塊頁面
+    useEffect(( ) => {
+
+       // @ Cookie
+
+       // # 更新 _ 價格管理
+       const update_Price = cookie.load('after_Updated_Prices') ;
+
+       if( update_Price ){
+
+           click_Second('價格管理' ) ;
+
+           if( update_Price === '價格管理_品種價格' ){
+               click_Third('基礎') ;
+               click_Third('品種價格') ;
+           }
+
+           if( update_Price === '價格管理_基礎' )
+           if( update_Price === '價格管理_洗澡' )     click_Third('洗澡') ;
+           if( update_Price === '價格管理_美容' )     click_Third('美容') ;
+           if( update_Price === '價格管理_安親' )     click_Third('安親') ;
+           if( update_Price === '價格管理_住宿' )     click_Third('住宿') ;
+           if( update_Price === '價格管理_加價項目' ) click_Third('加價項目') ;
+           if( update_Price === '價格管理_加價美容' ) click_Third('加價美容') ;
+
+       }
+
+    } ,[] ) ;
 
 
     return <>

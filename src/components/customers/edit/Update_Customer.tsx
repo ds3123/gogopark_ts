@@ -25,8 +25,6 @@ const Update_Customer = ( ) => {
     const relative = value.preLoadData ? value.preLoadData.customer_relation : { customer_relation : [] } ;
 
 
-
-
     // React Hook Form
     const { register , setValue , handleSubmit , formState: { errors , isDirty , isValid } } =
                     useForm<ICustomer>({

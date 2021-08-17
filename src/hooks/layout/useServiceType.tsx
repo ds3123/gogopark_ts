@@ -8,7 +8,6 @@ import { Service_Type } from "utils/Interface_Type"
 const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月美容' | null , func? : boolean , size?:'large' | 'medium' , light? : boolean  ) => {
 
    // 回傳 : 函式
-
    const get_ServiceType = ( _serviceType : Service_Type | '包月洗澡' | '包月美容' , is_Light? : boolean  ) => {
 
        let _obj = {} as any ;
@@ -28,6 +27,16 @@ const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月�
            _obj.icon  = "fas fa-cut"
        }
 
+       if( _serviceType === "安親" ){
+           _obj.color = `tag ${ size ? 'is-'+size : '' } is-link ${ is_Light ? 'is-light' : '' } pointer` ;
+           _obj.icon  = "fas fa-baby-carriage"
+       }
+
+       if( _serviceType === "住宿" ){
+           _obj.color = `tag ${ size ? 'is-'+size : '' } is-link ${ is_Light ? 'is-light' : '' } pointer` ;
+           _obj.icon  = "fas fa-home"
+       }
+
        return _obj ;
 
    } ;
@@ -39,7 +48,7 @@ const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月�
 
    let obj = {} as any ;
 
-   if( serviceType === "基礎" ){
+    if( serviceType === "基礎" ){
        obj.color =  size ? `tag is-${ size } is-warning ${ !light ? 'is-light' : '' } pointer` : 'tag is-large is-warning  pointer' ;
        obj.icon  = "far fa-list-alt"
    }
@@ -53,6 +62,17 @@ const useServiceType = ( serviceType? : Service_Type | '包月洗澡' | '包月�
        obj.color = size ? `tag is-${ size } is-danger ${ !light ? 'is-light' : '' } pointer` : 'tag is-large is-danger is-light pointer' ;
        obj.icon  = "fas fa-cut"
     }
+
+    if( serviceType === "安親" || serviceType === "一般安親" || serviceType === "住宿_提早抵達" || serviceType === "住宿_延後帶走"  ){
+        obj.color = size ? `tag is-${ size } is-link ${ !light ? 'is-light' : '' } pointer` : 'tag is-large is-link is-light pointer' ;
+        obj.icon  = "fas fa-baby-carriage"
+    }
+
+    if( serviceType === "住宿"  ){
+        obj.color = size ? `tag is-${ size } is-link ${ !light ? 'is-light' : '' } pointer` : 'tag is-large is-link is-light pointer' ;
+        obj.icon  = "fas fa-home"
+    }
+
 
     return obj ;
 

@@ -3,24 +3,22 @@ import React from "react" ;
 
 /* @ 洗美頁  */
 
-interface ICustomer {
+interface IService {
 
     Service_isLoading           : boolean ; // 洗美頁資料 _ 是否下載中
-
-    current_Create_Service_Type : string ;  // 目前新增 _ 服務類別
+    current_Create_Service_Type : string ;  // 目前新增 _ 服務付費類別 ( Ex. 初次洗澡優惠、單次洗澡、單次美容 )
 
 }
 
 const initState = {
 
     Service_isLoading           : true ,
-
     current_Create_Service_Type : ''
 
 } ;
 
 
-const reducer_Customer = ( state : ICustomer = initState , action : any ) => {
+const reducer_Customer = ( state : IService = initState , action : any ) => {
 
 
     switch( action.type ){

@@ -5,6 +5,23 @@ import { Dispatch } from "redux";
 
 /* @ 安親 */
 
+
+// # 設定 _ 安親頁資料 _ 是否下載中
+export const set_Care_isLoading = ( bool : boolean ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+                dispatch({
+                    type           : "SET_CARE_ISLOADING" ,
+                    Care_isLoading : bool
+                }) ;
+
+           } ;
+
+} ;
+
+
+
 // # 設定 _ 目前所使用的安親類型
 export const set_current_care_type = ( type : string ) => {
 
@@ -61,6 +78,21 @@ export const set_care_postpone_price = ( price : number | string ) => {
         }) ;
 
     } ;
+
+} ;
+
+
+// # 設定 _ 預計 _ 安親結束時間 ( for 一般安親 )
+export const set_expect_care_end_time = ( time : string ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+                dispatch({
+                    type                 : "SET_EXPECT_CARE_END_TIME" ,
+                    expect_Care_End_Time : time
+                }) ;
+
+           } ;
 
 } ;
 

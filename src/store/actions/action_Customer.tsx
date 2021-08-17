@@ -35,19 +35,55 @@ export const set_IsQuerying_Customer_ID = ( bool : boolean ) => {
 
 } ;
 
-// # 設定 _ 該客戶，是否有洗澡單紀錄 ( for 判斷是否為 "初次洗澡" )
+
+
+// # 設定 _ 該客戶，是否有 : 基礎單紀錄
+export const set_Has_Basic_Records = ( bool : boolean ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+                dispatch({
+                    type : "SET_HAS_BASIC_RECORDS" ,
+                    bool : bool
+                }) ;
+
+           } ;
+
+} ;
+
+
+// # 設定 _ 該客戶，是否有 : 洗澡單紀錄 ( for 判斷是否為 "初次洗澡" )
 export const set_Has_Bath_Records = ( bool : boolean ) => {
 
     return ( dispatch : Dispatch ) => {
 
-        dispatch({
-            type : "SET_HAS_BATH_RECORDS" ,
-            bool : bool
-        }) ;
+                dispatch({
+                    type : "SET_HAS_BATH_RECORDS" ,
+                    bool : bool
+                }) ;
 
-    } ;
+           } ;
 
 } ;
+
+
+// # 設定 _ 該客戶，是否有 : 美容單紀錄
+export const set_Has_Beauty_Records = ( bool : boolean ) => {
+
+    return ( dispatch : Dispatch ) => {
+
+                dispatch({
+                    type : "SET_HAS_BEAUTY_RECORDS" ,
+                    bool : bool
+                }) ;
+
+            } ;
+
+} ;
+
+
+
+
 
 
 // # 設定 _ 該客戶，是否有購買方案，如 : 包月洗澡、美容 ( for 決定 _ 是否能使用、還可以使用幾次 )

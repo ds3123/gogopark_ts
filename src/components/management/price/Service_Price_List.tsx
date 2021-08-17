@@ -12,8 +12,8 @@ const Service_Price_List : FC< { data : any[] } > = ({ data} ) => {
   const dispatch = useDispatch() ;
 
 
-    // 點選 _ 服務名稱
-  const click_Service = ( service : string ) => dispatch( set_Side_Panel(true , <Update_Price /> , { preLoadData : service } ) ) ;
+  // 點選 _ 服務名稱
+  const click_Service = ( service : string ) => dispatch( set_Side_Panel(true , <Update_Price /> , { preLoadData : service , source_Create_Way : '個別項目' } ) ) ;
 
   // 刪除函式
   const delete_Service_Price = useDelete_Service_Price() ;

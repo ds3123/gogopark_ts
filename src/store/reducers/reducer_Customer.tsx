@@ -9,7 +9,11 @@ interface ICustomer {
 
    IsQuerying_Customer_ID : boolean ; // 是否正在輸入 _ 身分證字號欄位
 
+   // # NOTE : 以下僅 Has_Bath_Records 目前有作用 ( 判斷是否為初次洗澡 )，Has_Basic_Records、Has_Beauty_Records 之後可考略刪除 2021.08.16
+   Has_Basic_Records      : boolean ; // 客戶 _ 是否有基礎單紀錄 ( 資料表 : basic )
    Has_Bath_Records       : boolean ; // 客戶 _ 是否有洗澡單紀錄 ( 資料表 : bath )   for 判斷是否為 "初次洗澡"
+   Has_Beauty_Records     : boolean ; // 客戶 _ 是否有美容單紀錄 ( 資料表 : beauty )
+
    Customer_Plans_Records : any[] ;   // 客戶 _ 方案與其使用紀錄
 
    Current_Customer_Pets  : any[] ;   // 目前 _ 客戶的所有寵物
@@ -22,7 +26,11 @@ const initState = {
     IsExisting_Customer    : false ,
 
     IsQuerying_Customer_ID : false ,
+
+    Has_Basic_Records      : false ,
     Has_Bath_Records       : false ,
+    Has_Beauty_Records     : false ,
+
     Customer_Plans_Records : [] ,
 
     Current_Customer_Pets  : [] ,
@@ -42,8 +50,15 @@ const reducer_Customer = ( state : ICustomer = initState , action : any ) => {
         // # 設定 _ 是否正在輸入 _ 身分證字號欄位
         case  "SET_IS_QUERYING_CUSTOMER_ID" : return { ...state , IsQuerying_Customer_ID : action.bool } ;
 
-        // # 設定 _ 該客戶，是否有洗澡單紀錄 ( for 判斷是否為 "初次洗澡" )
+        // # 設定 _ 該客戶，是否有 : 基礎單紀錄
+        case  "SET_HAS_BASIC_RECORDS" : return { ...state , Has_Basic_Records : action.bool } ;
+
+        // # 設定 _ 該客戶，是否有 : 洗澡單紀錄 ( for 判斷是否為 "初次洗澡" )
         case  "SET_HAS_BATH_RECORDS" : return { ...state , Has_Bath_Records : action.bool } ;
+
+        // # 設定 _ 該客戶，是否有 : 美容單紀錄
+        case  "SET_HAS_BEAUTY_RECORDS" : return { ...state , Has_Beauty_Records : action.bool } ;
+
 
         // # 設定 _ 該客戶，是否有購買方案，如 : 包月洗澡、美容 ( for 決定 _ 是否能使用、還可以使用幾次 )
         case  "SET_CUSTOMER_PLANS_RECORDS" : return { ...state , Customer_Plans_Records : action.Customer_Plans_Records } ;

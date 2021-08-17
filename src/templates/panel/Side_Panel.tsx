@@ -56,17 +56,20 @@ const Panel_Wrapper = styled.div<WrapperProps>`
 interface PanelContext {
 
     // 欲透過 Context 傳遞的 props 型別
-    customer_Id  : string ; // 客戶身分證序號
-    pet_Serial   : string ; // 寵物編號
+    customer_Id       : string ; // 客戶身分證序號
+    pet_Serial        : string ; // 寵物編號
 
-    basic_id     : string ;
-    bath_id      : string ;
-    beauty_id    : string ;
+    basic_id          : string ;
+    bath_id           : string ;
+    beauty_id         : string ;
 
-    create_Data  : string ; // 右側編輯面板 ( for 資料_新增 )
-    preLoadData  : any ;    // 預先填寫資料 ( for 資料_編輯 )
+    create_Data       : string ; // 右側編輯面板 ( for 資料_新增 )
+    preLoadData       : any ;    // 預先填寫資料 ( for 資料_編輯 )
 
-    service_Type : string ; // 服務類型 ( for 編輯 : 基礎、洗澡、美容 )
+    service_Type      : string ; // 服務類型 ( for 編輯 : 基礎、洗澡、美容 )
+    source_Page       : string ; // 來源網頁 ( for 點選、回到上一個頁面  Ex. Nav_Qcode_List > Update_Service )
+
+    source_Create_Way : string ; // 先前新增 _ 寵物價格方式 ( Ex. 依照 : 個別項目 or 寵物品種 / for 編輯寵物價格 )
 
 }
 

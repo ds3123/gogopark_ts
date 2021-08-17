@@ -30,8 +30,7 @@ export const get_Cal_Hour_Time = ( date : string , hour : number )=>{
 
     let time = new Date( date ) ;
     time.setTime( time.setHours(time.getHours() + hour ));
-
-    return moment( time ).format('HH : mm') ;
+    return moment( time ).format('HH:mm') ;
 
 } ;
 

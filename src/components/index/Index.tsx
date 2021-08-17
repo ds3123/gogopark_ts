@@ -147,7 +147,7 @@ const Index = ( ) => {
 
     const card = { padding : "5px" } ;
 
-    const confirm = { top: "-1vh" , left : "25%", width:"50%" , boxShadow : "0px 1px 4px 0px rgba(0,0,0,.2)" } as any ;
+    const confirm = { top: "-1vh" , left : "20%", width:"60%" , boxShadow : "0px 1px 4px 0px rgba(0,0,0,.2)" } as any ;
 
     return <div className="is-hidden-mobile">
 

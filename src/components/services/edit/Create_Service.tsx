@@ -46,7 +46,6 @@ const Create_Service : FC<TS> = ({ register , setValue , control ,errors , isDir
              { /* 自備物品、主人交代、櫃台備註  */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" || current === "安親" || current === "住宿"  ) && <Customer_Note { ...props } /> }
 
-
              { /* 基礎單項目 */ }
              { ( current === "基礎" || current === "洗澡" || current === "美容" ) && <Basic_Form { ...props } /> }
 

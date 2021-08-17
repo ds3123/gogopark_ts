@@ -7,7 +7,7 @@ import { useForm , SubmitHandler , Controller } from "react-hook-form" ;
 // 各表單驗證條件
 import {
           schema_Customer , schema_Pet ,
-          schema_Basic , schema_Bath , schema_Beauty ,
+          schema_Basic , schema_Bath , schema_Beauty , schema_Lodge ,
           schema_Plan , schema_Price , schema_Species ,
           schema_Employee }  from "utils/validator/form_validator" ;
 
@@ -48,6 +48,13 @@ const Create_Data_Container = () => {
     // 服務價格 : 基礎、洗澡、美容
     const { basicSumPrice , bathSumPrice , beautySumPrice , extraItemFee , extraBeautyFee } = useHelper_Prices();
 
+
+    // 安親 : 預計結束時間 ( for 一般安親 )
+    const expect_Care_End_Time = useSelector( ( state : any )=> state.Care.expect_Care_End_Time ) ;
+
+    // 住宿價格
+    const current_Lodge_Price_Sum = useSelector(( state : any ) => state.Lodge.current_Lodge_Price_Sum )  ;
+
     // 包月洗澡金額
     const month_Bath_Price   = parseInt( useSelector( ( state : any ) => state.Plan.Month_Bath_Price ) ) ;
 
@@ -56,6 +63,10 @@ const Create_Data_Container = () => {
 
     // 目前選擇 _ 方案資料表 ( plans ) id
     const current_Plan_Id    = useSelector(( state : any ) => state.Plan.current_Plan_Id ) ;
+
+    // 目前新增 _ 服務付費類別 ( Ex. 初次洗澡優惠、單次洗澡、單次美容 )
+    const current_Create_Service_Type = useSelector(( state : any ) => state.Service.current_Create_Service_Type ) ;
+
 
     // 目前選擇 _ 方案備註 Ex. 包月洗澡第 1 次
     const current_Plan_Note  = useSelector(( state : any ) => state.Plan.current_Plan_Note ) ;
@@ -71,7 +82,6 @@ const Create_Data_Container = () => {
 
     // 員工 : 工作人員 _ 條件不符
     const employee_Validator = useEmployee_Validator();
-
 
 
     // 取得 _ 所有寵物品種資料
@@ -97,6 +107,9 @@ const Create_Data_Container = () => {
         case "洗澡" : validator = schema_Bath ;     break ;
         case "美容" : validator = schema_Beauty ;   break ;
 
+        case "住宿" : validator = schema_Lodge ;   break ;
+
+
         case "方案" : validator = schema_Plan ;    break ;
         case "價格" : validator = schema_Price ;   break ;
         case "品種" : validator = schema_Species ; break ;
@@ -104,9 +117,6 @@ const Create_Data_Container = () => {
         case "員工" : validator = schema_Employee ; break ;
 
     }
-
-
-
 
     // React Hook Form
     const { register , setValue , handleSubmit , control , formState: { errors , isDirty , isValid } } =
@@ -143,7 +153,7 @@ const Create_Data_Container = () => {
             data.pet_Species = pet['name'] ;
         }
 
-        // 驗證 : 員工( 工作人員 )欄位
+        // 驗證 : 員工 ( 工作人員 ) 欄位
         if( current === '員工' && data['employee_Type'] === '工作人員' ){
             const bool = employee_Validator( data ) ;
             if( !bool ) return false ;
@@ -168,6 +178,7 @@ const Create_Data_Container = () => {
               data.shop_Q_Code       = current_Q_Code ;   // 目前所選擇 _ 到店處理碼 Q
               data.service_Status    = service_Status ;   // 服務性質 : 已到店、預約_今天、預約_未來
               data.basic_Fee         = basicSumPrice ;    // 基礎費
+              data.current_Create_Service_Type = current_Create_Service_Type ;
 
               break ;
 
@@ -181,6 +192,7 @@ const Create_Data_Container = () => {
               data.extra_Beauty_Fee  = extraBeautyFee ;    // 加價美容 _ 費用
               data.current_Plan_Id   = current_Plan_Id ;   // 目前選擇 _ 方案資料表 ( plans ) id
               data.current_Plan_Note = current_Plan_Note ; // 目前選擇 _ 方案備註 Ex. 包月洗澡第 1 次
+              data.current_Create_Service_Type = current_Create_Service_Type ;
 
               break ;
 
@@ -193,8 +205,24 @@ const Create_Data_Container = () => {
               data.extra_Service_Fee = extraItemFee ;      // 加價項目 _ 費用
               data.current_Plan_Id   = current_Plan_Id ;   // 目前選擇 _ 方案資料表 ( plans ) id
               data.current_Plan_Note = current_Plan_Note ; // 目前選擇 _ 方案備註 Ex. 包月洗澡第 1 次
+              data.current_Create_Service_Type = current_Create_Service_Type ;
 
               break ;
+
+          case "安親" :
+                api = "/cares" ;
+                msg = "安親" ;
+                data.shop_Q_Code          = current_Q_Code ;        // 目前所選擇 _ 到店處理碼 Q
+                data.expect_Care_End_Time = expect_Care_End_Time ;  // 預計結束時間 ( for 一般安親 )
+
+                break ;
+
+          case "住宿" :
+                api = "/lodges" ;
+                msg = "住宿" ;
+                data.lodge_Price   = current_Lodge_Price_Sum ;   // 住宿費用
+
+                break ;
 
           case "方案" :
               api = "/plans" ;
@@ -222,16 +250,15 @@ const Create_Data_Container = () => {
         }
 
 
-
         // # 新增資料
         create_Data( api , data , msg ) ;  // 所有資料
 
-        // 僅針對 _ 客戶關係人 ( 再確認 2021.07.05 )
-        if( current === '客戶' || current === '寵物' || current === '基礎' || current === '洗澡' || current === '美容' || current === '方案' ){
+        // 僅針對 _ 客戶關係人 ( 再確認 2021.07.05  / 改為若有 "新增客戶" 情況下，即新增關係人 --> 寫在 useAjax_Create 中，目前以下條件判斷，容易漏掉  )
+        if( current === '客戶' || current === '寵物' || current === '基礎' || current === '洗澡' || current === '美容' || current === '方案' || current === '安親' || current === '住宿' ){
+
           create_Cus_Relatives('/customers/store_relation' , data ) ;
+
         }
-
-
 
     } ;
 
@@ -239,14 +266,12 @@ const Create_Data_Container = () => {
     // 設定 _ 表單新增按鈕 : 驗證邏輯
     useEffect(( ) => {
 
-      const is_RHF_Valid = isValid ;  // React Hook Form 驗證有效
+      const is_RHF_Valid = isValid ;  // React Hook Form 的驗證機制
 
       // 決定 _ 提交按鈕是否有作用的條件組合
       const is_Disabled_Form = !is_RHF_Valid || invalid_To_Plan  ;
 
-
       set_Disabled_Form(is_Disabled_Form ? true : false ) ;
-
 
     } ,[ isValid , invalid_To_Plan ] ) ;
 
@@ -261,7 +286,7 @@ const Create_Data_Container = () => {
              <form onSubmit = { handleSubmit( onSubmit ) } >
 
                  { /* 服務單基本資訊 : 服務性質、到店日期、處理碼 ... */ }
-                 { ( current === "基礎" || current === "洗澡" || current === "美容"  )  &&
+                 { ( current === "基礎" || current === "洗澡" || current === "美容" )  &&
                      <Service_Info { ...props } />
                  }
 
@@ -281,7 +306,7 @@ const Create_Data_Container = () => {
                  }
 
                  { /* 價格項目 */ }
-                 { current === "價格" && <Create_Price { ...props } />    }
+                 { current === "價格" && <Create_Price  { ...props } />    }
 
                  { /* 品種項目 */ }
                  { current === "品種" && <Create_Species { ...props } />  }

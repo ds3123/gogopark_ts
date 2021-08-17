@@ -24,8 +24,8 @@ const tabsArr : ITabs[] = [
     { title : "價格" , style : "pointer tag is-large is-danger"  , icon : "fas fa-dollar-sign"  } ,
     { title : "品種" , style : "pointer tag is-large is-danger"  , icon : "fas fa-cat"  } ,
     { title : "員工" , style : "pointer tag is-large is-primary"  , icon : "fas fa-user-circle"  } ,
-    { title : "權限" , style : "pointer tag is-large is-primary"  , icon : "fas fa-layer-group"  } ,
-    { title : "品牌" , style : "pointer tag is-large is-primary"  , icon : "fas fa-store"  } ,
+    // { title : "權限" , style : "pointer tag is-large is-primary"  , icon : "fas fa-layer-group"  } ,
+    // { title : "品牌" , style : "pointer tag is-large is-primary"  , icon : "fas fa-store"  } ,
 ] ;
 
 interface IProps {

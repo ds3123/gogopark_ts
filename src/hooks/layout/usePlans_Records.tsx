@@ -14,10 +14,13 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
     const dispatch = useDispatch() ;
 
     // 是否已點選 : ( 包月洗澡 ) 使用此方案
-    const is_Plan_Used = useSelector( ( state : any ) => state.Plan.is_Plan_Used ) ;
+    const is_Plan_Used               = useSelector( ( state : any ) => state.Plan.is_Plan_Used ) ;
 
     // 目前在寵物區，"品種" 下拉選項，所選擇的品種 Id
-    const current_Species_Id  = useSelector(( state : any ) => state.Pet.current_Species_Id ) ;
+    const current_Species_Id         = useSelector(( state : any ) => state.Pet.current_Species_Id ) ;
+
+    // 使用本次方案的 _ 價格 ( 點選標籤 "使用此方案" 後設定 )
+    const current_Plan_Service_Price = useSelector(( state : any ) => state.Plan.current_Plan_Service_Price ) ;
 
     // 所點選的方案頁籤 : 索引 ( index ) 、是否已點選 ( is_On )
     const [ clicked_Tag , set_Clicked_Tag ] = useState<{ index : null | number , is_On : boolean }>({
@@ -25,14 +28,6 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
                                                                                                                  is_On : false ,
                                                                                                                }) ;
 
-
-    // 所點選使用方案之 : 基本價格、使用一次價格、結餘金額
-    const [ amount , set_Amount ] = useState({
-                                                          initial_Price : 0 ,  // 購買方案時的基本價格
-                                                          used_Amount   : 0 ,  // 已使用金額
-                                                          single_Price  : 0 ,  // 點選使用方案後，該次所佔用金額
-                                                          balance       : 0    // 結餘金額
-                                                        }) ;
 
 
     // 方案使用紀錄標籤
@@ -68,27 +63,23 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
             return false ;
         }
 
-        
-        // 設定 _ 使用此方案服務，所花費的金額
-        dispatch( set_Current_Plan_Service_Price( Math.round( plan_price / 4 ) ) ) ; // 四捨五入
 
+        // # 設定 _ 使用此方案服務，所花費的金額
 
+        let current_Amount = current_Plan_Service_Price ? 0 : Math.round( plan_price / 4 )  ; // 四捨五入
 
-        set_Amount({ ...amount ,
-                              initial_Price : plan_price ,
-                              used_Amount   : used_Amount ,
-                         }) ;
+        const balance      = plan_price - used_Amount ;           // 剩餘金額
+        if( current_Amount > balance ) current_Amount = balance ; // 要設定的此次金額，比剩餘金額大 --> 設定剩餘金額
 
+        dispatch( set_Current_Plan_Service_Price( current_Amount ) ) ;
 
 
         // 設定 _ 目前所點選方案 : 資料表 ( plans ) id
         dispatch( set_Current_Plan_Id( plan_id ) ) ;
 
+
         // 目前選擇 : 方案備註  Ex. 洗澡第 1 次
         dispatch( set_Current_Plan_Note( plan_note ) ) ;
-
-
-
 
         // 設定 _ 是否已點選方案標籤 ( for 表單提交驗證 )
         dispatch( set_Use_Plan(is_Plan_Used ? false : true ) ) ;
@@ -119,30 +110,36 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
     } ,[ current_Species_Id ] ) ;
 
 
+
+
     // 設定 _ 所要回傳的方案使用紀錄標籤類型 : 包月洗澡 or 包月美容
     useEffect(( ) => {
 
+        // 在新增洗澡中，也可使用方案 "包月美容" 下的洗澡
+       if( current === '洗澡' ) set_Plan_Tags( plans['month_Bath'].concat( plans['month_Beauty'] )  ) ;
 
-       if( current === '洗澡' ){
-
-           const arr = plans['month_Bath'].concat( plans['month_Beauty'] ) ; // 在新增洗澡中，也可使用方案 "包月美容" 下的洗澡
-
-
-         //  console.log( arr )
-
-           set_Plan_Tags( arr ) ;
+       if( current === '美容' ) set_Plan_Tags( plans['month_Beauty'] ) ;
 
 
-
-       }
-
-       if( current === '美容' ){
-
-           set_Plan_Tags( plans['month_Beauty'] ) ;
-
-       }
 
     } , [ current , plans ] ) ;
+
+
+
+    // 回復 _ 預設值
+    useEffect(( ) => {
+
+       return ( ) => {
+
+           // 是否已點選方案標籤 ( for 表單提交驗證 )
+           dispatch( set_Use_Plan(false ) ) ;
+
+           // 使用此方案服務，所花費的金額
+           dispatch( set_Current_Plan_Service_Price(0 ) ) ;
+
+       }
+
+    } ,[] ) ;
 
 
 
@@ -177,8 +174,6 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
                     x['plan_used_records'].forEach( ( x : any ) => used_Amount += x['service_price'] ) ;
 
 
-                    // console.log( used_Amount )
-
                     // 欲傳給 click_Use_Bath_Tag 函式的參數
                     const params = {
                                         index        : y ,                              // 目前資料列索引
@@ -194,7 +189,7 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
 
                     return  <b key = { y } className="tag is-medium m_Left_10 m_Bottom_15 is-white pointer" style={ tag } >
 
-                                { x['plan_type'] } &nbsp; ( { x['pet_species']['name'] } ) &nbsp;
+                                { x['plan_type'] } ( { x['pet_species']['name']  } / { x['plan_basic_price'] } 元 ) &nbsp;
 
                                 { /* 使用 _ 未額滿  */ }
                                 { used_Num !== quota_Bath &&
@@ -203,11 +198,7 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
                                        onClick   = { () => click_Use_Bath_Tag( params ) } >
 
                                         { ( clicked_Tag['index'] === y && clicked_Tag['is_On'] === true )  &&
-                                               <span>
-                                                       { used_Num + 1 } / { quota_Bath } &nbsp;
-                                                       ( 餘額 : {  x['plan_basic_price'] - used_Amount - ( x['plan_basic_price'] / 4 )  } 元 ) &nbsp; &nbsp;
-                                                       已使用 &nbsp;
-                                               </span>
+                                               <span> { used_Num + 1 } / { quota_Bath } &nbsp; 已使用 &nbsp; </span>
                                         }
 
 
@@ -253,7 +244,6 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
                                         used_Amount  : used_Amount
                                     } ;
 
-
                     return  <b key = { y } className="tag is-medium  m_Left_10 m_Bottom_15 is-white  pointer" style={ tag } >
 
                                 { x['plan_type'] } &nbsp; ( { x['pet_species']['name'] } ) &nbsp;
@@ -265,11 +255,7 @@ export const usePlan_Plan_Tag = ( current : string , plans : { month_Bath : any[
                                        onClick   = { () => click_Use_Bath_Tag( params ) } >
 
                                         { ( clicked_Tag['index'] === y && clicked_Tag['is_On'] === true )  &&
-                                                 <span>
-                                                     { used_Num + 1 } / { quota_Beauty } &nbsp;
-                                                     ( 餘額 : { x['plan_basic_price'] } 元 ) &nbsp; &nbsp;
-                                                     已使用 &nbsp;
-                                                 </span>
+                                                 <span> { used_Num + 1 } / { quota_Beauty } &nbsp; 已使用 &nbsp; </span>
                                         }
 
                                         { ( clicked_Tag['is_On'] === false || ( clicked_Tag['index'] !== y && clicked_Tag['is_On'] === true  ) ) &&

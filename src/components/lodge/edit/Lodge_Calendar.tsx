@@ -4,7 +4,7 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 import { Scheduler , DayView , WeekView , MonthView , Appointments , DateNavigator ,  TodayButton , Toolbar, ViewSwitcher,} from '@devexpress/dx-react-scheduler-material-ui';
 import moment from 'moment' ;
 import { ILodge } from 'utils/Interface_Type'
-import {get_Interval_Dates, get_Type_Dates, get_Week_Day , get_Date_Cal} from "utils/time/date";
+
 
 
 
@@ -36,14 +36,11 @@ const Lodge_Calendar : FC<ILodge> = ( { lodgeNumber , lodgeCheckIn_Date , lodgeC
        set_Data( lodgeData ) ;
 
 
-    } ,[ lodgeData  ] ) ;
-
-
+    } ,[ lodgeData ] ) ;
 
 
 
     return  <>
-
 
                   <Paper>
 
@@ -64,6 +61,7 @@ const Lodge_Calendar : FC<ILodge> = ( { lodgeNumber , lodgeCheckIn_Date , lodgeC
                     </Scheduler>
 
                  </Paper>
+
            </>
 
 

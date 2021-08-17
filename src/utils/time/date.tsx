@@ -2,6 +2,7 @@
 /*  @ 日期處理   */
 
 import moment from  "moment";
+import {national_Holidays_Setting} from "components/lodge/edit/Lodge_Price";
 
 
 // 取得 : 昨天、今天、明天、後天 的西元日期 ( num 數字參數 -1、0、1、2 )
@@ -144,6 +145,7 @@ export const get_Type_Dates = (  interval : string[] , holiday : any[]  ) =>{
 
 
 };
+
 
 // 取得 : 某日期，所屬型態( 平日、假日、國定假日 )
 export const get_Date_Type = ( date : string , holiday : { title : string , date : string }[]  ) =>{

@@ -8,6 +8,8 @@ import {useDispatch} from "react-redux";
 import { set_Customer_isLoading } from 'store/actions/action_Customer'
 import { set_Pet_isLoading } from 'store/actions/action_Pet'
 import { set_Service_isLoading } from 'store/actions/action_Service'
+import { set_Lodge_isLoading } from 'store/actions/action_Lodge'
+import { set_Care_isLoading } from 'store/actions/action_Care'
 
 
 
@@ -42,6 +44,9 @@ const usePagination = ( api : string , type? : string ) => {
             if( type === 'customer' )  dispatch( set_Customer_isLoading(false ) ) ; // 客戶頁
             if( type === 'pet' )       dispatch( set_Pet_isLoading(false ) ) ;      // 寵物頁
             if( type === 'service' )   dispatch( set_Service_isLoading(false ) ) ;  // 洗美頁
+
+            if( type === 'lodge' )     dispatch( set_Lodge_isLoading(false ) ) ;    // 住宿頁
+            if( type === 'care' )      dispatch( set_Care_isLoading(false ) ) ;     // 安親頁
 
         }) ;
 

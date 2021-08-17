@@ -24,6 +24,9 @@ interface IEmployee extends Edit_Form_Type {
 }
 
 
+
+
+
 { /* 員工表單欄位  */ }
 const Employee_Form : FC< IEmployee > = ( { register  , errors , setValue , current , control , editType , employeeData } ) => {
 

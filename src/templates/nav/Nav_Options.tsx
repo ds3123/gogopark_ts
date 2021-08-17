@@ -4,9 +4,8 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router";
 import {Link, useHistory} from "react-router-dom";
 
-
 // Cookie
-import cookie from 'react-cookies'     // 匯入 cookie
+import cookie from 'react-cookies'  // 匯入 cookie
 
 import { get_Today } from 'utils/time/date' ;
 
@@ -19,14 +18,12 @@ import { toast } from "react-toastify";
 // Redux
 import { set_Side_Panel } from "store/actions/action_Global_Layout" ;
 
-
 interface IOptionObj {
     title : string ;
     url   : string ;
     color : string ;
     icon  : string ;
 }
-
 
 
 // # 導覽列 _ 選項
@@ -38,7 +35,8 @@ const Nav_Options = () => {
                                                             position_Type : ''   // 職位類別( Ex. 櫃台、美容、接送 )
                                                           }) ;
 
-    const history  = useHistory();
+
+    const history  = useHistory() ;
     const dispatch = useDispatch() ;
     let location   = useLocation() ;  // 取得 : 路徑資訊
 
@@ -114,7 +112,7 @@ const Nav_Options = () => {
     const show_Qcode = () => dispatch( set_Side_Panel(true , <Nav_Qcode_List /> , { preLoadData : null } ) );
 
     // 顯示 _ 新增資料面板
-    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '洗澡' , preLoadData : null } ) ) ;
+    const add_Data = () => dispatch( set_Side_Panel(true , <Create_Data_Container /> , { create_Data : '價格' , preLoadData : null } ) ) ;
 
     useEffect(() => {
 

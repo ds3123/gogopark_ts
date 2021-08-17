@@ -4,12 +4,29 @@ import {Edit_Form_Type, ILodge_Data, room_Type} from "utils/Interface_Type";
 import Date_Picker from "templates/form/Date_Picker";
 import Lodge_Query  from 'components/lodge/edit/Lodge_Query'
 import Lodge_Calendar from "components/lodge/edit/Lodge_Calendar";
-import Lodge_Price from "components/lodge/edit/Lodge_Price";
+import Lodge_Price, {lodge_Price, ILodge_Price, national_Holidays_Setting} from "components/lodge/edit/Lodge_Price";
 import moment from "moment";
 import Time_Picker from "templates/form/Time_Picker";
-import {get_Date_Cal, get_Interval_Dates, get_InUse_Days} from "utils/time/date";
+import {get_Date_Cal, get_Interval_Dates, get_InUse_Days, get_Today, get_Type_Dates} from "utils/time/date";
+import { set_Current_Lodge_Price_Sum } from 'store/actions/action_Lodge'
+import {useDispatch} from "react-redux";
+import {get_RandomInt} from "../../../utils/number/number";
+import {set_IsExisting_Pet} from "../../../store/actions/action_Pet";
 
 
+
+
+// 類型 for
+export type price_Sum_Params = {
+
+    lodge_Price       : ILodge_Price[] ; // 各種房型，於不同時段( 平日、假日、國定假日 )的價格
+    room_Type         : string ;         // 房型
+
+    ordinary_Days     : [] ;             // 平日
+    holidays          : [] ;             // 假日
+    national_Holidays : [] ;             // 國定假日 / 熱門時段
+
+}
 
 
 // 房間 ( 房型 / 房號 )
@@ -47,8 +64,21 @@ const appointments : ILodge_Data[] = [
 ] ;
 
 
+
+interface ILodge extends Edit_Form_Type {
+
+    editType?    : string ;
+    serviceData? : any ;
+
+}
+
+
+
 { /* @ 住宿表單欄位  */}
-const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , errors , current } ) => {
+const Lodge_Form : FC< ILodge > = ( { register  , control , setValue , errors , current, editType, serviceData } ) => {
+
+
+   const dispatch = useDispatch() ;
 
    const today = moment( new Date ).format('YYYY-MM-DD') ; // 今日
 
@@ -61,6 +91,13 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
 
    // 是否顯示 : 住宿價格
    const [ show_LodgePrice , set_Show_LodgePrice ]       = useState(false ) ;
+
+   // 住宿相關價格
+   const [ lodgePrice , set_LodgePrice ]                 = useState({
+                                                                                sum : 0  ,  // 住宿價格( 特定期間內 )共計
+
+
+                                                                               }) ;
 
    // 住宿相關資訊
    const [ lodgeInfo , set_LodgeInfo ]                   = useState<any>({
@@ -78,7 +115,8 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
                                                                lodgeCheckOut_Date : today , // 日期
                                                                lodgeCheckOut_Time : ''      // 時間
 
-                                                             }) ;
+                                                           }) ;
+
 
     // 目前房型下，相對應的房號
    const [ currentNumbers , set_CurrentNumbers ]         = useState<any[]>([]) ;
@@ -88,12 +126,11 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
 
    // --------------------------------------------------------------------------------
 
-    // 變更 : 房型
-    const handle_Lodge_Type = ( type : string ) => {
+   // 變更 : 房型
+   const handle_Lodge_Type = ( type : string ) => {
 
        // 設定 _ state
        set_LodgeInfo({ ...lodgeInfo , lodgeType : type === '請選擇' ? '' : type }) ;
-
 
        if( type === '請選擇' ){ set_CurrentNumbers( []) ; return false ;  }
 
@@ -101,7 +138,6 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
        lodge_Rooms.forEach( x => {
            if( x['type'] === type ) set_CurrentNumbers( x['number'] ) ;
        }) ;
-
 
    } ;
 
@@ -164,7 +200,6 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
     // 變更 : 退房時間
     const handle_CheckOut_Time = ( time : any ) => {
 
-        console.log( time ) ;
         set_LodgeInfo({ ...lodgeInfo , lodgeCheckOut_Time : time }) ;
 
    } ;
@@ -217,6 +252,39 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
 
    // --------------------------------------------------------------------------------
 
+   // 計算 _ 目前住宿 : 總計金額
+   const cal_Lodge_Price_Sum = ( checkIn : string , checkOut : string , roomType : string ) => {
+
+       let lodge_Price_Sum = 0 ;
+
+       // 取得 _ 兩個日期之間，所包含的日期(陣列)  Ex. [ '2021-08-11','2021-08-12' , ...   ]
+       const interval  = get_Interval_Dates( checkIn , checkOut ) ;
+
+       // 取得 : 某日期，所屬型態( 平日、假日、國定假日 )
+       const typeDates = get_Type_Dates( interval , national_Holidays_Setting ) as any;
+
+       // 設定 : 平日、假日、國定假日
+       const ordinary_Days     = typeDates['平日'] ;
+       const holidays          = typeDates['假日'] ;
+       const national_Holidays = typeDates['國定假日'] ;
+
+       lodge_Price.forEach( x => {
+
+           if( x['room_Type'] === roomType ){  // 房型符合
+
+               lodge_Price_Sum = ( x['ordinary_Day']     * ( ordinary_Days.length ) ) +
+                                 ( x['ordinary_Holiday'] * ( holidays.length ) ) +
+                                 ( x['national_Holiday'] * ( national_Holidays.length ) ) ;
+
+           }
+
+       }) ;
+
+
+       return lodge_Price_Sum
+
+   } ;
+
    // 取得 : 目前住宿資料
    useEffect(() => {
 
@@ -233,12 +301,84 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
    } ,[ lodgeInfo ] ) ;
 
 
+
+
+
+   // 設定 _ 隨機住宿合約編號 ( '新增'時，才設定 )
+   useEffect(( ) => {
+
+        if( current ){
+
+            const randomId = `L_${ get_Today() }_${ get_RandomInt(1000) }` ;
+            setValue( "lodge_Serial" , randomId  ) ;            // 設定 input 欄位值
+
+        }
+
+    } , [] ) ;
+
+
+    // 【 新增時 】 設定 _ 目前住宿 : 總計金額
+    useEffect( ( ) => {
+
+        // 計算 _ 住宿總計金額
+        const lodge_Price_Sum = cal_Lodge_Price_Sum( lodgeInfo['lodgeCheckIn_Date'] , lodgeInfo['lodgeCheckOut_Date'] , lodgeInfo['lodgeType'] ) ;
+
+        if( editType !== '編輯' ){
+
+            // 設定 state
+            set_LodgePrice({ ...lodgePrice , sum : lodge_Price_Sum } ) ;
+
+            // 設定 Redux
+            dispatch( set_Current_Lodge_Price_Sum( lodge_Price_Sum ) ) ;
+
+        }
+
+    } , [ lodgeInfo ] ) ;
+
+
+   // 【 編輯時 】 設定 _ 住宿總計金額、房型、房號
+   useEffect(( ) => {
+
+     if( editType === '編輯' ){
+
+         // 房型
+         handle_Lodge_Type( serviceData['room_type'] ) ;
+
+         // 房號 ( 延後 300ms )
+         setTimeout( ( ) => {
+            setValue( 'lodge_Room_Number' , serviceData['room_number']  ) ;
+         } , 300 ) ;
+
+         // 住宿總計金額
+         const lodge_Price_Sum = cal_Lodge_Price_Sum( serviceData['start_date'] , serviceData['end_date'] , serviceData['room_type'] ) ;
+         set_LodgePrice( { ...lodgePrice , sum : lodge_Price_Sum } ) ;
+
+     }
+
+   } , [ editType ] ) ;
+
+
+    const blue  = { color : "rgb(30,30,180)" } ;
+
    return <>
 
             { /* 標題列  */ }
             <label className="label " style={{ fontSize : "1.3em" }} >
 
-                <b className="tag is-large is-link" > <i className="fas fa-home"></i> &nbsp; 住 宿 </b> &nbsp; &nbsp; &nbsp;
+                <b className="tag is-large is-link" > <i className="fas fa-home"></i> &nbsp; 住 宿
+
+                  { lodgePrice['sum'] !== 0 &&
+
+                    <>
+                        &nbsp;&nbsp;
+                        <b className="tag is-rounded is-white" style={{fontSize: "12pt"}}>
+                            小計 : <span style={{color: "red"}}> &nbsp; { lodgePrice['sum'] } &nbsp; </span> 元
+                        </b>
+                    </>
+
+                  }
+
+                </b> &nbsp; &nbsp; &nbsp;
 
                 { /* 計算 _ 住房價格 */ }
                 <b className = { `tag is-medium pointer is-rounded ${ show_LodgePrice ? 'is-black' : '' }` }  onClick = { click_Show_LodgePrice } >
@@ -257,6 +397,7 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
 
             </label> <br/>
 
+
             { /* 合約編號、房 型、房 號  */ }
             <div className="columns is-multiline is-mobile relative">
 
@@ -267,17 +408,23 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
 
                     <p> <b>合約編號</b> &nbsp; <b style={{ color:"red" }}> { errors.lodge_Room_Type?.message } </b> </p>
 
-                    {/*<div className="control has-icons-left" >*/}
-                    {/*    /!*<span className="icon is-small is-left"> <i className="fas fa-list-ol"></i> </span>*!/*/}
-                        <input className="input" type="text" value="L_20210621_55"  { ...register( "lodge_Serial" ) } disabled={ true } />
-                    {/*</div>*/}
+                     { /* for 新增  */ }
+                     { editType === '編輯' || <input className="input" type="text" { ...register( "lodge_Serial" ) }  /> }
+
+                    { /* for 編輯 */ }
+                    { editType === '編輯' &&  <b style={ blue } > { serviceData.contract_serial } </b> }
 
                 </div>
 
                 <div className="column is-2-desktop">
 
                     <p> <b>性 質</b> </p>
-                    <b className="f_13 m_Top_5 fGreen"> { lodgeInfo['lodgeCheckIn_Date'] === today ? '當日住宿' : '預約住宿' } </b>
+
+                    { /* for 新增  */ }
+                    { editType === '編輯' ||  <b className="f_13 m_Top_5 fGreen"> { lodgeInfo['lodgeCheckIn_Date'] === today ? '當日住宿' : '預約住宿' } </b> }
+
+                    { /* for 編輯 */ }
+                    { editType === '編輯' &&  <b className="f_13 m_Top_5 fGreen"> { serviceData.service_status } </b> }
 
                 </div>
 
@@ -286,7 +433,7 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
                     <p> <b>房 型</b> &nbsp; <b style={{color:"red"}}> { errors.lodge_Room_Type?.message } </b> </p>
                     <div className="select">
                         <select { ...register( "lodge_Room_Type" ) }
-                                onChange={ ( e ) => handle_Lodge_Type( e.target.value ) } >
+                                onChange={ ( e) => handle_Lodge_Type( e.target.value ) } >
 
                             <option value="請選擇"> 請選擇 </option>
 
@@ -333,6 +480,7 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
 
             </div>
 
+            { /* 已被使用提示 */ }
             { ( is_Room_InUse && !show_LodgeQuery ) &&
 
                <div className='has-text-centered' >
@@ -344,7 +492,7 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
             <br/>
 
             { /* 住房/退房 : 日期、時間  */ }
-            <div className="columns is-multiline  is-mobile">
+            <div className="columns is-multiline is-mobile">
 
                 <div className="column is-1-desktop relative required">
                    <b className="absolute" style={{top:"20px"}}> 住房時間 : </b>
@@ -399,6 +547,10 @@ const Lodge_Form : FC<Edit_Form_Type> = ( { register  , control , setValue , err
                 </div>
 
             </div>
+
+
+            { /* -----------------------------------------------------------------  */ }
+
 
             { /* 住宿價格試算 */ }
             { show_LodgePrice &&

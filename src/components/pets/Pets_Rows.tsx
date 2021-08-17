@@ -24,6 +24,7 @@ const Pets_Rows = ( props : any ) => {
 
     // * 寵物按鈕 ( 無 / 單隻 、多隻 )
     const petButton = usePet_Button([data]) ;
+
     const customer  = data['customer'] ;
 
     try{

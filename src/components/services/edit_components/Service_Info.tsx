@@ -41,6 +41,8 @@ interface IInfo extends Edit_Form_Type {
 /* 服務單( 基礎、洗澡、美容 ) _ 基本資訊 */
 const Service_Info : FC<IInfo> = ({ register , setValue , errors , control , current , editType, serviceData  }) => {
 
+
+
    const dispatch                              = useDispatch() ;
    const today                                 = moment( new Date ).format('YYYY-MM-DD' ) ;                   // 今日
    const service_Date                          = useSelector( ( state : any ) => state.Info.service_Date ) ; // 到店日期( 預設 : 今日 )
@@ -102,11 +104,9 @@ const Service_Info : FC<IInfo> = ({ register , setValue , errors , control , cur
               <br/>
 
               { /* 標題 */ }
-              <label className="label relative" style={{ fontSize : "1.3em"  }} >
-
+              <label className="label relative" style={{ fontSize : "1.3em" }} >
                 <i className="fas fa-file-alt"></i> &nbsp; 基本資料 &nbsp;
                 { Folding_Bt }  { /* 收折鈕 */ }
-
               </label> <br/>
 
               { /* 是否收折 : 基本資料 */ }
@@ -121,26 +121,38 @@ const Service_Info : FC<IInfo> = ({ register , setValue , errors , control , cur
 
                             <span> 服務性質 : </span> &nbsp;
 
-                            { serviceStatus['is_Arrived_Today'] &&
+                            { /* for 新增  */ }
+                            { editType === '編輯' ||
+
                                 <>
-                                    <b style={green}> 已到店 &nbsp; </b>
-                                    <b className="tag is-medium pointer" onClick={appoint_Today}> 預約 _ 今天 </b>
+
+                                    { serviceStatus['is_Arrived_Today'] &&
+                                        <>
+                                            <b style={green}> 已到店 &nbsp; </b>
+                                            <b className="tag is-medium pointer" onClick={appoint_Today}> 預約 _ 今天 </b>
+                                        </>
+                                    }
+
+                                    { serviceStatus['is_Appointed_Today'] &&
+                                        <>
+                                            <b style={green}> 預約 _ 今天 &nbsp; </b>
+                                            <b className="tag is-medium pointer" onClick={arrive_Shop}> 已到店 </b>
+                                        </>
+                                    }
+
+                                    { serviceStatus['is_Appointed_Future'] &&
+                                        <>
+                                            <b style={green}> 預約 _ 未來 &nbsp; </b>
+                                        </>
+                                    }
+
                                 </>
+
                             }
 
-                            { serviceStatus['is_Appointed_Today'] &&
-                                <>
-                                    <b style={green}> 預約 _ 今天 &nbsp; </b>
-                                    <b className="tag is-medium pointer" onClick={arrive_Shop}> 已到店 </b>
-                                </>
-                            }
-
-                            { serviceStatus['is_Appointed_Future'] &&
-                                <>
-                                    <b style={green}> 預約 _ 未來 &nbsp; </b>
-                                </>
-                            }
-
+                            { /* for 新增  */ }
+                            { ( editType === '編輯' && serviceData.service_date === today ) && <b className="fDred"> 今 日  </b> }
+                            { ( editType === '編輯' && serviceData.service_date !== today ) && <b className="fDred"> 預 約  </b> }
 
                         </div>
 
@@ -210,6 +222,7 @@ const Service_Info : FC<IInfo> = ({ register , setValue , errors , control , cur
 
                     { /* 到店方式 */}
                     <div className="column is-4-desktop">
+
                         <div className="tag is-large is-white">
 
                             <span> 到店方式 : </span> &nbsp;
@@ -231,6 +244,7 @@ const Service_Info : FC<IInfo> = ({ register , setValue , errors , control , cur
                             { editType === '編輯' && <b style={ blue } > { serviceData.way_arrive } </b>  }
 
                         </div>
+
                     </div>
 
                     { /* 離店方式 */}

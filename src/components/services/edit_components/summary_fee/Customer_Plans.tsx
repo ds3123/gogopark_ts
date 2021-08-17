@@ -6,6 +6,8 @@ import { usePlan_Plan_Tag } from "hooks/layout/usePlans_Records"
 import { set_Invalid_To_Plan } from "store/actions/action_Form_Validator"
 import axios from "utils/axios";
 
+import { set_Customer_Plans_Records } from "store/actions/action_Customer"
+
 
 type Plan = {
 
@@ -62,11 +64,24 @@ const Customer_Plans : FC< Plan > = ( { current , paymentMethod , register , set
 
         }else{
 
+            // State
             set_Plans({ ...plans , month_Bath : [] , month_Beauty : [] } ) ;
 
         }
 
+
+        return ( ) => {
+
+            // State
+            set_Plans({ ...plans , month_Bath : [] , month_Beauty : [] })
+
+
+        }
+
+
+
     } , [ Customer_Plans_Records ] ) ;
+
 
 
     // 設定 _　付款方式 ( Ex. 包月洗澡、美容 ) ，作為表單是否可提交的驗證邏輯
@@ -77,6 +92,12 @@ const Customer_Plans : FC< Plan > = ( { current , paymentMethod , register , set
             dispatch( set_Invalid_To_Plan(true ) ) ;
         }else{
             dispatch( set_Invalid_To_Plan(false ) ) ;
+        }
+
+        return ( ) => {
+
+            dispatch( set_Invalid_To_Plan(false ) ) ;           // for 表單驗證
+
         }
 
     } , [ current , paymentMethod , is_Plan_Used ] ) ;
@@ -113,10 +134,19 @@ const Customer_Plans : FC< Plan > = ( { current , paymentMethod , register , set
     // 設定 _ 使用本次方案的 _ 價格
     useEffect(( ) => {
 
-       setValue( 'current_Plan_Used_Fee' , current_Plan_Service_Price ? current_Plan_Service_Price : 0 ) ;
+       setValue( 'current_Plan_Used_Fee' , current_Plan_Service_Price) ;
 
     } , [ current_Plan_Service_Price ] ) ;
 
+
+
+    useEffect(( ) => {
+
+        // Redux ( 清楚客戶方案紀錄  有問題，再研究 08.09 )
+        //dispatch( set_Customer_Plans_Records([]) ) ;
+
+
+    } ,[] )
 
 
     return <>
@@ -129,7 +159,7 @@ const Customer_Plans : FC< Plan > = ( { current , paymentMethod , register , set
                         <span className="tag is-large is-white m_Bottom_10">
 
                           <b>
-                              客戶 : <span className="fDred"> { Customer_Plans_Records[0]['customer'] ? Customer_Plans_Records[0]['customer']['name'] : '' } </span>
+                              客戶 : <span className="fDred"> { ( Customer_Plans_Records.length > 0 && Customer_Plans_Records[0]['customer'] ) ? Customer_Plans_Records[0]['customer']['name'] : '' } </span>
 
                               / 選擇品種 :
                               { current_Species['name'] ?
@@ -137,31 +167,26 @@ const Customer_Plans : FC< Plan > = ( { current , paymentMethod , register , set
                                   <span className="fRed"> 尚未選擇品種                  </span>
                               }  /
 
-                              價格 : <input type="number relative" { ...register( "current_Plan_Used_Fee" ) } className="input" style={{ width:"100px" , top:"-5px" }} /> 元
+                              此次價格 : <input type="number relative" { ...register( "current_Plan_Used_Fee" ) } className="input" style={{ width:"80px" , top:"-5px" }} /> 元
 
                           </b> <br/>
 
                         </span>
 
-                        {  plan_Tags  }  { /* 方案 _ 點選使用 / 紀錄標籤  */ }
-
-                        &nbsp; &nbsp;
-
-
+                        { plan_Tags }  { /* 方案 _ 點選使用 / 紀錄標籤  */ }  &nbsp; &nbsp;
 
                     </>
 
                 }
 
 
-
                 { /* # 是否購買方案 : 無  */ }
                 { ( current === '洗澡' && plans['month_Bath'].length === 0 )  &&
-                   <span className="tag is-large is-danger m_Left_15"> <b> 客戶並未購買任何 : 包月洗澡方案 </b> </span>
+                   <span className="tag is-large is-danger m_Left_15"> <b> <i className="fas fa-exclamation"></i> &nbsp;無任何購買 : 包月洗澡方案 </b> </span>
                 }
 
                 { ( current === '美容' && plans['month_Beauty'].length === 0 ) &&
-                   <span className="tag is-large is-danger m_Left_15"> <b> 客戶並未購買任何 : 包月美容方案 </b> </span>
+                   <span className="tag is-large is-danger m_Left_15"> <b> <i className="fas fa-exclamation"></i> &nbsp;無任何購買 : 包月美容方案 </b> </span>
                 }
 
            </>

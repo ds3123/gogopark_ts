@@ -1,10 +1,11 @@
 
-import React, {useState} from "react" ;
-import Services_Rows from "components/services/Services_Rows";
+import React, {useState , useEffect} from "react" ;
+import Lodge_Rows from "components/lodge/Lodge_Rows";
 import Pagination from "utils/Pagination";
 import {useSelector} from "react-redux";
 import usePagination from "hooks/layout/usePagination";
 import Care from 'components/lodge/care/Care'
+import cookie from "react-cookies";
 
 
 const lodgeArr = [
@@ -18,11 +19,11 @@ const lodgeArr = [
 /* @ 住宿頁面 ( 住宿資料、安親資料 ) */
 const Lodge = () => {
 
-    // 洗美頁資料 _ 是否下載中 ( 修改 )
-    const Service_isLoading = useSelector( ( state:any ) => state.Service.Service_isLoading ) ;
+    // 住宿頁資料 _ 是否下載中 ( 再修改為 住宿 2021.08.12 )
+    const Lodge_isLoading = useSelector( ( state:any ) => state.Lodge.Lodge_isLoading ) ;
 
-    // 取得 _ 分頁資料 ( 修改 )
-    const { pageOfItems , filteredItems , click_Pagination } = usePagination( "/services/show_with_cus_pet/" , 'service' ) ;
+    // 取得 _ 分頁資料 ( 再修改為 住宿 2021.08.12  )
+    const { pageOfItems , filteredItems , click_Pagination } = usePagination( "/lodges/show_with_cus_relative_pet/0" , 'lodge' ) ;
 
 
     // 目前 _ 所點選第 2 層選項
@@ -30,6 +31,21 @@ const Lodge = () => {
 
     // 點選 _ 第 2 層選項
     const click_Second = ( title : string ) => set_CurrentSecond( title ) ;
+
+    // 新增 "安親" 後，藉由 cookie，重導向、點選 _ 安親頁籤
+    useEffect(( ) => {
+
+        // Cookie
+        const redirect = cookie.load('after_Created_Care') ;
+
+        // * 點選 _ 安親頁籤
+        if( redirect && redirect === '住宿_安親' ){
+            click_Second('安 親' ) ;
+        }
+
+        click_Second('安 親' ) ;
+
+    } , [] ) ;
 
     return <>
 
@@ -55,42 +71,48 @@ const Lodge = () => {
 
                     <>
 
-                        <table className="table is-fullwidth is-hoverable">
+                        <table className="table is-fullwidth is-hoverable relative" style={{ width:"110%" , left:"-5%" }}>
 
                             <thead>
-                            <tr>
-                                <th> 消費類別                          </th>
-                                <th> 寵物資訊                          </th>
-                                <th style={{ width:"80px" }}> 價 格    </th>
-                                <th > 來店日期 </th>
-                                <th style={{ width:"80px" }}> Q 碼     </th>
-                                <th style={{ width:"150px" }}> 到店狀態 </th>
-                                <th style={{ width:"110px" }}> 來店方式 </th>
-                                <th> 消費歷史                          </th>
-                                <th>  封 存  </th>
-                            </tr>
+
+                                <tr>
+
+                                    <th> 寵物資訊 </th>
+                                    <th> 客戶姓名 </th>
+                                    <th> 房號 ( 房型 ) </th>
+                                    <th> <span className="fDblue" >入住</span> : 日期 / 時間 </th>
+                                    <th> <span className="fDblue" >退房</span> : 日期 / 時間 </th>
+                                    <th> 總天數   </th>
+                                    <th> 住宿價格 </th>
+                                    <th> 洗澡價格 </th>
+                                    <th> 美容價格 </th>
+                                    <th> 接送費 </th>
+                                    <th>  封 存  </th>
+
+                                </tr>
+
                             </thead>
 
                             <tbody>
 
-                            { Service_isLoading ||
+                                { Lodge_isLoading ||
 
-                            pageOfItems.map( ( item : any , index ) => {
+                                    pageOfItems.map( ( item : any , index ) => {
 
-                                if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
+                                        if( item === 3 ) return false ;  // 確認 3 怎麼從 Pagination 套件得出 2020.06.10
 
-                                return <Services_Rows key={ index } data={ item } /> ;
+                                        return <Lodge_Rows key={ index } data={ item } /> ;
 
-                            })
+                                    })
 
-                            }
+                                }
 
                             </tbody>
 
                         </table>
 
                         { /* 下載圖示  */ }
-                        { Service_isLoading &&
+                        { Lodge_isLoading &&
 
                             <div className="has-text-centered" >
                                 <br/><br/><br/><br/><br/><br/>
@@ -108,10 +130,10 @@ const Lodge = () => {
 
                 }
 
-               { /* 安親資料 */ }
-               { currentSecond === lodgeArr[1].title && <Care />
 
-               }
+
+               { /* 安親資料 */ }
+               { currentSecond === lodgeArr[1].title &&  <Care />  }
 
 
            </>

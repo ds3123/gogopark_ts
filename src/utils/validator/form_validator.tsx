@@ -103,6 +103,34 @@ export const schema_Bath = yup.object().shape({
 
 });
 
+
+// 住宿單
+export const schema_Lodge = yup.object().shape({
+
+    // // 客戶
+    // customer_Id                 : yup.string().required("必填欄位") ,
+    // customer_Name               : yup.string().required("必填欄位") ,
+    // customer_Cellphone          : yup.string().matches( phoneRegExp, '格式錯誤') ,
+    //
+    // // 客戶關係人
+    // customer_Relative_Name      : yup.string().required("必填欄位") ,
+    // customer_Relative_Type      : yup.string().required().test( "關係人_類型" , "請選擇", value => value !== "請選擇") ,
+    // customer_Relative_Family    : yup.string().required().test( "關係人_關係" , "請選擇", value => value !== "請選擇") ,
+    // customer_Relative_Cellphone : yup.string().matches( phoneRegExp, '格式錯誤') ,
+    //
+    // // 寵物
+    // pet_Serial                  : yup.string().required("必填欄位") ,
+    // pet_Name                    : yup.string().required("必填欄位") ,
+    // pet_Species                 : yup.string().required().test( "品種" , "請選擇", value => value !== "請選擇") ,
+    // // pet_Sex                     : yup.string().required().test( "性別" , "請選擇", value => value !== "請選擇") ,
+
+
+
+});
+
+
+
+
 // 美容單
 export const schema_Beauty = yup.object().shape({
 
@@ -133,7 +161,6 @@ export const schema_Employee = yup.object().shape({
     employee_Password : yup.string().required("必填欄位") ,
 
 });
-
 
 // 品種
 export const schema_Species = yup.object().shape({
