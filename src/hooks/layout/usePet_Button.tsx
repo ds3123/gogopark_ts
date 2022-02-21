@@ -17,19 +17,18 @@ const usePet_Button = ( pets : any[] ) => {
 
     const dispatch = useDispatch() ;
 
-
-
     // 點選 : 寵物
     const click_Pet = ( data : any ) => dispatch( set_Side_Panel(true , <Update_Pet /> , { preLoadData : data } ) ) ;
 
     let pet_Button = [] as any[] ;
 
 
-    // 1 隻 ( 顯示 : 名字、品種、 )
+    // # 僅 1 隻 --> 顯示 : 名字( 品種 )
     if( pets.length === 1 ){
 
         pet_Button = pets.map( ( x , y) => {
 
+            if( !x ) return null 
 
             return  <span key = { y }
                           className = "tag is-medium relative m_Right_20 pointer"
@@ -67,7 +66,7 @@ const usePet_Button = ( pets : any[] ) => {
 
     }
 
-    // 多隻 ( 僅顯示名字 )
+    // # 多隻 ( 僅顯示名字 )
     if( pets.length > 1 ){
 
         pet_Button = pets.map( ( x , y) => {
